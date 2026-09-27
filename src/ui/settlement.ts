@@ -94,10 +94,13 @@ function returnBars(summary: TurnSummary): string {
   return `<p class="chart-axis">시장 예시 수익률 · 가운데 0% · 좌우 끝 ±${RETURN_BAR_CAP * 100}% (초과 시 막대는 끝에서 멈춤 · 숫자 참조)</p><ul class="settle-returns">${rows}</ul>`;
 }
 
+export function settlementActionLines(summary: TurnSummary): string[] {
+  return summary.actionLines.map((line,index)=>line.replace('이번 턴은 행동하지 않고',index>0?'남은 행동은 추가 거래 없이':'새 운용지시 없이'));
+}
 function actionBlock(summary: TurnSummary): string {
   const lines = summary.actionLines.length > 1
-    ? `<ol class="settle-actions">${summary.actionLines.map((line) => `<li>${line}</li>`).join('')}</ol>`
-    : `<p>${summary.actionLine}</p>`;
+    ? `<ol class="settle-actions">${settlementActionLines(summary).map((line) => `<li>${line}</li>`).join('')}</ol>`
+    : `<p>${summary.actionLine.replace('이번 턴은 행동하지 않고','새 운용지시 없이')}</p>`;
   const moves = summary.productDeltas.length
     ? `<ul class="settle-moves">${summary.productDeltas.map((item) => `<li>${item.name} <strong class="${item.delta < 0 ? 'neg' : ''}">${signedWon(item.delta)}</strong></li>`).join('')}</ul>`
     : '<p>보유 구성은 크게 변하지 않았습니다.</p>';
@@ -138,11 +141,11 @@ export function renderSettlementModal(summary: TurnSummary, options: SettlementO
     </details>`;
   const flow = summary.capitalFlow;
   const trade = summary.tradingDelta;
-  const overview = `<section class="settle-essential" aria-label="이번 턴 핵심 변화">${irpBars(summary)}
+  const overview = `<section class="settle-essential" aria-label="이번 턴 핵심 변화"><div class="recap-action"><strong>내가 한 선택</strong>${summary.lifeEvent?`<p>생활사건 · ${summary.lifeEvent.title} → ${summary.lifeEvent.choiceLabel}<br>생활자금 ${signedWon(summary.lifeEvent.cashDelta)} · IRP ${signedWon(summary.lifeEvent.irpDelta)}</p>`:''}<p>${settlementActionLines(summary).join(' · ') || summary.actionLine || '기존 구성을 유지했습니다.'}</p></div>${irpBars(summary)}
     <p class="settle-note">납입은 운용 수익이 아닙니다.</p><dl class="essential-changes"><div><dt>시장 손익${summary.cashInterest ? '·대기 이자' : ''}</dt><dd>${signedWon(summary.marketDelta)}</dd></div>
     ${flow !== undefined && trade !== undefined ? `<div><dt>내 납입·출금</dt><dd>${signedWon(flow)}</dd></div><div><dt>매매·정산 영향</dt><dd>${signedWon(trade)}</dd></div>` : `<div><dt>시장 이후 변화</dt><dd>${signedWon(summary.irpAfter-summary.irpAfterMarket)}</dd></div>`}</dl>
-    <p class="settle-lesson"><strong>이번 턴 배운 한 가지</strong><br>${flow !== undefined && Math.abs(flow) > .005 ? '계좌에 넣거나 뺀 돈은 시장에서 번 수익과 달라요.' : summary.productDeltas.length ? '주문 접수와 보유 반영은 다를 수 있어요. 처리 중인 금액은 주문 내역에서 확인해요.' : '새 거래가 없어도 보유 상품의 이자와 가격 변화가 잔액에 반영될 수 있어요.'}</p>
-    ${options.goalHtml ?? ''}</section>`;
+    <p class="settle-lesson"><strong>이번 턴 배운 한 가지</strong><br>${flow !== undefined && Math.abs(flow) > .005 ? '계좌에 넣거나 뺀 돈은 시장에서 번 수익과 달라요.' : summary.actionLines.some(line=>/매수|매도|교체|환매|리밸런싱/.test(line)) || summary.productDeltas.length ? '주문 접수와 보유 반영은 다를 수 있어요. 처리 중인 금액은 주문 내역에서 확인해요.' : '보유 상품의 이자와 가격 변화가 이번 시장 손익에 반영됐어요.'}</p>
+    ${options.goalHtml ?? ''}<p class="recap-next"><strong>다음</strong> · ${options.final?'수령 방식을 골라 세전 목표와 세후 금액을 비교해요.':'처리 중인 주문은 일정대로 진행됩니다. 다음 시장은 주사위를 직접 눌러 확인해요.'}</p></section>`;
   return `<div class="settle-scene${options.pace === 'fast' ? ' fast' : ''}">
     <p class="eyebrow">${summary.turn}턴 정산${shock}${options.final ? '<span class="settle-final">마지막 턴</span>' : ''}</p>
     <h2>무엇이 바뀌었나요?</h2><p class="settle-headline">${context.headline}</p>

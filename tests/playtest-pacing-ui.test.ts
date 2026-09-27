@@ -25,7 +25,7 @@ beforeEach(() => {
 });
 
 it('실제 새 판에만 턴 한도를 넣고 구 판의 이어하기는 보존한다', () => {
-  new PensionRoadApp(root); click('[data-action="begin"]'); click('[data-action="prepare-continue"]'); click('[data-action="confirm-default-option"]');
+  new PensionRoadApp(root); click('[data-action="begin"]');  click('[data-action="confirm-default-option"]');
   expect(saved().game.contributionPacing).toEqual({ version: 'v1', perTurnLimit: 2_000_000 });
 });
 it('구 저장에는 200만원 제한을 표시하거나 적용하지 않는다', () => {

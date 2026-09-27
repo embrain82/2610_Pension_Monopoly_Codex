@@ -1,0 +1,36 @@
+/* Simpler play hierarchy: one goal, actionable tasks, optional depth. */
+.journey-panel,.ongoing-panel,.decision-highlights,.recap-action{border:1px solid #d5decf;border-radius:16px;padding:16px;background:#fffdf7;margin:12px 0;color:#263c32}
+.journey-panel h2,.ongoing-panel h2{font-size:1.15rem;margin:5px 0 10px}
+.journey-panel p,.ongoing-panel p{line-height:1.6}
+.journey-panel summary,.dashboard-details>summary,.hud-more>summary,.order-alternatives>summary,.trade-full>summary,.life-blocked>summary,.journey-album>summary{cursor:pointer;padding:12px 0;font-weight:650;line-height:1.5}
+.journey-panel button{min-height:44px;white-space:normal}
+.explore-topics,.retry-branches{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.explore-topics button{flex:1}
+.explore-topics [aria-pressed=true]{outline:2px solid #50725a;outline-offset:2px}
+.explore-clue{padding:14px;background:#eff5ed;border-radius:12px}
+.ongoing-orders,.trade-quick{list-style:none;padding:0;margin:0}
+.ongoing-orders li,.trade-quick li{padding:12px 0;border-bottom:1px solid #dce3d7}
+.ongoing-orders strong,.ongoing-orders span,.ongoing-orders small,.trade-quick strong,.trade-quick small{display:block;line-height:1.6}
+.ongoing-panel .maturity-flow{margin:10px 0;box-shadow:none}
+.dashboard-details{padding:12px;border:1px solid #d5decf;border-radius:14px;background:#fffdf7}
+.first-turn-guide{padding:12px;background:#eff5ed;border-radius:12px;line-height:1.6}
+.board-hud .hud-more{grid-column:1/-1;width:100%}
+.order-alternatives{margin-bottom:12px}
+.modal-sheet.road-order .order-split{display:block}
+.modal-sheet.road-order .order-input,.modal-sheet.road-order .order-review{min-width:0}
+.modal-sheet.road-order .order-confirm{position:sticky;bottom:0;z-index:3;background:#fffdf7;padding:12px 0;border-top:1px solid #d5decf}
+.modal-sheet.road-order .order-confirm button{white-space:normal}
+.trade-quick small{color:#455b4d}
+.trade-full[open]{padding-bottom:12px}
+.life-preparation{padding:12px;background:#eff5ed;border-radius:12px}
+.decision-highlights>div{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.decision-highlights article{padding:12px;background:#eff5ed;border-radius:12px;overflow-wrap:anywhere}
+.decision-highlights h3{font-size:1rem;line-height:1.6}
+.preparation-profile{margin-bottom:16px}
+.preparation-conditions{margin-bottom:16px}
+.recap-action{background:#eff5ed}
+@media(max-width:700px){.decision-highlights>div{grid-template-columns:1fr}.order-balances{font-size:.85rem}.amount-presets button small{font-size:.78rem}.ongoing-panel,.journey-panel{padding:12px}}
+@media(prefers-reduced-motion:reduce){.journey-panel *{animation:none!important;transition:none!important}}
+.road-game .dashboard{max-height:none;overflow:visible;padding:0;scrollbar-gutter:auto}
+.road-game .dashboard>.journey-panel,.road-game .dashboard>.ongoing-panel,.road-game .dashboard>.dashboard-details{grid-column:1/-1}
+.modal-sheet.road-order{width:min(100%,780px)}

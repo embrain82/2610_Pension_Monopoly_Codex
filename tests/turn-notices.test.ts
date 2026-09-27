@@ -70,36 +70,36 @@ it('같은 턴에 확인한 문제의 부분집합은 반복하지 않고 새 �
   const p={quizSkipAck:{turn:2,cardIds:['db-dc-irp','risk-limit']}};
   expect(quizOpportunityAcknowledged(p,2,['risk-limit'])).toBe(true);expect(quizOpportunityAcknowledged(p,3,['risk-limit'])).toBe(false);expect(quizOpportunityAcknowledged(p,2,['rebalance'])).toBe(false);
 });
-it('정산 다음 확인창의 X는 스크롤·금융 상태를 복원한다',()=>{
-  const s=settled();mount(s.state,'settle',s.summary);root.querySelector<HTMLElement>('.modal-sheet')!.scrollTop=310;click('dismiss-settle');
-  expect(root.querySelector('.modal-quiz-confirm')).not.toBeNull();expect(saved().modal).toBe('settle');expect(saved().game).toEqual(s.state);
-  click('close-modal');expect(root.querySelector<HTMLElement>('.modal-sheet')!.scrollTop).toBe(310);expect(saved().game).toEqual(s.state);
+it('정산 다음은 확인창 없이 보드로 돌아가고 금융 상태를 보존한다',()=>{
+ const s=settled();mount(s.state,'settle',s.summary);click('dismiss-settle');
+ expect(root.querySelector('[role=dialog]')).toBeNull();expect(saved().modal).toBeNull();expect(saved().game).toEqual(s.state);
 });
-it('정산 건너뛰기 확인은 질문 큐를 지우지 않고 새로고침 후에도 같은 질문을 반복하지 않는다',()=>{
-  const s=settled();mount(s.state,'settle',s.summary);click('dismiss-settle');click('notice-continue');const after=saved();
-  expect(after.game).toEqual(s.state);expect(after.uiProgress?.quizSkipAck?.cardIds.length).toBeGreaterThan(0);remount();click('roll-dice');
-  expect(root.querySelector('.modal-quiz-confirm')).toBeNull();expect(saved().game.turn).toBe(s.state.turn+1);
+it('정산을 넘겨도 질문 큐는 유지하고 새로고침 뒤 명시적 주사위로 한 턴 진행한다',()=>{
+ const s=settled();mount(s.state,'settle',s.summary);click('dismiss-settle');
+ expect(saved().game).toEqual(s.state);remount();click('roll-dice');
+ expect(root.querySelector('.modal-quiz-confirm')).toBeNull();expect(saved().game.turn).toBe(s.state.turn+1);
 });
-it('정산 X는 보드를 보여주고 다음 주사위에서 미확인 퀴즈를 안내한다',()=>{
-  const s=settled();mount(s.state,'settle',s.summary);click('close-modal');expect(root.querySelector('[role=dialog]')).toBeNull();click('roll-dice');expect(root.querySelector('.modal-quiz-confirm')).not.toBeNull();expect(saved().game.turn).toBe(1);
+it('정산 X 후 명시적 주사위는 선택 퀴즈 때문에 중단되지 않는다',()=>{
+ const s=settled();mount(s.state,'settle',s.summary);click('close-modal');click('roll-dice');
+ expect(root.querySelector('.modal-quiz-confirm')).toBeNull();expect(saved().game.turn).toBe(2);
 });
-it('퀴즈 자체 X→확인 취소는 퀴즈 복귀, 명시적 건너뛰기만 해당 문항을 제외한다',()=>{
-  const s=settled();mount(s.state,'settle',s.summary);click('action-quiz');const id=saved().quizCardId!;click('close-modal');expect(root.querySelector('.modal-quiz-confirm')).not.toBeNull();
-  click('close-modal');expect(root.querySelector('.modal-quiz')).not.toBeNull();expect(saved().quizCardId).toBe(id);click('quiz-skip');click('notice-continue');
-  expect(saved().game.learningFlow?.dismissed).toContain(id);expect(root.querySelector('.modal-settle')).not.toBeNull();
+it('퀴즈 X는 제외 없이 닫고 명시적 건너뛰기만 해당 문항을 제외한다',()=>{
+ const s=settled();mount(s.state,'settle',s.summary);click('action-quiz');const id=saved().quizCardId!;click('close-modal');
+ expect(root.querySelector('.modal-settle')).not.toBeNull();expect(saved().game.learningFlow?.dismissed??[]).not.toContain(id);
+ click('action-quiz');click('quiz-skip');expect(saved().game.learningFlow?.dismissed).toContain(id);expect(root.querySelector('.modal-settle')).not.toBeNull();
 });
 it('정답 후 X는 건너뛰기로 기록하지 않으며 복원·닫기로 점수가 중복 반영되지 않는다',()=>{
   const s=settled();mount(s.state,'settle',s.summary);click('action-quiz');const id=saved().quizCardId!,answer=learningCards.find(c=>c.id===id)!.quiz.answer;
   root.querySelector<HTMLButtonElement>(`[data-action="quiz-pick"][data-option="${answer}"]`)!.click();const points=knowledgeScoreOf(saved().game);
   remount();click('close-modal');expect(root.querySelector('.modal-settle')).not.toBeNull();expect(saved().game.learningFlow?.dismissed??[]).not.toContain(id);expect(knowledgeScoreOf(saved().game)).toBe(points);
 });
-it('미확인 팝업 중 새로고침은 원래 정산으로 복구하고 금융 전환을 실행하지 않는다',()=>{
-  const s=settled();mount(s.state,'settle',s.summary);click('dismiss-settle');remount();expect(root.querySelector('.modal-settle')).not.toBeNull();expect(saved().game).toEqual(s.state);click('dismiss-settle');expect(root.querySelector('.modal-quiz-confirm')).not.toBeNull();
+it('정산을 넘긴 뒤 새로고침해도 턴과 금융 상태가 그대로다',()=>{
+ const s=settled();mount(s.state,'settle',s.summary);click('dismiss-settle');remount();expect(root.querySelector('[role=dialog]')).toBeNull();expect(saved().game).toEqual(s.state);
 });
-it('마지막 턴의 선택 퀴즈도 확인한 뒤 수령으로 이동한다',()=>{
-  const base=autoplay('followup-final','steward','balanced',{defaultTrading:true,scenario:'classic'});
-  const done=performAction({...base,status:'playing',awaitingAction:true,actionsLeft:1,learningFlow:{version:'settlement-v1',queue:[]},payoutChoice:null},{kind:'hold'});
-  mount(done.state,'settle',done.summary!);click('dismiss-settle');expect(root.querySelector('.modal-quiz-confirm')).not.toBeNull();expect(root.textContent).toContain('이번 게임을 마치면');click('notice-continue');expect(root.querySelector('.modal-payout')).not.toBeNull();
+it('마지막 턴은 추가 확인 없이 수령으로 이동한다',()=>{
+ const base=autoplay('followup-final','steward','balanced',{defaultTrading:true,scenario:'classic'});
+ const done=performAction({...base,status:'playing',awaitingAction:true,actionsLeft:1,learningFlow:{version:'settlement-v1',queue:[]},payoutChoice:null},{kind:'hold'});
+ mount(done.state,'settle',done.summary!);expect(root.textContent).toContain('결과로 넘어가면');click('dismiss-settle');expect(root.querySelector('.modal-quiz-confirm')).toBeNull();expect(root.querySelector('.modal-payout')).not.toBeNull();
 });
 it('추가 점수 기회가 있으면 자동 정산을 예약하지 않는다',async()=>{
   vi.useFakeTimers();const save={...defaultSave,disclaimerAccepted:true,settings:{...defaultSave.settings,reducedMotion:true,autoSettle:true}};localStorage.setItem(STORAGE_KEY,JSON.stringify(save));

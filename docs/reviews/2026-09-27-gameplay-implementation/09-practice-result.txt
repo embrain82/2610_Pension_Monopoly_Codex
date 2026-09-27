@@ -1,0 +1,121 @@
+- link "본문으로 건너뛰기":
+  - /url: "#main"
+- main:
+  - paragraph: 분기 연습 · 최고 기록 제외
+  - paragraph: 한 칸씩 걸어온, 12턴의 여정
+  - img "단지 · 기쁨":
+  - heading "연금 목표 미달" [active] [level=1]
+  - img "3개 중 0개 별":
+    - generic: ★
+    - generic: ★
+    - generic: ★
+  - generic: 목표용 월 환산액 · 세전
+  - strong: 491,787원
+  - generic: 목표 500,000원 · 진행률 98.3%
+  - paragraph:
+    - strong: 세후 평균 월 수령액 483,382원
+    - text: 위 목표 판정과 구분하는 교육용 수령 비교액입니다.
+  - paragraph: 목표까지 8,213원. 이번 판의 자금 배분과 시장 영향을 복기해 보세요.
+  - text: IRP를 240개월로 나눈 세전 목표용 값입니다. 세후 수령 평균은 수령 비교에서 따로 봅니다.
+  - generic: 12턴의 은퇴설계
+  - img "올리·원이와 함께하는 12턴의 여정"
+  - region "자산과 학습 요약":
+    - article:
+      - generic: 최종 IRP
+      - strong: 1.18억원
+      - generic: 납입 제외 운용수익률 +5.5%
+    - article:
+      - generic: 생활자금
+      - strong: 1,798만원
+      - generic: 미지급 생활비 0원
+    - article:
+      - generic: 제도·운용 이해
+      - strong: 4/20점
+      - generic: 이번 판 학습 카드 21장
+  - heading "내 선택으로 돌아보는 이번 판" [level=2]
+  - article:
+    - text: 1턴 · 가상 금리 하락 · 주가 하락
+    - heading "1,000,000원 추가납입. 세액공제 132,000원(교육용)은 연말정산 칸을 지날 때 생활자금으로 돌아옵니다." [level=3]
+    - paragraph: 시장 손익 +693,764원 · 순입출금 +1,000,000원
+    - paragraph: 정산 뒤 IRP 109,693,764원 · 생활자금 12,400,000원
+  - article:
+    - text: 11턴 · 가상 금리 상승 · 주가 하락
+    - heading "새 운용지시 없이 현재 구성을 유지했습니다." [level=3]
+    - paragraph: 시장 손익 -318,610원 · 순입출금 0원
+    - paragraph: 정산 뒤 IRP 117,908,685원 · 생활자금 16,578,356원
+  - article:
+    - text: 12턴 · 가상 금리 동결 · 주가 상승
+    - heading "새 운용지시 없이 현재 구성을 유지했습니다." [level=3]
+    - paragraph: 시장 손익 +120,245원 · 순입출금 0원
+    - paragraph: 정산 뒤 IRP 118,028,930원 · 생활자금 17,978,356원
+  - paragraph: 실제 기록의 대표 장면이에요. 시장 손익 전체가 그 턴의 선택 때문에 발생한 것은 아니에요.
+  - generic "내 탐험 앨범 0/4"
+  - region "목표와 학습의 최종 성과":
+    - heading "목표와 배움을 함께 돌아봐요" [level=2]
+    - paragraph:
+      - text: 종합 성과
+      - strong: 83/100점
+    - article:
+      - strong: 연금 목표 49/50
+      - generic: 목표용 월 환산액 기준
+    - article:
+      - strong: 안정성 30/30
+      - generic: 생활자금·낙폭·분산 등
+    - article:
+      - strong: 학습 4/20
+      - generic: 퀴즈와 이해 점수
+    - paragraph: 각 항목과 합계는 반올림하므로 표시 점수의 합이 1점 다를 수 있어요. 별은 미션·생활자금 등 별도 조건으로 결정해요.
+    - complementary "퀴즈 점수의 쓰임":
+      - strong: 학습 4/20점 · 퀴즈 정답 0개
+      - paragraph: 학습 점수는 12턴 최종 종합점수 100점 중 20점에 포함돼요.
+      - generic "퀴즈 기여와 평가 기준"
+    - generic "학습 점수 구성"
+    - paragraph:
+      - strong: 이번 판에서 해낸 것
+      - text: 생활자금과 미지급 생활비 관리
+    - paragraph:
+      - strong: 다음 도전 한 가지
+      - text: 목표용 월 환산액 491,787원 / 500,000원 조건을 먼저 살펴보세요.
+  - region "선택한 수령 방식":
+    - paragraph:
+      - generic: 연금(20년) 수령 · 평균 세금 1.7% → 세후 평균 월 483,382원
+      - button "수령 방식 다시 비교"
+    - generic: 실제 지급액이 아닌 재원별 게임 가정의 비교입니다.
+  - article:
+    - paragraph: 다음 판에서 바꿔 볼 한 가지
+    - heading "목표용 월 환산액 491,787원 / 500,000원" [level=3]
+    - paragraph: 12턴 기록을 중심으로 9턴 끝에서 돌아가 이후 운용과 생활자금 배분을 바꿔 보세요. 이 지점은 복기를 위한 제안이며 결과 개선을 보장하지 않습니다.
+    - button "9턴 끝부터 연습"
+    - button "3턴 끝부터 다른 선택"
+    - button "6턴 끝부터 다른 선택"
+    - button "9턴 끝부터 다른 선택"
+    - paragraph: 분기 연습은 같은 시드의 이미 본 시장을 활용합니다. 첫 플레이 성과와 구분하며 결과 개선을 보장하지 않아요.
+  - heading "이번 여행의 수집" [level=2]
+  - paragraph: 금융 성과와 별개인 방문 기록입니다. 연습에서는 누적 기록을 추가하지 않습니다.
+  - generic: ★
+  - text: 안정
+  - generic: 획득
+  - generic: ★
+  - text: 성장
+  - generic: 획득
+  - generic: ★
+  - text: 생활
+  - generic: 획득
+  - generic: ★
+  - text: 은퇴
+  - generic: 획득
+  - paragraph:
+    - img "단지 · 기쁨":
+    - text: 단지와 12턴 완주 · 4/4 도장
+  - paragraph: 이번 판에 새로 추가된 업적은 없습니다.
+  - generic "지역을 돌아보며 · 이유 남기기 (선택)"
+  - button "업적 · 컬렉션"
+  - generic "자산·별 조건·12턴 선택 자세히 보기"
+  - paragraph:
+    - generic: 시드 p6yw29-7inhm2
+    - button "결과 복사"
+  - button "같은 시드로 다시"
+  - button "새 시드로 도전"
+  - button "관련 학습 카드 보기"
+  - button "타이틀로"
+- generic: 연금 수령 · 재원별 합산 세금(잔액 대비 1.71%)을 뺀 평균 월 483,382원을 240개월.

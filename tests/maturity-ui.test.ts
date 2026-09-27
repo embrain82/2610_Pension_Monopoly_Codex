@@ -29,7 +29,7 @@ it('현금 유지 지시는 상위 메뉴에 없고 상세 확인에서만 1회 
  expect(root.querySelector('[data-action="keep-maturity-cash"]')).toBeNull();
 });
 it('새 판 시작 확정은 c5와 새 퀴즈 은행을 저장한다',()=>{
- new PensionRoadApp(root);click('begin');click('prepare-diagnosis');for(let i=0;i<5;i++)click('answer');click('prepare-continue');
+ new PensionRoadApp(root);click('begin');click('prepare-diagnosis');for(let i=0;i<5;i++)click('answer');
  expect(root.textContent).toContain('통지·대기 후 자동주문');click('confirm-default-option');expect(current().rulesetVersion).toBe('2026-09-16-g');expect(current().learningContentVersion).toBe('2026-09-16-situations');
 });
 it('만기 안내는 상품 위험·비용·실제 주 수와 게임 단계를 나란히 알린다',()=>{
@@ -45,4 +45,13 @@ it('퀴즈를 모두 풀었어도 만기 안내가 있으면 정산을 자동으
   click('do-hold');expect(root.querySelector('.modal-settle')).not.toBeNull();expect(root.querySelector('.settle-cta.auto')).toBeNull();
   await vi.advanceTimersByTimeAsync(5000);expect(root.querySelector('.modal-settle')).not.toBeNull();
  } finally {vi.useRealTimers();}
+});
+it('생활사건 뒤 배경에 있는 만기 통지는 표시 완료로 처리하지 않는다',()=>{
+ const g={...game(),currentEventId:'job-gap'};seed(g,'life');
+ expect(root.querySelector('.modal-life')).not.toBeNull();expect(current().defaultLifecycle!.cycles[0].presentedTurn).toBeUndefined();
+ expect(current().defaultLifecycle!.cycles[0].eligibleTurn).toBe(g.defaultLifecycle!.cycles[0].eligibleTurn);
+});
+
+it('정산의 진행 중인 일은 만기 상태를 한 번만 보여준다',()=>{
+ seed(game());click('do-hold');expect(root.querySelectorAll('.modal-settle [aria-label="디폴트옵션 진행 상태"]')).toHaveLength(1);
 });

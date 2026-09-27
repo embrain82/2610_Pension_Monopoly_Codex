@@ -23,32 +23,32 @@ beforeEach(() => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...defaultSave, disclaimerAccepted: true }));
 });
 
-it('신규 준비는 네 컷 안내 뒤에 성향 진단으로 이어지고 최종 시작 전에는 저장하지 않는다', () => {
+it('신규 준비는 성향 진단과 옵션 확인으로 이어지고 최종 시작 전에는 저장하지 않는다', () => {
   mount(); click('begin');
-  expect(root.querySelectorAll('.quick-guide-cuts li')).toHaveLength(4);
-  expect(root.querySelector('[data-action="prepare-diagnosis"]')).toBeNull();
+  expect(root.querySelector('.guide-preparation')).toBeNull();
+  expect(root.querySelector('[data-action="prepare-diagnosis"]')).not.toBeNull();
   const originalSave = localStorage.getItem(STORAGE_KEY);
-  click('prepare-guide-continue'); click('prepare-diagnosis');
+   click('prepare-diagnosis');
   for (let i = 0; i < 5; i++) click('answer');
-  click('prepare-continue');
+
   expect(localStorage.getItem(CHECKPOINT_KEY)).toBeNull();
   expect(localStorage.getItem(STORAGE_KEY)).toBe(originalSave);
   click('confirm-default-option');
   expect(savedGame().turn).toBe(0);
   expect(savedGame().profileId).toBe('stable');
-  expect(loadSave().quickGuideSeen).toBe(true);
+  expect(loadSave().quickGuideSeen).toBe(false);
   mount(); click('begin');
   expect(root.querySelector('.guide-preparation')).toBeNull();
   expect(root.querySelector('[data-action="open-howto"]')).not.toBeNull();
 });
 
-it('예전 howtoSeen만으로 새 안내를 건너뛰지 않고 준비 취소·새로고침이 이전 판을 보존한다', () => {
+it('게임 방법은 선택적으로 확인하고 준비 취소·새로고침이 이전 판을 보존한다', () => {
   const game = createGame('guide-old', 'growth', 500000, { defaultTrading: true, scenario: 'classic' });
   writeGame(game);
   localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...defaultSave, disclaimerAccepted: true, howtoSeen: true }));
   const original = localStorage.getItem(CHECKPOINT_KEY), settings = localStorage.getItem(STORAGE_KEY);
-  mount(); click('begin'); expect(root.querySelector('.guide-preparation')).not.toBeNull();
-  click('prepare-guide-continue'); click('open-howto'); click('dismiss-howto'); click('cancel-preparation');
+  mount(); click('begin'); expect(root.querySelector('.guide-preparation')).toBeNull();
+   click('open-howto'); click('dismiss-howto'); click('cancel-preparation');
   expect(localStorage.getItem(CHECKPOINT_KEY)).toBe(original);
   expect(localStorage.getItem(STORAGE_KEY)).toBe(settings);
   mount(); click('resume-game'); expect(savedGame()).toEqual(game);
