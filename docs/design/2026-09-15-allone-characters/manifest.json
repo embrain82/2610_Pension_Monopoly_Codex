@@ -1,0 +1,37 @@
+[
+  {
+    "id": "olli",
+    "name": "올리",
+    "file": "assets/olli-review.png",
+    "generatedOriginal": "/Users/nonsleeper/.codex/generated_images/01a08645-c62f-7993-ba84-b3ce3c5c46cb/exec-9f05c483-9df8-4b52-b8ba-3653477644ed.png",
+    "size": 1335729
+  },
+  {
+    "id": "woni",
+    "name": "원이",
+    "file": "assets/woni-review.png",
+    "generatedOriginal": "/Users/nonsleeper/.codex/generated_images/01a08645-c62f-7993-ba84-b3ce3c5c46cb/exec-3e486738-5905-4cd9-a2bd-1cb4e4a2a7b7.png",
+    "size": 1298240
+  },
+  {
+    "id": "danji",
+    "name": "단지",
+    "file": "assets/danji-review.png",
+    "generatedOriginal": "/Users/nonsleeper/.codex/generated_images/01a08645-c62f-7993-ba84-b3ce3c5c46cb/exec-de0bcfed-6e2c-416b-9b60-0b4e6d9984de.png",
+    "size": 1301307
+  },
+  {
+    "id": "dalli",
+    "name": "달리",
+    "file": "assets/dalli-review.png",
+    "generatedOriginal": "/Users/nonsleeper/.codex/generated_images/01a08645-c62f-7993-ba84-b3ce3c5c46cb/exec-4ed61f96-f1fa-4c06-8443-f1b8e798e850.png",
+    "size": 1267741
+  },
+  {
+    "id": "kori",
+    "name": "코리",
+    "file": "assets/kori-review.png",
+    "generatedOriginal": "/Users/nonsleeper/.codex/generated_images/01a08645-c62f-7993-ba84-b3ce3c5c46cb/exec-61528990-d690-4948-83c2-c763666b86dc.png",
+    "size": 1383896
+  }
+]

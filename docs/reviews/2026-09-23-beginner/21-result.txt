@@ -1,0 +1,497 @@
+[p1 "연금로드: 12턴의 은퇴설계" | space "연금로드 초보자 난이도 플레이 리뷰"(8): 1 managed, 0 untracked — p1* "연금로드: 12턴의 은퇴설계"]
+root
+  anchor [ref=21, loc=href:/#main, url=http://127.0.0.1:5237/#main]
+    text "본문으로 건너뛰기"
+  container
+    container
+      container
+        paragraph
+          text "12턴 완주 · 이번 판 결과"
+        paragraph
+          text "한 칸씩 걸어온, 12턴의 여정"
+        container
+          image "단지 · 기쁨"
+          heading [ref=369]
+            text "연금 목표 미달"
+        image "3개 중 0개 별"
+          text "★"
+          text "★"
+          text "★"
+        container
+          text "목표용 월 환산액 · 세전"
+          text "469,053원"
+          text "목표 500,000원 · 진행률 93.8%"
+        paragraph
+          text "목표까지 30,947원. 이번 판의 자금 배분과 시장 영향을 복기해 보세요."
+        text "IRP를 240개월로 나눈 세전 목표용 값입니다. 세후 수령 평균은 수령 비교에서 따로 봅니다."
+      container
+        container
+          svg_root
+          text "12턴의 은퇴설계"
+        image
+    container "자산과 학습 요약"
+      container
+        text "최종 IRP"
+        text "1.13억원"
+        text "납입 제외 운용수익률 +1.2%"
+      container
+        text "생활자금"
+        text "2,104만원"
+        text "미지급 생활비 0원"
+      container
+        text "제도·운용 이해"
+        text "4/20점"
+        text "이번 판 학습 카드 21장"
+    container "선택한 수령 방식"
+      paragraph
+        text "연금(20년) 수령 · 평균 세금 1.6% → 세후 평균 월 461,671원"
+        button [ref=370]
+          text "수령 방식 다시 비교"
+      text "실제 지급액이 아닌 재원별 게임 가정의 비교입니다."
+    container
+      paragraph
+        text "다음 판에서 바꿔 볼 한 가지"
+      heading
+        text "목표용 월 환산액 469,053원 / 500,000원"
+      paragraph
+        text "12턴 기록을 중심으로 9턴 끝에서 돌아가 이후 운용과 생활자금 배분을 바꿔 보세요. 이 지점은 복기를 위한 제안이며 결과 개선을 보장하지 않습니다."
+      button [ref=371]
+        text "9턴 끝부터 연습"
+      paragraph
+        text "분기 연습은 이미 본 시장을 활용하는 연습 판입니다."
+    container
+      heading
+        text "이번 여행의 수집"
+      paragraph
+        text "금융 성과와 별개인 방문 기록입니다. 지역 도장은 이 판의 기록입니다."
+      text "★"
+      text "안정"
+      text "획득"
+      text "★"
+      text "성장"
+      text "획득"
+      text "★"
+      text "생활"
+      text "획득"
+      text "★"
+      text "은퇴"
+      text "획득"
+      paragraph
+        image "단지 · 기쁨"
+        text "단지와 12턴 완주 · 4/4 도장"
+      container [ref=372]
+        text "새 업적 3개 확인"
+      container "새 업적 3개"
+        text "새 업적 3개"
+        unordered_list
+          list_item
+            text "🏅"
+            text "잔잔한 항해"
+            paragraph
+              text "12턴 최대 낙폭을 5% 안에서 지켰다."
+          list_item
+            text "🏅"
+            text "분산 8턴"
+            paragraph
+              text "8턴 이상 마감에 5% 이상 보유 상품이 3종 이상이었다."
+          list_item
+            text "🏅"
+            text "연금 수령 체험"
+            paragraph
+              text "연금(20년) 수령 방식을 체험했다. 어느 수령 방식이 더 적절한지는 개인 상황에 따라 다릅니다."
+      container [ref=373]
+        text "지역을 돌아보며 · 이유 남기기 (선택)"
+      container
+        paragraph
+          text "정답·성향 평가가 아닙니다. 도장과 점수는 바뀌지 않습니다."
+        container
+          heading
+            text "생활 지역"
+          button [ref=374]
+            text "방어 수단 살펴보기"
+          button [ref=375]
+            text "성장 기회 살펴보기"
+          button [ref=376]
+            text "생활자금 점검하기"
+          button [ref=377]
+            text "은퇴 계획 점검하기"
+        container
+          heading
+            text "은퇴 지역"
+          button [ref=378]
+            text "방어 수단 살펴보기"
+          button [ref=379]
+            text "성장 기회 살펴보기"
+          button [ref=380]
+            text "생활자금 점검하기"
+          button [ref=381]
+            text "은퇴 계획 점검하기"
+        container
+          heading
+            text "안정 지역"
+          button [ref=382]
+            text "방어 수단 살펴보기"
+          button [ref=383]
+            text "성장 기회 살펴보기"
+          button [ref=384]
+            text "생활자금 점검하기"
+          button [ref=385]
+            text "은퇴 계획 점검하기"
+        container
+          heading
+            text "성장 지역"
+          button [ref=386]
+            text "방어 수단 살펴보기"
+          button [ref=387]
+            text "성장 기회 살펴보기"
+          button [ref=388]
+            text "생활자금 점검하기"
+          button [ref=389]
+            text "은퇴 계획 점검하기"
+      button [ref=390]
+        text "업적 · 컬렉션"
+    container [ref=391]
+      text "자산·별 조건·12턴 선택 자세히 보기"
+    container
+      container
+        text "금리의 두 얼굴 · 연금 목표"
+        paragraph
+          text "목표용 월 환산액 · 세전 469,053원 / 500,000원 · 4장 / 4장"
+        text "누적 물가 4.1% · TDF 2029 주식 비중 25.0%"
+      paragraph
+        text "IRP 잔액 증가율 · 입출금 포함"
+        text "+4.2%"
+        text "· 납입 제외 운용수익률 +1.2% · 낙폭 2.2%"
+      paragraph
+        text "보조 점수"
+        text "81점"
+        text "· 별 0개 · 연금 설계 입문자"
+      paragraph
+        text "2/3 조건"
+        text "별 1개까지:"
+        text "목표용 월 환산액 469,053원 / 500,000원"
+      text "같은 입출금으로 비교"
+      paragraph
+        text "내 IRP 112,572,693원 · 기준 지수 115,468,057원"
+        text "기준 지수와 차이"
+        text "-2,895,364원"
+      text "초기 상품 비중을 매 턴 복원하고 같은 입출금을 턴 말 반영하는 가상 비교입니다. 실제 예금 약정·거래비용·결제 대기는 재현하지 않습니다."
+      container
+        text "12턴 IRP 잔액 흐름 · 생활 선택이 다른 고스트"
+        paragraph
+          text "IRP 잔액 · 입출금 포함 · 0~12턴"
+          text "세로축 0원~113,914,893원 · 고스트도 같은 축"
+        image "⚡ ⚡ 내 IRP 그대로 둔 나"
+          text "⚡"
+          text "⚡"
+          text "내 IRP"
+          text "그대로 둔 나"
+        paragraph
+          text "가장 아슬아슬했던 턴: 7턴 낙폭 −2.2% · 충격 5턴·7턴"
+        text "내 IRP가 더 큽니다"
+        text "내 경로"
+        text "고스트 경로"
+        paragraph
+          text "경로 간 차이"
+          text "세전 월 환산 +13,129원"
+          text "· IRP+생활자금(미지급 생활비 차감 전)"
+          text "+329,898원"
+        paragraph
+          text "그대로 뒀다면 IRP 109,421,794원 · 생활자금 23,857,415원. 같은 시드·주사위로 두 주사위 합만큼 이동하고 직접 운용하지 않은 기준 경로입니다. 내 납입·�..."
+      unordered_list
+        list_item
+          text "아직 · 목표용 월 환산액 469,053원 / 500,000원"
+        list_item
+          text "됨 · 생활자금과 미지급 생활비 관리"
+        list_item
+          text "됨 · 시작 성향의 운용 낙폭 예산"
+      container
+        text "IRP 최종 평가액"
+        text "112,572,693원"
+      container
+        text "추가납입"
+        text "3,250,000원"
+      container
+        text "생활자금"
+        text "21,036,415원"
+      container
+        text "위험자산 비중"
+        text "0.0%"
+      container
+        text "분산도"
+        text "4개 자산"
+      container
+        text "생활자금 부족"
+        text "0회"
+      text "노후소득"
+      text "47/50"
+      text "안정성"
+      text "30/30"
+      text "제도·운용 이해"
+      text "4/20"
+      text "기본 4 · 퀴즈 0 · 거래 횟수 보너스 없음"
+      container
+        text "배운 것 · 퀴즈 0/1 정답"
+        unordered_list
+          list_item
+            text "✕"
+            text "납입한도와 공제한도"
+            text "납입 가능한 금액과 세액공제 대상 금액은 같은 개념이 아니에요."
+      container
+        text "기준 성향"
+        text "안정추구형"
+        text "→"
+        text "현재 구성에 가까운 성향"
+        text "안정추구형"
+        paragraph
+          text "성향별 목표 자산 구성과 차이가 있습니다. 한 번 리밸런싱을 검토해보세요."
+      container
+        text "✓ 이번 판의 판단 근거"
+        paragraph
+          text "가장 큰 시장 변화는 7턴에 발생했습니다. 아래 복기에서 당시 보유와 다음 선택을 비교하세요."
+      container
+        text "↗ 다음에 바꿀 한 가지"
+        image "코치 펭귄"
+        paragraph
+          text "같은 시드에서 다른 미션이나 운용 선택을 비교해 보세요. 거래 횟수는 지식 점수를 높이지 않습니다."
+      text "수익률·월 연금 계산 가정과 면책"
+      paragraph
+        text "자산 증가율에는 납입·이전·인출이 포함됩니다. D판의 운용지수는 외부 입출금을 제외한 시장 구간 수익을 연결하고 매매·정산 영향을 기말 원본으�..."
+      container
+        heading
+          text "운용과 자금 흐름 복기"
+        paragraph
+          text "오늘 가치의 세후 평균 월 연금"
+          text "443,695원"
+          text "· 명목 461,671원"
+        paragraph
+          text "운용지수 101.2 · 실질 운용지수 97.3 · 시작 100"
+        text "12턴 선택과 자금 흐름 펼쳐 보기"
+        table
+          table_row
+            table_cell
+              text "턴"
+            table_cell
+              text "시장·선택"
+            table_cell
+              text "시장 손익"
+            table_cell
+              text "순입출금"
+            table_cell
+              text "매매·정산 영향"
+            table_cell
+              text "IRP"
+          table_row
+            table_cell
+              text "1"
+            table_cell
+              text "가상 금리 하락 · 주가 하락"
+              text "1,000,000원 추가납입. 세액공제 132,000원(교육용)은 연말정산 칸을 지날 때 생활자금으로 돌아옵니다."
+              text "정산 후 보유: 예금 65,156,400원 · 단기채 27,177,673원 · 장기채 16,356,669원"
+            table_cell
+              text "690,741원"
+            table_cell
+              text "1,000,000원"
+            table_cell
+              text "0원"
+            table_cell
+              text "109,690,741원"
+          table_row
+            table_cell
+              text "2"
+            table_cell
+              text "가상 금리 동결 · 주가 상승"
+              text "장기채 매수 접수 → 다음 턴 기준가 확정 → 그다음 턴 결제(게임 시간)"
+              text "정산 후 보유: 예금 65,512,800원 · 단기채 27,213,606원 · 장기채 16,438,061원"
+            table_cell
+              text "474,726원"
+            table_cell
+              text "1,250,000원"
+            table_cell
+              text "0원"
+            table_cell
+              text "111,415,467원"
+          table_row
+            table_cell
+              text "3 · 장 완료"
+            table_cell
+              text "가상 금리 하락 · 주가 상승"
+              text "이번 턴은 행동하지 않고 현재 구성을 유지했습니다."
+              text "정산 후 보유: 예금 0원 · 단기채 27,409,482원 · 장기채 16,649,190원"
+            table_cell
+              text "764,530원"
+            table_cell
+              text "0원"
+            table_cell
+              text "0원"
+            table_cell
+              text "112,179,997원"
+          table_row
+            table_cell
+              text "4"
+            table_cell
+              text "가상 금리 동결 · 주가 하락"
+              text "1,000,000원 추가납입. 세액공제 132,000원(교육용)은 연말정산 칸을 지날 때 생활자금으로 돌아옵니다."
+              text "이번 턴은 행동하지 않고 현재 구성을 유지했습니다."
+              text "정산 후 보유: 예금 0원 · 단기채 27,480,541원 · 장기채 17,787,439원"
+            table_cell
+              text "150,804원"
+            table_cell
+              text "1,000,000원"
+            table_cell
+              text "0원"
+            table_cell
+              text "113,330,801원"
+          table_row
+            table_cell
+              text "5"
+            table_cell
+              text "가상 금리 동결 · 주가 하락"
+              text "이번 턴은 행동하지 않고 현재 구성을 유지했습니다."
+              text "정산 후 보유: 예금 46,200,702원 · 단기채 27,587,080원 · 장기채 17,817,496원"
+              text "그중 디폴트옵션: 예금 46,200,702원"
+              text "옵션 처리 중 주문 1건"
+            table_cell
+              text "204,659원"
+            table_cell
+              text "0원"
+            table_cell
+              text "0원"
+            table_cell
+              text "113,535,460원"
+          table_row
+            table_cell
+              text "6 · 장 완료"
+            table_cell
+              text "가상 금리 동결 · 주가 상승"
+              text "이번 턴은 행동하지 않고 현재 구성을 유지했습니다."
+              text "정산 후 보유: 예금 46,413,225원 · 단기채 27,723,972원 · 장기채 17,845,384원"
+              text "그중 디폴트옵션: 예금 46,413,225원"
+              text "옵션 처리 중 주문 1건"
+            table_cell
+              text "379,433원"
+            table_cell
+              text "0원"
+            table_cell
+              text "0원"
+            table_cell
+              text "113,914,893원"
+          table_row
+            table_cell
+              text "7"
+            table_cell
+              text "가상 금리 상승 · 주가 하락"
+              text "이번 턴은 행동하지 않고 현재 구성을 유지했습니다."
+              text "정산 후 보유: 예금 46,625,748원 · 단기채 27,158,625원 · 장기채 16,229,556원 · TDF 19,240,601원"
+              text "그중 디폴트옵션: 예금 46,625,748원 · TDF 19,240,601원"
+            table_cell
+              text "-2,526,222원"
+            table_cell
+              text "0원"
+            table_cell
+              text "0원"
+            table_cell
+              text "111,388,672원"
+          table_row
+            table_cell
+              text "8"
+            table_cell
+              text "가상 금리 하락 · 주가 상승"
+              text "이번 턴은 행동하지 않고 현재 구성을 유지했습니다."
+              text "정산 후 보유: 예금 46,838,272원 · 단기채 27,306,411원 · 장기채 16,378,325원 · TDF 19,589,334원"
+              text "그중 디폴트옵션: 예금 46,838,272원 · TDF 19,589,334원"
+            table_cell
+              text "859,946원"
+            table_cell
+              text "0원"
+            table_cell
+              text "0원"
+            table_cell
+              text "112,248,618원"
+          table_row
+            table_cell
+              text "9 · 장 완료"
+            table_cell
+              text "가상 금리 상승 · 주가 하락"
+              text "이번 턴은 행동하지 않고 현재 구성을 유지했습니다."
+              text "정산 후 보유: 예금 47,095,882원 · 단기채 27,252,319원 · 장기채 16,213,424원 · TDF 19,475,635원"
+              text "그중 디폴트옵션: 예금 47,095,882원 · TDF 19,475,635원"
+            table_cell
+              text "-72,945원"
+            table_cell
+              text "0원"
+            table_cell
+              text "0원"
+            table_cell
+              text "112,175,673원"
+          table_row
+            table_cell
+              text "10"
+            table_cell
+              text "가상 금리 상승 · 주가 하락"
+              text "이번 턴은 행동하지 않고 현재 구성을 유지했습니다."
+              text "정산 후 보유: 예금 47,353,493원 · 단기채 27,305,518원 · 장기채 16,154,993원 · TDF 19,401,501원"
+              text "그중 디폴트옵션: 예금 47,353,493원 · TDF 19,401,501원"
+            table_cell
+              text "180,382원"
+            table_cell
+              text "0원"
+            table_cell
+              text "0원"
+            table_cell
+              text "112,356,055원"
+          table_row
+            table_cell
+              text "11"
+            table_cell
+              text "가상 금리 상승 · 주가 상승"
+              text "이번 턴은 행동하지 않고 현재 구성을 유지했습니다."
+              text "정산 후 보유: 예금 47,611,103원 · 단기채 27,335,032원 · 장기채 16,003,694원 · TDF 19,460,343원"
+              text "그중 디폴트옵션: 예금 47,611,103원 · TDF 19,460,343원"
+            table_cell
+              text "196,809원"
+            table_cell
+              text "0원"
+            table_cell
+              text "0원"
+            table_cell
+              text "112,552,864원"
+          table_row
+            table_cell
+              text "12 · 장 완료"
+            table_cell
+              text "가상 금리 상승 · 주가 하락"
+              text "이번 턴은 행동하지 않고 현재 구성을 유지했습니다."
+              text "정산 후 보유: 예금 47,980,089원 · 단기채 27,395,177원 · 장기채 15,888,479원 · TDF 19,164,114원"
+              text "그중 디폴트옵션: 예금 47,980,089원 · TDF 19,164,114원"
+            table_cell
+              text "19,829원"
+            table_cell
+              text "0원"
+            table_cell
+              text "0원"
+            table_cell
+              text "112,572,693원"
+        paragraph
+          text "분기 연습은 완료된 장 끝으로 돌아가 이후 운용을 바꿉니다. 시장은 같고 이미 확인한 미래 정보가 있으므로 첫 플레이와 같은 조건의 성과는 아닙니�..."
+        button [ref=392]
+          text "3턴 끝부터 다른 선택"
+        button [ref=393]
+          text "6턴 끝부터 다른 선택"
+        button [ref=394]
+          text "9턴 끝부터 다른 선택"
+        button [ref=395]
+          text "복기 기록 다운로드"
+    paragraph
+      text "시드 xra6dp-1f6sxt7"
+      button [ref=396]
+        text "결과 복사"
+    button [ref=397]
+      text "같은 시드로 다시"
+    button [ref=398]
+      text "새 시드로 도전"
+    button [ref=399]
+      text "관련 학습 카드 보기"
+    button [ref=400]
+      text "타이틀로"
+  text "연금 수령 · 재원별 합산 세금(잔액 대비 1.57%)을 뺀 평균 월 461,671원을 240개월."

@@ -1,0 +1,171 @@
+{
+  "checks": [
+    {
+      "width": 320,
+      "id": "olli",
+      "title": "올리",
+      "image": 1536,
+      "reference": 422,
+      "pressed": [
+        "olli"
+      ],
+      "overflow": false
+    },
+    {
+      "width": 320,
+      "id": "woni",
+      "title": "원이",
+      "image": 1536,
+      "reference": 427,
+      "pressed": [
+        "woni"
+      ],
+      "overflow": false
+    },
+    {
+      "width": 320,
+      "id": "danji",
+      "title": "단지",
+      "image": 1536,
+      "reference": 389,
+      "pressed": [
+        "danji"
+      ],
+      "overflow": false
+    },
+    {
+      "width": 320,
+      "id": "dalli",
+      "title": "달리",
+      "image": 1536,
+      "reference": 410,
+      "pressed": [
+        "dalli"
+      ],
+      "overflow": false
+    },
+    {
+      "width": 320,
+      "id": "kori",
+      "title": "코리",
+      "image": 1536,
+      "reference": 430,
+      "pressed": [
+        "kori"
+      ],
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "id": "olli",
+      "title": "올리",
+      "image": 1536,
+      "reference": 422,
+      "pressed": [
+        "olli"
+      ],
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "id": "woni",
+      "title": "원이",
+      "image": 1536,
+      "reference": 427,
+      "pressed": [
+        "woni"
+      ],
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "id": "danji",
+      "title": "단지",
+      "image": 1536,
+      "reference": 389,
+      "pressed": [
+        "danji"
+      ],
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "id": "dalli",
+      "title": "달리",
+      "image": 1536,
+      "reference": 410,
+      "pressed": [
+        "dalli"
+      ],
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "id": "kori",
+      "title": "코리",
+      "image": 1536,
+      "reference": 430,
+      "pressed": [
+        "kori"
+      ],
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "id": "olli",
+      "title": "올리",
+      "image": 1536,
+      "reference": 422,
+      "pressed": [
+        "olli"
+      ],
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "id": "woni",
+      "title": "원이",
+      "image": 1536,
+      "reference": 427,
+      "pressed": [
+        "woni"
+      ],
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "id": "danji",
+      "title": "단지",
+      "image": 1536,
+      "reference": 389,
+      "pressed": [
+        "danji"
+      ],
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "id": "dalli",
+      "title": "달리",
+      "image": 1536,
+      "reference": 410,
+      "pressed": [
+        "dalli"
+      ],
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "id": "kori",
+      "title": "코리",
+      "image": 1536,
+      "reference": 430,
+      "pressed": [
+        "kori"
+      ],
+      "overflow": false
+    }
+  ],
+  "passed": 15,
+  "scope": "Design gallery DOM and keyboard switching only; generated sheets visually inspected separately; no game integration"
+}

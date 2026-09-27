@@ -1,0 +1,30 @@
+{
+  "officialPage": "https://www.nhbank.com/goSubPage.do?srchGb=KO_NHPR_17&srchSiteGb=KR",
+  "references": [
+    {
+      "id": "olli",
+      "url": "https://www.nhbank.com/KO/images/NHPR/character_image/character1.png",
+      "path": "/Volumes/WD Data/005.코드스페이스/2609_Pension_Monopoly/docs/design/2026-09-15-allone-characters/references/olli-official.png"
+    },
+    {
+      "id": "woni",
+      "url": "https://www.nhbank.com/KO/images/NHPR/character_image/character2.png",
+      "path": "/Volumes/WD Data/005.코드스페이스/2609_Pension_Monopoly/docs/design/2026-09-15-allone-characters/references/woni-official.png"
+    },
+    {
+      "id": "danji",
+      "url": "https://www.nhbank.com/KO/images/NHPR/character_image/character3.png",
+      "path": "/Volumes/WD Data/005.코드스페이스/2609_Pension_Monopoly/docs/design/2026-09-15-allone-characters/references/danji-official.png"
+    },
+    {
+      "id": "dalli",
+      "url": "https://www.nhbank.com/KO/images/NHPR/character_image/character4.png",
+      "path": "/Volumes/WD Data/005.코드스페이스/2609_Pension_Monopoly/docs/design/2026-09-15-allone-characters/references/dalli-official.png"
+    },
+    {
+      "id": "kori",
+      "url": "https://www.nhbank.com/KO/images/NHPR/character_image/character5.png",
+      "path": "/Volumes/WD Data/005.코드스페이스/2609_Pension_Monopoly/docs/design/2026-09-15-allone-characters/references/kori-official.png"
+    }
+  ]
+}

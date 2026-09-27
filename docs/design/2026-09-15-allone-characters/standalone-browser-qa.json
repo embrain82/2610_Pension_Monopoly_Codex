@@ -1,0 +1,95 @@
+{
+  "loaded": {
+    "title": "연금로드 · 올원프렌즈 캐릭터 5종 통합 시안",
+    "images": [
+      {
+        "inline": true,
+        "width": 1536,
+        "height": 1024
+      },
+      {
+        "inline": true,
+        "width": 422,
+        "height": 126
+      },
+      {
+        "inline": true,
+        "width": 1536,
+        "height": 1024
+      },
+      {
+        "inline": true,
+        "width": 427,
+        "height": 124
+      },
+      {
+        "inline": true,
+        "width": 1536,
+        "height": 1024
+      },
+      {
+        "inline": true,
+        "width": 389,
+        "height": 97
+      },
+      {
+        "inline": true,
+        "width": 1536,
+        "height": 1024
+      },
+      {
+        "inline": true,
+        "width": 410,
+        "height": 126
+      },
+      {
+        "inline": true,
+        "width": 1536,
+        "height": 1024
+      },
+      {
+        "inline": true,
+        "width": 430,
+        "height": 113
+      }
+    ],
+    "external": 0
+  },
+  "widths": [
+    {
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "overflow": false
+    }
+  ],
+  "withoutJS": {
+    "sheets": [
+      {
+        "visible": true,
+        "loaded": true
+      },
+      {
+        "visible": true,
+        "loaded": true
+      },
+      {
+        "visible": true,
+        "loaded": true
+      },
+      {
+        "visible": true,
+        "loaded": true
+      },
+      {
+        "visible": true,
+        "loaded": true
+      }
+    ],
+    "enhanced": false
+  },
+  "isolatedFileOnly": true,
+  "offline": true
+}

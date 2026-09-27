@@ -1,0 +1,58 @@
+[p1 "연금로드: 12턴의 은퇴설계" | space "연금로드 초보자 난이도 플레이 리뷰"(8): 1 managed, 0 untracked — p1* "연금로드: 12턴의 은퇴설계"]
+root
+  anchor [ref=21, loc=href:/#main, url=http://127.0.0.1:5237/#main]
+    text "본문으로 건너뛰기"
+  container
+    container
+      container
+        svg_root
+        text "연금로드"
+      button "시작 준비 닫기" [ref=61, loc=css:button[aria-label="시작 준비 닫기"]]
+        text "×"
+    container
+      text "시작 준비"
+      text "1 · 성향 확인"
+    heading [ref=62]
+      text "내 투자자성향부터 확인해요"
+    paragraph
+      text "나에게 맞는 선택을 위한 첫 단계예요."
+    container
+      container
+        text "교육용 진단 결과"
+        heading
+          text "안정추구형"
+        paragraph
+          text "안정을 중심에 두고 제한된 성장을 추구합니다."
+        image "5개 성향 중 안정추구형"
+        paragraph
+          text "성향은 서열이 아닌 감당 가능한 변동의 기준입니다."
+      container
+        container
+          heading
+            text "이번 판의 시작 조건"
+          unordered_list
+            container
+              list_item
+                text "매수 가능 범위"
+              list_item
+                text "가상 4~6등급"
+            container
+              list_item
+                text "시작 구성"
+              list_item
+                text "예금 60% · 단기채 25% · 장기채 15%"
+            container
+              list_item
+                text "시장 · 미션"
+              list_item
+                text "금리의 두 얼굴 · 연금 목표"
+                text "목표 월 50만원"
+          paragraph
+            text "성향은 캐릭터 외형과 다릅니다."
+            text "미션·성향·목표는 게임 시작 후 고정됩니다."
+        button [ref=63]
+          text "성향 다시 진단"
+        button [ref=64]
+          text "이 성향 확인 · 옵션 선택으로"
+    paragraph
+      text "최종 시작을 눌러야 새 판이 만들어집니다. 이전 진행이 있다면 그때 대체됩니다."

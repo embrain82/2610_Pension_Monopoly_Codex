@@ -1,0 +1,81 @@
+[p1 "연금로드: 12턴의 은퇴설계" | space "연금로드 초보자 난이도 플레이 리뷰"(8): 1 managed, 0 untracked — p1* "연금로드: 12턴의 은퇴설계"]
+root
+  anchor [ref=21, loc=href:/#main, url=http://127.0.0.1:5237/#main]
+    text "본문으로 건너뛰기"
+  container
+    container
+      container
+        svg_root
+        text "연금로드"
+      button "시작 준비 닫기" [ref=61, loc=css:button[aria-label="시작 준비 닫기"]]
+        text "×"
+    container
+      text "시작 준비"
+      text "2 · 옵션 선택"
+    heading [ref=62]
+      text "이 성향으로 옵션을 골라요"
+    paragraph
+      text "확인한 성향 · 안정추구형"
+    container
+      container
+        heading
+          text "정해둘 옵션을 선택하세요"
+        radiogroup "디폴트옵션"
+          radiobutton [ref=65]
+            text "원리금보장형"
+            text "예금 100%"
+            text "가상 6등급 · 선택 가능"
+          radiobutton [ref=66]
+            container
+              text "저위험"
+              text "✓ 현재 선택됨"
+              text "성향 추천"
+            text "예금 70% · TDF 30%"
+            text "가상 5등급 · 선택 가능"
+          radiobutton [ref=67]
+            text "중위험"
+            text "예금 30% · 혼합형 70%"
+            text "가상 4등급 · 선택 가능"
+          radiobutton [ref=68]
+            container
+              text "고위험"
+              text "성향 밖 · 3등급"
+            text "혼합형 70% · TDF 30%"
+            text "가상 3등급 · 현재 성향에서 선택 불가"
+        button [ref=69]
+          text "지정 안 함으로 선택"
+      container
+        paragraph
+          text "내가 선택한 옵션"
+        heading
+          text "저위험"
+        paragraph
+          text "예금 70% · TDF 30%"
+        paragraph
+          text "예금 70% · TDF 30%. 일부 손실 가능성이 있는 가상 5등급 포트폴리오."
+        text "가상 5등급 · 교육용 구성"
+        paragraph
+          text "현재 선택:"
+          text "저위험"
+          text "추천 표시는 선택을 바꾸지 않습니다."
+        paragraph
+          text "지정만으로 매수되지 않습니다."
+          text "만기자금은 통지·대기 후 자동주문합니다. 기다리지 않고 직접 매수하려면 운용지시 → 디폴트옵션 옵트인/아웃을 이용하세요."
+      container [ref=70]
+        text "게임 시작 전에 알아둘 세 가지"
+      container
+        unordered_list
+          list_item
+            text "생활자금은 생활비, IRP 대기자금은 계좌 안 매수에 씁니다."
+          list_item
+            text "시장이 먼저 보유분에 반영되고 내 주문은 이후 시장에 영향을 받습니다."
+          list_item
+            text "일반 턴은 행동 1회, 운용지시 칸은 2회. 조회·X 취소는 0회입니다."
+        paragraph
+          text "옵션은 교육용 가상 상품입니다. 만기자금은 다음 턴 통지하고, 통지가 표시된 다음 턴에 사전지정 옵션으로 자동주문합니다. 실제 제도는 만기 후 4주..."
+      button [ref=71]
+        text "저위험 확인 · 게임 시작"
+      button [ref=72]
+        text "성향 확인으로 돌아가기"
+    paragraph
+      text "최종 시작을 눌러야 새 판이 만들어집니다. 이전 진행이 있다면 그때 대체됩니다."

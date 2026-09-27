@@ -1,0 +1,18 @@
+{
+  "date": "2026-09-15",
+  "browser": "Ego Browser",
+  "result": "pass",
+  "checks": [
+    "A/B switching updates all ten thumbnails and main preview",
+    "Same layout A and B saved as separate favorites",
+    "Favorites and notes restored after reload",
+    "Compare favorites preserves separate character directions",
+    "Text export includes both variants and notes",
+    "Test favorites and notes removed through UI",
+    "Gallery resume state updates embedded preview",
+    "Embedded 09 story tabs switch text and art",
+    "Standalone 09 story tab keyboard ArrowRight switches to correct B asset",
+    "Start and resume buttons open their appropriate design explanation dialogs",
+    "Gallery fits 320px and 390px without horizontal overflow"
+  ]
+}

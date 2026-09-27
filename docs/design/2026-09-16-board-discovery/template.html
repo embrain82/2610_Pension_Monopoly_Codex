@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="연금로드 캐릭터 식별성 5안과 도착 칸 공개 5안, 직접 조합할 수 있는 시안 및 구현 계획">
+<title>연금로드 · A1+B5 선택안 · 도착 색상 반영 v3</title>
+<style>@@CSS@@</style>
+</head>
+<body>
+@@ASSETS@@
+<header><div class="topline"><div class="brand"><b>⚄</b> 연금로드 <span class="docmeta">DESIGN REVIEW</span></div><div class="docmeta">2026.09.16 · 검토용 제안<br>A1+B5 검토 선택 · 구현 승인 대기</div></div></header>
+<main>
+<div class="hero">
+  <div><span class="eyebrow">MY TOKEN & DISCOVERY BOARD</span><h1>한눈에 보이는 내 말,<br>한 칸씩 열리는<br>연금로드.</h1><p class="lead">올리·원이·단지·달리·코리의 존재감을 살리고, 도착하는 순간 새로운 칸을 발견합니다. 기존의 밝고 단정한 금융 앱 분위기 안에서 게임의 재미를 더하는 제안입니다.</p><div class="chips"><span>캐릭터 강조 5안</span><span>칸 공개 방식 5안</span><span>25가지 조합 비교</span></div><p class="micro">검토 선택은 <strong>A1 화이트 스티커 + B5 탐험 지도 스티커</strong>, 미리보기 캐릭터는 <strong>원이</strong>입니다.<br>도착하는 순간 칸의 고유 색상도 함께 공개하도록 시안과 계획을 보완했습니다. 실제 게임 구현은 승인 대기입니다.</p><a href="#combine">통합 시연 바로 보기 ↓</a></div>
+  <div class="hero-show"><div id="hero-board"></div><p class="micro">A1+B5 · 원이의 시작 화면 · 출발 칸만 공개</p></div>
+</div>
+<nav class="nav" aria-label="문서 목차"><a href="#issue">현재 화면 진단</a><a href="#tokens">A · 내 말 5안</a><a href="#masks">B · 칸 공개 5안</a><a href="#combine">조합 시연</a><a href="#rules">공개 규칙</a><a href="#plan">구현 계획</a><a href="#checks">검증·확정 항목</a></nav>
+<noscript><p class="empty-nojs">설명과 구현 계획은 그대로 읽을 수 있습니다. 디자인 10안과 이동 시연을 보려면 이 HTML을 JavaScript가 실행되는 브라우저에서 열어주세요.</p></noscript>
+
+<section class="section" id="issue">
+<div class="section-head"><div><span class="eyebrow">01 · WHAT WE CHANGE</span><h2>작은 말은 더 또렷하게.<br>아직 모르는 칸은 단순하게.</h2></div><p>첨부 화면과 현재 렌더링 구조를 함께 확인했습니다. 캐릭터 원본을 다시 그리기보다 배경과의 분리, 실제 몸체 크기, 현재 위치 안내부터 개선합니다.</p></div>
+<div class="two"><div class="panel issue"><div><img class="reference-photo" src="@@REFERENCE@@" alt="사용자가 제공한 현재 게임판. 단지가 연말정산 칸의 아이콘과 이름 사이에 놓여 있습니다."><p class="micro">사용자 제공 화면</p></div><div><h3>현재의 문제</h3><p>캐릭터가 칸의 아이콘·번호·이름과 같은 영역을 사용합니다. 부드러운 원본 색과 그림자만으로는 밝은 칸 배경에서 충분히 분리되지 않습니다.</p><p>현재 말 컨테이너는 보드 폭의 <strong>7.8%</strong>입니다. PNG 안의 여백 때문에 실제로 보이는 몸체는 이보다 작습니다. 중앙 장식보다 말이 먼저 눈에 들어오도록 시각적 우선순위를 조정해야 합니다.</p><p class="micro">첨부 이미지가 잘린 범위만으로 실제 화면의 가로 넘침 여부는 단정하지 않았습니다.</p></div></div><div class="panel"><h3>이번 디자인의 기준</h3><ul><li><strong>원본 캐릭터 5종 유지.</strong> 색이나 얼굴을 바꾸지 않고 배지·외곽선·받침대로 강조합니다.</li><li><strong>이동은 게임답게.</strong> 실제 두 주사위, 구름·착지, 칸을 따라 이동하는 말은 유지합니다.</li><li><strong>숨기는 대상은 칸의 정체.</strong> 미공개 칸의 이름·종류·아이콘만 숨기고 경로와 번호는 보입니다.</li><li><strong>선택 조작은 늘리지 않음.</strong> 도착하면 자동으로 열립니다. 열쇠·추가 버튼·공개 비용은 없습니다.</li><li><strong>금융 판단 정보는 항상 제공.</strong> 상품·위험·금액·거래 대기·제약 안내는 가리지 않습니다.</li></ul><div class="notice">현재 코드의 고정된 지도와 금융 엔진을 유지하는 제안입니다. 칸 공개가 새로운 수익·보상·행동 횟수를 만들지는 않습니다.</div></div></div>
+</section>
+
+<section class="section" id="tokens">
+<div class="section-head"><div><span class="eyebrow">02 · TOKEN VISIBILITY</span><h2>A. 내 말이 잘 보이는 5가지 방법</h2></div><p>같은 칸과 같은 캐릭터로 효과를 비교하세요. 선택 버튼은 아래 통합 시연에만 반영됩니다. 상세 구현 방법과 완료 기준은 각 카드에서 펼칠 수 있습니다.</p></div>
+<div class="controls"><label>비교할 캐릭터 <select data-character-select><option value="olli">올리</option><option value="woni" selected>원이</option><option value="danji">단지</option><option value="dalli">달리</option><option value="kori">코리</option></select></label><span class="spacer"></span><span class="micro">아래 모든 시안의 캐릭터가 함께 바뀝니다.</span></div>
+<p class="token-gallery-note">확대 시안에서는 형태를, 통합 시연에서는 실제 보드 대비 크기를 확인하세요. 바깥쪽 이동 좌표는 유지하고, 캐릭터 내부 크기와 장식만 조정하는 방향입니다.</p>
+<div id="token-gallery" class="gallery"></div>
+<div class="note"><strong>모바일 크기의 현실적인 기준</strong><br>390px 화면에서 몸체 약 32px, 작은 270px 보드에서는 약 26px을 목표로 실측합니다. 7칸을 한 줄에 넣으면 작은 칸의 글자를 충분히 크게 만들기 어렵습니다. 보드 아래에 <strong>‘내 말 · 캐릭터 · 현재 칸’</strong> 안내와 44px 이상 누름 영역의 ‘현재 칸 보기’를 제공하는 방안을 함께 권장합니다. 중앙 장식 크기는 줄여 현재 말을 우선합니다.</div>
+</section>
+
+<section class="section" id="masks">
+<div class="section-head"><div><span class="eyebrow">03 · ARRIVAL REVEAL</span><h2>B. 도착하는 순간 열리는 5가지 게임판</h2></div><p>각 안에서 주사위를 굴려보세요. 지나간 칸은 그대로 남고 최종 도착한 칸만 열립니다. 비교를 위해 모든 보드에 선택한 A1 화이트 스티커를 적용했습니다.</p></div>
+<div class="notice">시연은 <strong>고정 결과 2+3 → 3+4 → 1+2</strong>를 반복합니다. 실제 게임에서는 기존 무작위 주사위를 그대로 사용합니다. 여기서는 금융 계산·저장·점수 변경이 일어나지 않습니다.</div>
+<p class="micro">HTML/CSS 동작 시안입니다. 봉투 개봉·안개 제거·양면 카드 등 최종 연출은 아래 계획에 따라 구현하며, 시연은 공개 전후의 모양과 짧은 전환을 비교하는 용도입니다.</p>
+<div id="mask-gallery" class="gallery"></div>
+</section>
+
+<section class="section" id="combine">
+<div class="section-head"><div><span class="eyebrow">04 · TRY YOUR COMBINATION</span><h2>선택한 두 가지를 함께 확인하세요.</h2></div><p>A와 B를 하나씩 선택하면 이 보드에 반영됩니다. 같은 시안에서 올리·원이·단지·달리·코리를 바꾸어 가독성을 비교할 수 있습니다.</p></div>
+<div class="controls"><label>캐릭터 <select data-character-select><option value="olli">올리</option><option value="woni" selected>원이</option><option value="danji">단지</option><option value="dalli">달리</option><option value="kori">코리</option></select></label><span class="spacer"></span><label><input type="checkbox" id="reduce-motion"> 움직임 줄여서 비교</label></div>
+<div class="combo"><div id="combined-board"></div><div class="combo-info"><span class="tag rec">검토 선택 A1+B5 · 구현 승인 대기</span><h3 id="combo-title"></h3><p><strong>A1</strong>은 캐릭터의 원형을 살린 흰 윤곽선으로 말을 강조하고, <strong>B5</strong>는 도착한 칸의 지도 스티커가 벗겨지는 방식입니다. 원이는 비교용 캐릭터이며 실제 게임의 5종 선택 기능은 유지합니다.</p><div class="notice"><strong>추가 의견 반영</strong><br>도착해 공개되는 순간 이름·아이콘·고유 배경색이 함께 드러납니다. 현재 위치는 테두리로 강조하여, 말이 머무는 동안과 떠난 뒤의 칸 색상이 같습니다.</div><p class="micro">첫 이동 후 06번 운용지시의 연노랑, 두 번째 이동 후 13번 은퇴전망의 연파랑을 비교할 수 있습니다.</p><div class="combo-summary" id="combo-summary"></div><button type="button" id="recommend">선택안 A1 + B5 · 원이</button><button type="button" class="primary" id="copy-choice">선택 내용 복사</button><textarea id="selection-copy" class="selection-copy" aria-label="복사할 디자인 검토 선택"></textarea><p class="micro">이 선택은 브라우저 안의 시안에만 반영됩니다. 운영 게임이나 저장된 플레이 정보에는 영향을 주지 않습니다. 새로고침하면 기록된 A1+B5 · 원이 선택으로 돌아갑니다.</p></div></div>
+</section>
+
+<section class="section" id="rules">
+<div class="section-head"><div><span class="eyebrow">05 · ONE CLEAR RULE</span><h2>공개 규칙은 단순하게 고정합니다.</h2></div><p>아래는 이번 검토 선택에 포함된 공개 규칙입니다. 운영 게임에는 아직 적용하지 않았으며 실제 구현은 별도 승인 후 진행합니다.</p></div>
+<div class="stage-row"><div class="stage-step"><b>01 / 시작</b><strong>출발 칸만 공개</strong>말이 이미 서 있는 01번은 보여줍니다. 나머지 23칸에는 번호와 같은 뒷면을 사용합니다.</div><div class="stage-step"><b>02 / 이동</b><strong>지나간 칸은 가림 유지</strong>두 주사위와 말의 점프는 유지합니다. 이동 안내는 ‘3/5칸 · 04번’처럼 번호만 읽습니다.</div><div class="stage-step"><b>03 / 도착</b><strong>최종 도착 칸 자동 공개</strong>마지막 착지 후 0.3초 안팎으로 이름·아이콘·고유 색상을 함께 공개합니다. 열기 버튼 없이 진행합니다.</div><div class="stage-step"><b>04 / 재방문</b><strong>열린 칸은 계속 공개</strong>말이 떠난 뒤에도 같은 색과 내용을 유지합니다. 재방문은 다시 벗기지 않고, 이어하기에서도 공개 상태를 유지합니다.</div></div>
+<div class="two"><div class="panel"><h3>항상 볼 수 있어야 하는 정보</h3><ul><li>보유자산·상품 설명·위험등급·매수/매도 가능 조건</li><li>금리와 시장 변화, 손익, 위험자산 한도 안내</li><li>거래 금액과 수수료 가정, 접수·기준가·결제 상태</li><li>납입·연말정산 등 게임의 기본 규칙과 예정 처리</li><li>성향·디폴트옵션 설명, 퀴즈 및 해설의 학습 내용</li></ul><p class="micro">미공개 칸이 있다고 상품 메뉴 자체를 잠그거나 중요한 거래 설명을 숨기지 않습니다. 금융 모델과 교육용 가정은 이번 변경 범위에서 유지합니다.</p></div><div class="panel"><h3>보드 정보가 새지 않는 범위</h3><ul><li>지도 선택 목록과 칸 상세창은 ‘07번 · 미공개’로 표시</li><li>색·아이콘·힌트·접근성 이름에서도 칸 종류를 감춤</li><li>이동 중 중앙 문구와 음성 안내에서 미공개 이름을 읽지 않음</li><li>미공개 칸을 눌러도 ‘도착하면 공개’ 안내만 제공</li><li>‘공개 3/24’와 기존 지역 도장은 별도 지표로 유지</li></ul><p class="micro">이것은 화면상의 탐험 연출입니다. 고정 지도는 반복 플레이로 기억할 수 있고 코드에도 존재하므로 보안·부정행위 방지 기능은 아닙니다. 무작위 지도는 별도의 게임 균형 검토가 필요합니다.</p></div></div>
+<div class="note"><strong>기존 플레이와 종료 후 지도</strong><br>기존 저장본은 전체 공개 상태로 유지하고 새 게임부터 적용하는 방안을 권장합니다. 12턴 종료 후 ‘전체 지도 복기’는 선택 사항으로 별도 확정합니다. 추가하더라도 조회만 허용하며 방문·점수·지역 도장을 늘리지 않습니다.</div>
+</section>
+
+<section class="section" id="plan">
+<div class="section-head"><div><span class="eyebrow">06 · IMPLEMENTATION PLAN</span><h2>그림부터 바꾸고,<br>공개 규칙을 안전하게 연결합니다.</h2></div><p>10개 안을 모두 제품에 넣는 계획이 아닙니다. 승인된 A·B 한 조합을 순차 반영합니다. 선택한 A1+B5 기준 약 5~7작업일을 예상하며, 1명 기준의 추정치로 선택 확정 후 재산정합니다.</p></div>
+<article class="plan-phase"><div class="phase-no">D0</div><div><h3>디자인·규칙 확정 <small>약 0.5일</small></h3><p>A1+B5와 공개 규칙은 검토 선택으로 기록했습니다. 도착 순간 고유 색상을 함께 드러내는 보완 시안을 확인하고 실제 게임 구현 승인을 받습니다. 종료 후 전체 지도 복기는 아직 미확정 선택 사항입니다. 390px 화면과 270px 보드에서 실제 몸체 크기·라벨 간격을 기준 이미지로 남깁니다.</p><p><strong>산출물:</strong> 선택 조합 1개, 공통 색·테두리·그림자·크기·모션 규격, 5종 캐릭터 비교. <strong>완료:</strong> 사용자 디자인 확인.</p></div></article>
+<article class="plan-phase"><div class="phase-no">D1</div><div><h3>캐릭터 식별성 먼저 적용 <small>약 1일</small></h3><p>기존 말 외부 컨테이너의 이동 좌표·착지 시점은 유지하고, 내부에 배지·외곽선 등 선택한 장식만 넣습니다. 캐릭터의 발·중심 좌표를 활용해 5종의 보이는 크기를 맞춥니다. 현재 칸의 장식 아이콘을 비우고 이름과 번호는 남깁니다.</p><p><strong>수정:</strong> <code>src/ui/token3d.ts</code>, <code>src/ui/avatars.ts</code>, <code>src/styles/characters.css</code>, <code>src/ui/board.ts</code>. <strong>완료:</strong> 전체 공개 보드에서 24개 위치의 잘림·겹침·점프를 확인한 미리보기.</p></div></article>
+<article class="plan-phase"><div class="phase-no">D2</div><div><h3>공개 상태와 표시 정책 통합 <small>약 1일</small></h3><p>새 게임에만 도착 공개 모드를 넣고, 공개된 칸은 기존 최종 도착 기록에서 계산합니다. 보드·지도 메뉴·칸 상세·화면 읽기 안내가 같은 표시 정책을 사용하게 합니다. 공개 상태의 칸 종류가 이름·아이콘·고유 배경색을 함께 결정하며 현재 위치 강조는 배경색을 덮지 않습니다. 가림을 얹는 CSS만으로 끝내지 않고 미공개 이름과 아이콘을 렌더링하지 않습니다.</p><p><strong>수정:</strong> <code>src/types.ts</code>, <code>src/engine/game-engine.ts</code>, 신규 <code>src/ui/board-discovery.ts</code>, <code>src/ui/board.ts</code>, <code>src/ui/route-view.ts</code>. <strong>완료:</strong> 출발 1칸만 공개, 숨은 이름·유형이 조회 경로로 노출되지 않음.</p></div></article>
+<article class="plan-phase"><div class="phase-no">D3</div><div><h3>마지막 착지와 공개 연출 연결 <small>약 1일</small></h3><p>마지막 이동 애니메이션을 기다린 뒤 이름·아이콘·고유 배경색을 같은 렌더 갱신에서 한 번에 공개합니다. B5 가림이 벗겨지는 부분 아래로 처음부터 해당 칸의 색이 보여야 합니다. 현재의 <code>landed</code> 표시만으로 마지막 착지를 판단하지 않습니다. 이동·공개 동안 중복 주사위와 운용 입력을 막고, 취소·새 게임으로 이전 애니메이션의 후속 처리가 실행되지 않게 합니다.</p><p><strong>수정:</strong> <code>src/ui/app.ts</code>의 <code>moveRolledDice()</code>와 입력·저장 가드, 기존 애니메이션 제어기, 보드 CSS. <strong>완료:</strong> 지나간 칸 비공개, 마지막 칸만 공개, 이미 열린 칸은 반복 연출 없음, 움직임 줄이기 지원.</p></div></article>
+<article class="plan-phase"><div class="phase-no">D4</div><div><h3>저장·이어하기·챕터 복기 호환 <small>약 1일</small></h3><p>모드가 없는 옛 저장본은 기존 전체 공개로 해석합니다. 선택 필드는 저장 검사에 명시적으로 허용합니다. 챕터 복기에서는 해당 시점의 방문 기록만 사용하여 미래에 방문한 칸이 먼저 보이지 않게 합니다. 공개 연출 중 새로고침해도 시장 계산이 두 번 실행되지 않게 확인합니다.</p><p><strong>수정:</strong> <code>src/ui/play-checkpoint.ts</code>, <code>src/engine/scenario-engine.ts</code>, 관련 저장·턴 흐름 테스트. <strong>완료:</strong> 기존 저장본과 새 모드의 복원·복기 결과 일치.</p></div></article>
+<article class="plan-phase"><div class="phase-no">D5</div><div><h3>직접 플레이·검증 후 배포 검토 <small>약 0.5~1.5일</small></h3><p>5종 캐릭터와 작은 화면을 우선 검증하고, 데스크톱·모바일에서 12턴을 완주합니다. 같은 시드·같은 운용 선택에서 금융 결과가 기존과 일치하는지 비교합니다. 테스트·타입·린트·빌드 통과 후 미리보기에서 최종 확인합니다.</p><p><strong>산출물:</strong> 브라우저 검증 기록, 화면 비교, 저장 호환 결과, 금융 계산 비교. <strong>배포:</strong> 이번에는 문서만 작성하며, 구현과 운영 반영은 사용자 확정 후 진행합니다.</p></div></article>
+
+<h3>상태 모델 — 이미 있는 방문 기록을 활용</h3>
+<div class="two"><div><pre class="code-block"><code>// 설계 예시 · 아직 제품에 추가하지 않은 코드
+type BoardVisibility = 'open-v1' | 'arrival-v1';
+
+// GameState / GameOptions에 선택 필드 추가
+boardVisibility?: BoardVisibility;
+
+// 모드 누락 = 기존 저장본, 전체 공개 유지
+const mode = game.boardVisibility ?? 'open-v1';
+const shown = mode === 'open-v1'
+  ? new Set(allTileIndices)
+  : new Set([0, ...game.route.visits]);
+
+// 출발 0번을 route.visits에 추가하지 않음!
+// 출발 공개가 지역 도장 획득으로 계산되면 안 됨.</code></pre></div><div class="panel"><h3>중복 상태를 만들지 않는 이유</h3><p>현재 <code>route.visits</code>는 지나간 칸이 아니라 <strong>최종 도착한 칸</strong>을 기록합니다. 이를 재사용하면 ‘공개 목록’과 ‘방문 목록’이 서로 달라지는 문제를 줄일 수 있습니다.</p><p>출발 칸은 표시 계산에만 더합니다. 기존 도장·성찰·보상 계산에는 영향을 주지 않습니다. 공개 애니메이션 중의 <code>revealIndex</code>는 잠깐 사용하는 UI 상태로만 둡니다.</p><p>표시용 모드 추가만을 이유로 금융 규칙 버전을 올리지 않습니다. 신규 게임 생성 시 옵션이 있는 경우에만 필드를 넣어 기존 저장 형식의 필수 키 검사를 깨뜨리지 않도록 합니다.</p></div></div>
+
+<h3>턴 처리 순서 — 금융 계산은 기존 위치에서 한 번</h3>
+<div class="table-wrap"><table><thead><tr><th>순서</th><th>화면 동작</th><th>상태·저장 처리</th></tr></thead><tbody>
+<tr><td>1. 주사위</td><td>보드로 화면 이동 → 기존 두 주사위가 구르고 멈춤</td><td>현재 턴 시작 전 저장 유지. 공개 상태를 변경하지 않음.</td></tr>
+<tr><td>2. 칸 이동</td><td>기존 경로를 따라 말이 이동. 지나간 칸에는 번호만 안내.</td><td>이동 중 임시 위치만 바뀜. 방문·보상 계산을 추가하지 않음.</td></tr>
+<tr><td>3. 최종 착지</td><td>마지막 이동 Promise 완료 → 이름·아이콘·고유 색상을 적용하고 B5 가림 제거. 현재 위치는 테두리로 강조</td><td><code>boardRevealing</code> UI 가드 및 임시 <code>revealIndex</code>. 이 단계는 저장하지 않음.</td></tr>
+<tr><td>4. 턴 확정</td><td>공개 연출 종료 → 기존 시장·도착 사건 화면으로 이동</td><td>기존 <code>startTurn(game, steps)</code>을 딱 한 번 실행·대입. 최종 방문 기록과 금융 결과가 함께 확정됨.</td></tr>
+<tr><td>5. 저장</td><td>공개된 상태에서 기존 게임 진행</td><td>임시 UI 상태 해제 후 기존 체크포인트 저장. 재방문은 공개 연출만 생략.</td></tr>
+</tbody></table></div>
+<div class="note"><strong>공개 중 새로고침하면?</strong><br>공개 연출은 턴 확정 전의 UI 단계로 둡니다. 그 사이 새로고침하면 기존 턴 시작 전 체크포인트에서 복원하고 같은 시드로 진행합니다. 이미 확정된 시장·급여·주문을 다시 계산하지 않도록 테스트합니다. 애니메이션 이벤트마다 <code>startTurn()</code>을 호출하는 구조는 사용하지 않습니다.</div>
+
+<h3>파일별 핵심 작업과 확인할 부분</h3>
+<div class="table-wrap"><table><thead><tr><th>위치</th><th>현재 구조 / 필요한 변경</th><th>주의점</th></tr></thead><tbody>
+<tr><td><code>src/ui/board.ts</code></td><td>모든 칸의 종류·아이콘·이름을 출력함 → 공개 여부에 따라 서로 다른 마크업 생성</td><td>CSS 종류 클래스, aria-label, 중앙 이동 안내도 함께 처리. <code>landed</code>는 실제 착지 완료 신호와 구분.</td></tr>
+<tr><td><code>src/ui/route-view.ts</code></td><td>지도 목록과 탐색 상세의 이름·힌트를 공통 표시 정책에 연결</td><td>미공개 칸을 조회해도 실제 유형·효과가 보이지 않아야 함. 일반 학습 설명은 유지.</td></tr>
+<tr><td><code>src/ui/app.ts</code></td><td>말 이동 완료 후 공개 단계 연결, 음성 안내를 번호 기준으로 변경</td><td>중복 입력·저장·이전 비동기 콜백 차단. 보드 포커스 및 기존 주사위 연출 유지.</td></tr>
+<tr><td><code>src/engine/route-engine.ts</code></td><td>기존 최종 방문 기록을 조회하여 공개 상태 계산</td><td>도장 조건·보상 로직 변경 없음. 초기 공개를 실제 방문으로 추가하지 않음.</td></tr>
+<tr><td><code>src/ui/play-checkpoint.ts</code></td><td>선택 모드 필드 검증, 옛 모드 누락 처리, 중첩 챕터 저장 검사</td><td><code>shape(createGame(...), data.game)</code> 검사가 새 필드를 필수로 요구하지 않도록 주의. 잘못된 값은 기존 유효성 검사 경로로 처리.</td></tr>
+<tr><td><code>src/engine/scenario-engine.ts</code></td><td>3·6·9턴 챕터 재시작과 복기의 모드 및 방문 시점 확인</td><td>미래의 방문 목록을 이전 챕터에 복사하지 않음. 같은 조건 새 게임은 출발만 공개로 초기화.</td></tr>
+<tr><td>캐릭터·보드 스타일</td><td>5종 실측, 배지/그림자, 현재 칸 여백, 공개 모션, 움직임 줄이기</td><td>전체 포커스 표시를 지우는 전역 CSS를 추가하지 않음. 현재 제목 파란 테두리 수정은 별도 작업으로 유지.</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="section" id="checks">
+<div class="section-head"><div><span class="eyebrow">07 · ACCEPTANCE & DECISIONS</span><h2>눈으로 확인할 것과<br>계산으로 확인할 것을 나눕니다.</h2></div><p>아래는 실제 게임 구현 후 수행할 검증 기준입니다. 이 HTML의 시연 결과를 운영 게임 구현 완료로 간주하지 않습니다.</p></div>
+<div class="coverage"><div class="panel"><h3>말의 가독성</h3><p>5종 × 24개 위치 × 밝은 칸·미공개 칸. 발·꼬리·귀가 잘리지 않고 번호/이름을 가리지 않는지 확인합니다. 현재 칸 안내는 색에만 의존하지 않습니다.</p></div><div class="panel"><h3>게임 흐름</h3><p>최종 칸만 공개, 재방문 연출 생략, 출발 통과, 빠른 두 번 클릭, 팝업 진입과 복귀를 확인합니다. 실제 두 주사위와 기존 이동 박자를 유지합니다.</p></div><div class="panel"><h3>금융 결과</h3><p>동일 시드·동일 선택에서 자산·위험비중·급여·납입·거래 결제·점수·도장이 변경 전과 일치해야 합니다. 표시 모드만 달라질 수 있습니다.</p></div></div>
+<div class="table-wrap" style="margin-top:24px"><table><thead><tr><th>검증 상황</th><th>통과 기준</th></tr></thead><tbody>
+<tr><td>새 게임 진입</td><td>01번만 공개, 23칸 동일 뒷면. 실제 방문/도장 기록은 늘지 않음.</td></tr>
+<tr><td>01번에서 5칸 이동</td><td>06번만 추가 공개. 02~05번은 가림 유지. 같은 06번 재방문 시 새 연출 없음.</td></tr>
+<tr><td>도착 순간의 색상</td><td>신규 도착 칸의 첫 공개 프레임부터 종류별 색상이 보임. 말이 머무는 동안과 떠난 뒤의 배경색이 같고, 재방문·동작 줄이기에서도 같음. 현재 위치 강조가 배경을 흰색으로 덮지 않음.</td></tr>
+<tr><td>미공개 정보 접근</td><td>칸 클릭·지도 목록·상세·중앙 문구·스크린리더에 실제 이름/종류가 먼저 나오지 않음.</td></tr>
+<tr><td>이동/공개 중 복원</td><td>주사위 중, 중간 이동, 공개 중, 턴 확정 직후 각각 새로고침. 금융 처리·행동·점수 중복 없음.</td></tr>
+<tr><td>저장·챕터 호환</td><td>현재 지원 중인 c2/c3/c4 저장본은 전체 공개로 복원. 새 모드 방문 유지. 챕터 복기는 해당 시점까지의 칸만 공개.</td></tr>
+<tr><td>접근성·모션</td><td>키보드 조작, 현재 칸 안내, 동작 줄이기. 정보는 색·빛에만 의존하지 않고 모션을 생략해도 같은 결과.</td></tr>
+<tr><td>화면 크기</td><td>320·390·430px 모바일, 1440px 데스크톱, 가로 모드·200% 확대. 실제 iPhone Safari에서 잘림·터치·모션 확인.</td></tr>
+<tr><td>성능·완주</td><td>기준 60Hz 기기에서 프레임 지연을 측정하고 과한 필터를 줄임. 모바일/데스크톱 12턴 완주 및 기존 필수 검사 통과.</td></tr>
+</tbody></table></div>
+<div class="two" style="margin-top:24px"><div class="panel recommend"><span class="tag rec">사용자 검토 선택</span><h3>A1 + B5 · 원이</h3><p><strong>화이트 스티커</strong>와 <strong>탐험 지도 스티커</strong>를 조합합니다. 원이는 시연용 선택이며 게임의 캐릭터 종류를 제한하지 않습니다.</p><p>출발 공개 · 최종 도착만 공개 · 재방문 유지 · 기존 저장본 전체 공개 · 새 게임부터 적용. 주사위·금융 규칙·도장 계산을 유지합니다.</p><p><strong>도착 즉시 칸 이름·아이콘·고유 배경색을 함께 공개하고, 말이 떠난 후에도 같은 색상을 유지합니다.</strong></p><a href="#combine">선택안 시연으로 돌아가기 ↑</a></div><div class="panel"><h3>다음 단계</h3><p>이번 기록은 디자인 검토 선택이며 <strong>실제 게임 구현 승인이 아닙니다.</strong> 추가 의견은 시안에 반영하고 구현 계획의 필수 완료 기준으로 추가했습니다.</p><p>보완 시안을 확인한 뒤 실제 구현 승인이 있으면 D1~D5를 진행합니다. 종료 후 전체 지도 복기는 필요 여부를 별도로 정할 수 있습니다.</p></div></div>
+</section>
+<footer><p><strong>선택안 및 도착 색상 반영 · v3</strong> · 2026-09-16 사용자 검토 선택 A1+B5 · 원이를 기본 시안으로 설정했습니다. 현재 칸의 흰 배경 덮어쓰기를 제거하여 도착 직후에도 고유 색상이 보이도록 했습니다. 변경 범위는 검토 문서와 시안이며 운영 게임은 구현 승인 대기입니다.</p><p><strong>이미지 표시 수정 · v2</strong> · 숨겨진 SVG symbol/use 참조를 제거하고 base64 PNG를 일반 img 요소로 직접 표시하도록 변경했습니다. 원본 이미지는 편집하지 않고 CSS 창으로 첫 번째 캐릭터 포즈를 보여줍니다. 캐릭터 12곳의 직접 이미지 로드와 5종의 표시 영역 내 픽셀을 확인했습니다. 이미지 선택·칸 공개 기능은 유지됩니다.</p><p><strong>이 문서의 확인 결과</strong> · Ego Browser에서 25개 조합, 캐릭터 5종 전환, 5개 공개 방식, 미공개 칸 클릭, 동작 줄이기, 이동 중 초기화, 320·390·430·768·1440px 가로 넘침을 확인했습니다. 네트워크를 끈 상태에서도 파일 로드와 주사위 시연이 동작했습니다. 이미지 6개 base64 디코딩도 확인했습니다. 브라우저 화면 캡처는 응답 시간이 초과되어 픽셀 이미지에 의한 최종 외관 검증은 완료하지 못했습니다. 실제 iPhone 확인은 제품 구현 후 검증 항목입니다.</p><p><strong>자료와 범위</strong> · 사용자 제공 캡처 1장, 프로젝트의 올리·원이·단지·달리·코리 캐릭터 원본 5개를 사용했습니다. 모두 base64로 내장되어 이 <strong>index.html 파일 하나</strong>만 있으면 이미지와 시연이 표시됩니다. 외부 폰트·CDN·라이브러리·네트워크 호출은 없습니다. JavaScript 실행을 차단하는 첨부 미리보기에서는 파일을 내려받아 Safari/Chrome 등 브라우저로 열어주세요.</p><p>확인 기준: 프로젝트 v1.11.0 / main 54fbaad, 작업 브랜치 503bc3e(제목 포커스 표시 수정 포함). 본 문서는 디자인 제안이며 게임 코드 변경·운영 배포를 포함하지 않습니다. 문서의 예상 작업량은 선택 확정 후 조정합니다.</p><button type="button" id="print">인쇄 / PDF로 저장</button><span class="print-tip"> 브라우저에서 배경 그래픽을 켜면 시안의 색을 함께 저장할 수 있습니다.</span></footer>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script type="application/json" id="concept-data">@@DATA@@</script>
+<script type="application/json" id="review-selection">@@SELECTION@@</script>
+<script>@@JS@@</script>
+</body></html>

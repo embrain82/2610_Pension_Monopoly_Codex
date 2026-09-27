@@ -1,0 +1,315 @@
+[p1 "연금로드: 12턴의 은퇴설계" | space "연금로드 초보자 난이도 플레이 리뷰"(8): 1 managed, 0 untracked — p1* "연금로드: 12턴의 은퇴설계"]
+root
+  anchor [ref=21, loc=href:/#main, url=http://127.0.0.1:5237/#main]
+    text "본문으로 건너뛰기"
+  container
+    container
+      container
+        text "턴"
+        text "1/12"
+        button "효과음 켜기" [ref=73, loc=css:button[aria-label="효과음 켜기"]]
+          text "♪"
+          text "끔"
+        button [ref=74]
+          text "안정추구형 · 설정"
+      container
+        paragraph
+          text "TURN 2 / 12"
+        heading
+          text "한 칸씩, 내 은퇴를 향해"
+      group "안정 성장 생활 은퇴 연말정산 01 ? 미지의 칸 02 ? 미지의 칸 03 ? 미지의 칸 04 ? 미지의 칸 05 ? 미지의 칸 06 장기채 07 ? 미지의 칸 08 ? 미지의 칸 09 ? 미지�..."
+        text "안정"
+        text "성장"
+        text "생활"
+        text "은퇴"
+        text "연말정산"
+        text "01"
+        text "?"
+        text "미지의 칸"
+        text "02"
+        text "?"
+        text "미지의 칸"
+        text "03"
+        text "?"
+        text "미지의 칸"
+        text "04"
+        text "?"
+        text "미지의 칸"
+        text "05"
+        text "?"
+        text "미지의 칸"
+        text "06"
+        text "장기채"
+        text "07"
+        text "?"
+        text "미지의 칸"
+        text "08"
+        text "?"
+        text "미지의 칸"
+        text "09"
+        text "?"
+        text "미지의 칸"
+        text "10"
+        text "?"
+        text "미지의 칸"
+        text "11"
+        text "?"
+        text "미지의 칸"
+        text "12"
+        text "?"
+        text "미지의 칸"
+        text "13"
+        text "?"
+        text "미지의 칸"
+        text "14"
+        text "?"
+        text "미지의 칸"
+        text "15"
+        text "?"
+        text "미지의 칸"
+        text "16"
+        text "?"
+        text "미지의 칸"
+        text "17"
+        text "?"
+        text "미지의 칸"
+        text "18"
+        text "?"
+        text "미지의 칸"
+        text "19"
+        text "?"
+        text "미지의 칸"
+        text "20"
+        text "?"
+        text "미지의 칸"
+        text "21"
+        text "?"
+        text "미지의 칸"
+        text "22"
+        text "?"
+        text "미지의 칸"
+        text "23"
+        text "?"
+        text "미지의 칸"
+        text "24"
+        text "TURN 02 / 12"
+        text "대기"
+        text "주사위를 굴려"
+        text "시장을 확인하세요"
+      svg_root
+      text "직전 주사위"
+      text "6칸 이동"
+      text "현재 7번 칸 ·"
+      text "장기채 거리"
+      button [ref=77]
+        text "칸 살펴보기"
+      paragraph
+        text "발견 2/24"
+        text "출발칸 공개 · 최종 도착칸만 열려요"
+      paragraph
+        text "평온"
+        text "차분하게 다음 선택을 준비해요"
+      paragraph
+        text "다음 순서 · 주사위 굴리기"
+      container "이번 판 목표와 자금"
+        text "연금 목표"
+        text "목표용 월 환산액 · 세전 457,045원 / 500,000원"
+        text "생활자금 · IRP 밖"
+        text "1,240만원"
+        text "주문 가능 · IRP 안"
+        text "100만원"
+      text "1"
+      text "2"
+      text "3"
+      text "4"
+      text "5"
+      text "6"
+      text "7"
+      text "8"
+      text "9"
+      text "10"
+      text "11"
+      text "12"
+      text "♥"
+      text "사건 3회 남음"
+      container "시장과 자산 상세"
+        container
+          text "금리의 두 얼굴 · 연금 목표"
+          paragraph
+            text "목표용 월 환산액 · 세전 457,045원 / 500,000원 · 1장 / 4장"
+          text "누적 물가 0.4% · TDF 2029 주식 비중 43.3%"
+        container "지역 탐험"
+          text "탐험 도장 0/4"
+          button [ref=79]
+            text "○"
+            text "안정"
+            text "도장 0/2 · 방문 0/6"
+          button [ref=80]
+            text "○"
+            text "성장"
+            text "도장 1/2 · 방문 1/6"
+          button [ref=81]
+            text "○"
+            text "생활"
+            text "도장 0/2 · 방문 0/6"
+          button [ref=82]
+            text "○"
+            text "은퇴"
+            text "도장 0/2 · 방문 0/6"
+          button [ref=83]
+            text "지도·지역 미션 확인"
+        container
+          text "TURN 01 · 정산 완료"
+          heading
+            text "가상 금리 하락 · 주가 하락"
+          paragraph
+            text "금리 2.25% (-0.25%p) · 주가 -1.9%"
+          paragraph
+            text "다른 조건이 같다면 금리 하락은 기존 채권 가격에 상승 요인입니다. 만기가 긴 채권은 더 민감할 수 있지만 실제 수익은 다른 요인도 함께 반영합니다..."
+          paragraph
+            text "주사위를 굴려 다음 턴(2턴) 시장을 확인하세요. 시장 국면은 이번 판 시드마다 달라집니다."
+          text "금리"
+          text "이전 2.50%"
+          text "→"
+          text "현재 2.25%"
+          text "▼0.25%p"
+          text "물가"
+          text "1.7%"
+          text "주가"
+          text "98.1"
+          text "-1.9%"
+          paragraph
+            text "교육용 가상 금리 · 실제 금리 전망이 아닙니다"
+          text "내 보유분에 실제 반영 · 주요 2개"
+          container
+            text "실제 보유 손익 · 이번 턴 주요 영향"
+            paragraph
+              text "← 감소"
+              text "0원 기준"
+              text "증가 →"
+              text "좌우 끝 각각 500,000원 · 같은 금액 축"
+            unordered_list
+              list_item
+                text "●"
+                text "예금"
+                text "+356,400원"
+                svg_root
+              list_item
+                text "●"
+                text "단기채"
+                text "+177,673원"
+                svg_root
+          unordered_list
+            list_item
+              text "예금"
+              text "+356,400원"
+              text "(+0.55%)"
+              text "가입 건별 약정·만기 반영 · 시장 예시와 다름"
+            list_item
+              text "단기채"
+              text "+177,673원"
+              text "(+0.66%)"
+              text "실제 가격 변동·상품 보수 반영"
+          text "턴 시작 시장 구간 · 매매·납입 전. 가격 변동 중인 대기 주문 포함."
+          paragraph
+            text "상품별 시장 예시 · 보수 전 · 실제 보유분 수익과 다름"
+          unordered_list
+            list_item
+              text "예금"
+              text "+0.5%"
+              text "시장 예시"
+            list_item
+              text "단기채"
+              text "+0.7%"
+              text "시장 예시"
+            list_item
+              text "장기채"
+              text "+1.0%"
+              text "시장 예시"
+            list_item
+              text "혼합형"
+              text "-0.1%"
+              text "시장 예시"
+            list_item
+              text "주식 ETF"
+              text "-1.1%"
+              text "시장 예시"
+            list_item
+              text "TDF"
+              text "-0.1%"
+              text "시장 예시"
+        container
+          text "나의 은퇴설계"
+          image "단지 · 평온"
+          text "IRP 평가액"
+          text "1.10억원"
+          text "목표용 월 환산액 · 세전"
+          text "457,045원"
+          text "IRP 잔액 증가율"
+          text "+1.6%"
+          text "연금 목표 · 목표 50만"
+          text "진행률 91%"
+          text "남은 턴 11"
+          paragraph
+            text "목표까지 42,955원 · 현재 기준 별 0개 · 2/3 조건 통과 · 남은 과제: 목표용 월 환산액 457,045원 / 500,000원"
+          paragraph
+            text "성향 과제 · 생활자금 700만원 이상 / 낙폭 8.0% 이내"
+          paragraph
+            text "미지급 생활비 0원 · 다음 급여에서 우선 지급"
+          text "투자 성향"
+          text "안정추구형"
+          text "4~6등급 매수"
+          text "위험자산 비중"
+          text "0.0%"
+          text "생활자금 1,240만원"
+          paragraph
+            text "세액공제 132,000원 환급 대기 · 연말정산 칸을 지나면 생활자금으로"
+      container "게임 행동"
+        button [ref=84]
+          text "◫"
+          text "포트폴리오"
+        button [ref=111]
+          text "⚄"
+          text "주사위 굴리기"
+        button [ref=86]
+          text "☰"
+          text "타임라인"
+    dialog "퀴즈" [ref=89, loc=role:dialog[name="퀴즈"]]
+      button "닫기" [ref=90, loc=css:button[aria-label="닫기"]]
+        text "×"
+      container
+        paragraph
+          text "선택 학습 · 정산 후 한 문제"
+        paragraph
+          text "제도"
+          text "납입한도와 공제한도"
+        paragraph
+          text "정답이면 제도·운용 이해 +2점 · 오답 벌점 없음"
+      container
+        container "IRP에 돈을 더 낼 수 있는 한도가 남아 있습니다. 추가 납입액이 모두 세액공제 대상일까요?"
+          container
+            text "Q"
+            heading
+              text "IRP에 돈을 더 낼 수 있는 한도가 남아 있습니다. 추가 납입액이 모두 세액공제 대상일까요?"
+          container "답안 선택"
+            button [ref=115]
+              text "A"
+              text "납입 가능 한도 안이면 소득 조건과 관계없이 모두 공제된다"
+            button [ref=116]
+              text "B"
+              text "IRP에서 발생한 투자 수익률에 따라 공제 한도가 정해진다"
+            button [ref=117]
+              text "C"
+              text "공제 한도와 다른 연금계좌 납입액, 개인 조건을 따로 확인한다"
+        container "선택을 확인해요"
+          heading
+            text "선택을 확인해요"
+          status [ref=118]
+            paragraph
+              text "답을 고르면 정답과 해설이 여기에 나타나요."
+            text "부담 없이 생각해 보세요. 오답은 벌점이 없습니다."
+          button [ref=119]
+            text "이번엔 건너뛰기"
+      paragraph
+        text "퀴즈 · 납입한도와 공제한도 카드에서 한 문제. 오답은 벌점이 없습니다."
+  text "퀴즈 · 납입한도와 공제한도 카드에서 한 문제. 오답은 벌점이 없습니다."

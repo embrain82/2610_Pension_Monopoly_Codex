@@ -1,0 +1,430 @@
+[p1 "연금로드: 12턴의 은퇴설계" | space "연금로드 초보자 난이도 플레이 리뷰"(8): 1 managed, 0 untracked — p1* "연금로드: 12턴의 은퇴설계"]
+root
+  anchor [ref=21, loc=href:/#main, url=http://127.0.0.1:5237/#main]
+    text "본문으로 건너뛰기"
+  container
+    container
+      container
+        text "턴"
+        text "11/12"
+        button "효과음 켜기" [ref=73, loc=css:button[aria-label="효과음 켜기"]]
+          text "♪"
+          text "끔"
+        button [ref=74]
+          text "안정추구형 · 설정"
+      container
+        paragraph
+          text "TURN 11 / 12"
+        heading
+          text "한 칸씩, 내 은퇴를 향해"
+      group "안정 성장 생활 은퇴 연말정산 01 ? 미지의 칸 02 시장 뉴스 03 ? 미지의 칸 04 ? 미지의 칸 05 운용지시 06 장기채 07 제도 안내 08 ? 미지의 칸 09 ? 미지의 칸 1..."
+        text "안정"
+        text "성장"
+        text "생활"
+        text "은퇴"
+        text "연말정산"
+        text "01"
+        text "?"
+        text "미지의 칸"
+        text "02"
+        text "시장 뉴스"
+        text "03"
+        text "?"
+        text "미지의 칸"
+        text "04"
+        text "?"
+        text "미지의 칸"
+        text "05"
+        text "운용지시"
+        text "06"
+        text "장기채"
+        text "07"
+        text "제도 안내"
+        text "08"
+        text "?"
+        text "미지의 칸"
+        text "09"
+        text "?"
+        text "미지의 칸"
+        text "10"
+        text "?"
+        text "미지의 칸"
+        text "11"
+        text "?"
+        text "미지의 칸"
+        text "12"
+        text "?"
+        text "미지의 칸"
+        text "13"
+        text "?"
+        text "미지의 칸"
+        text "14"
+        text "시장 뉴스"
+        text "15"
+        text "생활 사건"
+        text "16"
+        text "?"
+        text "미지의 칸"
+        text "17"
+        text "?"
+        text "미지의 칸"
+        text "18"
+        text "?"
+        text "미지의 칸"
+        text "19"
+        text "금리전망"
+        text "20"
+        text "?"
+        text "미지의 칸"
+        text "21"
+        text "시장 뉴스"
+        text "22"
+        text "?"
+        text "미지의 칸"
+        text "23"
+        text "리밸런싱"
+        text "24"
+        text "현재 시장 국면"
+        text "물가상승·긴축"
+        text "금리 3.75%"
+        text "금리 3.75% (+0.50%p) · 주가 +0.9%"
+        text "TURN 11 / 12 · 제도 안내"
+      svg_root
+      text "직전 주사위"
+      text "5칸 이동"
+      text "현재 8번 칸 ·"
+      text "제도 안내"
+      button [ref=77]
+        text "칸 살펴보기"
+      paragraph
+        text "발견 10/24"
+        text "출발칸 공개 · 최종 도착칸만 열려요"
+      paragraph
+        text "기쁨"
+        text "제도·운용 이해 +1점을 얻었어요"
+      paragraph
+        text "시장 반영 완료 · 운용 행동 1회 남음"
+      container "이번 판 목표와 자금"
+        text "연금 목표"
+        text "목표용 월 환산액 · 세전 468,970원 / 500,000원"
+        text "생활자금 · IRP 밖"
+        text "1,964만원"
+        text "주문 가능 · IRP 안"
+        text "214만원"
+      text "1"
+      text "2"
+      text "3"
+      text "4"
+      text "5"
+      text "6"
+      text "7"
+      text "8"
+      text "9"
+      text "10"
+      text "11"
+      text "12"
+      text "♥"
+      text "예정 사건 없음"
+      container "시장과 자산 상세"
+        container
+          text "금리의 두 얼굴 · 연금 목표"
+          paragraph
+            text "목표용 월 환산액 · 세전 468,970원 / 500,000원 · 4장 / 4장"
+          text "누적 물가 3.5% · TDF 2029 주식 비중 26.7%"
+        container "지역 탐험"
+          text "탐험 도장 4/4"
+          button [ref=79]
+            text "★"
+            text "안정"
+            text "도장 2/2 완료 · 방문 2/6"
+          button [ref=80]
+            text "★"
+            text "성장"
+            text "도장 2/2 완료 · 방문 2/6"
+          button [ref=81]
+            text "★"
+            text "생활"
+            text "도장 2/2 완료 · 방문 2/6"
+          button [ref=82]
+            text "★"
+            text "은퇴"
+            text "도장 2/2 완료 · 방문 3/6"
+          button [ref=83]
+            text "지도·지역 미션 확인"
+        paragraph
+          text "적격 TDF 예외"
+          text "감독기준을 충족한 TDF에는 투자한도 예외가 적용될 수 있어요."
+          button [ref=329]
+            text "닫기"
+        container
+          text "TURN 11 · 시장 브리핑"
+          heading
+            text "가상 금리 상승 · 주가 상승"
+          paragraph
+            text "금리 3.75% (+0.50%p) · 주가 +0.9%"
+          paragraph
+            text "다른 조건이 같다면 금리 상승은 기존 채권 가격에 하락 요인입니다. 만기가 긴 채권은 더 민감할 수 있지만 실제 수익은 다른 요인도 함께 반영합니다..."
+          text "금리"
+          text "이전 3.25%"
+          text "→"
+          text "현재 3.75%"
+          text "▲0.50%p"
+          text "물가"
+          text "1.8%"
+          text "주가"
+          text "86.9"
+          text "+0.9%"
+          paragraph
+            text "교육용 가상 금리 · 실제 금리 전망이 아닙니다"
+          text "내 보유분에 실제 반영 · 주요 2개"
+          container
+            text "실제 보유 손익 · 이번 턴 주요 영향"
+            paragraph
+              text "← 감소"
+              text "0원 기준"
+              text "증가 →"
+              text "좌우 끝 각각 500,000원 · 같은 금액 축"
+            unordered_list
+              list_item
+                text "●"
+                text "예금"
+                text "+257,610원"
+                svg_root
+              list_item
+                text "●"
+                text "장기채"
+                text "-151,299원"
+                svg_root
+          unordered_list
+            list_item
+              text "예금"
+              text "+257,610원"
+              text "(+0.54%)"
+              text "가입 건별 약정·만기 반영 · 시장 예시와 다름"
+            list_item
+              text "장기채"
+              text "-151,299원"
+              text "(-0.94%)"
+              text "실제 가격 변동·상품 보수 반영"
+          text "턴 시작 시장 구간 · 매매·납입 전. 가격 변동 중인 대기 주문 포함."
+          paragraph
+            text "상품별 시장 예시 · 보수 전 · 실제 보유분 수익과 다름"
+          unordered_list
+            list_item
+              text "예금"
+              text "+0.7%"
+              text "시장 예시"
+            list_item
+              text "단기채"
+              text "+0.1%"
+              text "시장 예시"
+            list_item
+              text "장기채"
+              text "-0.9%"
+              text "시장 예시"
+            list_item
+              text "혼합형"
+              text "+0.7%"
+              text "시장 예시"
+            list_item
+              text "주식 ETF"
+              text "+1.8%"
+              text "시장 예시"
+            list_item
+              text "TDF"
+              text "+0.4%"
+              text "시장 예시"
+          paragraph
+            text "내 보유분은 턴 시작 수량과 약정으로 계산한 실제 영향입니다. 지금 주문한 금액으로 이전 수익을 다시 계산하지 않습니다. 펀드·TDF는 원금 손실이 �..."
+        container
+          text "나의 은퇴설계"
+          image "단지 · 기쁨"
+          text "IRP 평가액"
+          text "1.13억원"
+          text "목표용 월 환산액 · 세전"
+          text "468,970원"
+          text "IRP 잔액 증가율"
+          text "+4.2%"
+          text "연금 목표 · 목표 50만"
+          text "진행률 94%"
+          text "남은 턴 1"
+          paragraph
+            text "목표까지 31,030원 · 현재 기준 별 0개 · 2/3 조건 통과 · 남은 과제: 목표용 월 환산액 468,970원 / 500,000원"
+          paragraph
+            text "성향 과제 · 생활자금 700만원 이상 / 낙폭 8.0% 이내"
+          paragraph
+            text "미지급 생활비 0원 · 다음 급여에서 우선 지급"
+          text "투자 성향"
+          text "안정추구형"
+          text "4~6등급 매수"
+          text "위험자산 비중"
+          text "0.0%"
+          text "생활자금 1,964만원"
+      container "게임 행동"
+        button [ref=84]
+          text "◫"
+          text "포트폴리오"
+        button [ref=330]
+          text "↗"
+          text "이번 턴 운용하기"
+        button [ref=86]
+          text "☰"
+          text "타임라인"
+    dialog "운용 행동 선택" [ref=331, loc=role:dialog[name="운용 행동 선택"]]
+      button "닫기" [ref=332, loc=css:button[aria-label="닫기"]]
+        text "×"
+      container "만기자금 안내"
+        heading
+          text "예금 만기 이후"
+        paragraph
+          text "혼합 디폴트옵션 안의 예금 1건은 새 약정으로 재예치했습니다. 상세에서 새 금리·만기를 확인하세요."
+        paragraph
+          text "실제 제도: 만기 후 4주 무지시 → 통지 → 2주 무지시 시 적용. 게임은 단계별 다음 턴으로 압축하며 실제 주 수와 같지 않습니다."
+        button [ref=333]
+          text "만기자금 확인"
+      paragraph
+        text "★"
+        text "성장 지역 도장 획득 · 두 곳 방문 완료"
+      container
+        paragraph
+          text "TURN 11 · 남은 행동 1회"
+        heading
+          text "무엇을 할까요?"
+        paragraph
+          text "조회와 X 취소는 행동 횟수를 쓰지 않아요."
+      container
+        container
+          text "주문 가능 · IRP 대기자금"
+          text "2,142,691원"
+          text "턴 시작 주문 가능 대기자금에 턴당 0.1% 이자 · 게임 가정"
+        container
+          text "생활자금 · IRP 밖"
+          text "19,636,415원"
+      container
+        paragraph
+          text "가상 금리 상승 · 주가 상승 · 도착 제도 안내"
+        container
+          container [ref=334]
+            container
+              text "시장·보유자산 영향 자세히"
+              text "금리 변화와 내 상품의 영향을 확인하세요"
+            container
+              text "상세 보기"
+              text "⌄"
+          container
+            container
+              heading
+                text "01"
+                text "이번 턴 시장 변화"
+              text "가상 시장금리"
+              text "3.25%"
+              text "→"
+              text "3.75%"
+              text "인상 · ▲0.50%p"
+              text "이번 턴 주가"
+              text "+0.9%"
+              text "시장 지수 변화"
+            container
+              heading
+                text "02"
+                text "왜 영향을 받나요?"
+              paragraph
+                text "다른 조건이 같다면 금리 상승은 기존 채권 가격에 하락 요인입니다. 만기가 긴 채권은 더 민감할 수 있지만 실제 수익은 다른 요인도 함께 반영합니다..."
+            container
+              heading
+                text "03"
+                text "내 보유분에 반영"
+              paragraph
+                text "내 IRP에 반영 · 시장 손익·대기 이자"
+                text "+196,809원"
+                text "(+0.2%)"
+                text "이미 잔고에 들어갔어요 · 지금 행동은 다음 턴에 걸립니다"
+              text "내 보유분에 실제 반영 · 주요 2개"
+              unordered_list
+                list_item
+                  text "예금"
+                  text "+257,610원"
+                  text "(+0.54%)"
+                list_item
+                  text "장기채"
+                  text "-151,299원"
+                  text "(-0.94%)"
+              text "시장 구간 · 보수·예금 약정·가격 변동 중 주문 반영"
+              container
+                text "대기자금 이자"
+                text "+2,141원"
+                text "턴 시작 2,140,551원 × 턴당 0.1% · 게임 가정"
+                text "상품 가격 손익과 구분하며 운용손익 합계에 포함합니다."
+              paragraph
+                text "시장 구간만 비교합니다. 추가납입·매매 결과는 포함하지 않습니다."
+            text "전체 상품 시장 예시"
+            container
+              paragraph
+                text "상품별 시장 예시 · 보수 전 · 실제 보유분 수익과 다름"
+              unordered_list
+                list_item
+                  text "예금"
+                  text "+0.7%"
+                  text "시장 예시"
+                list_item
+                  text "단기채"
+                  text "+0.1%"
+                  text "시장 예시"
+                list_item
+                  text "장기채"
+                  text "-0.9%"
+                  text "시장 예시"
+                list_item
+                  text "혼합형"
+                  text "+0.7%"
+                  text "시장 예시"
+                list_item
+                  text "주식 ETF"
+                  text "+1.8%"
+                  text "시장 예시"
+                list_item
+                  text "TDF"
+                  text "+0.4%"
+                  text "시장 예시"
+      button [ref=335]
+        svg_root
+        text "추가납입"
+        text "생활자금 → IRP 대기자금 · 이번 턴 추가 가능 2,000,000원"
+        text "선택 ›"
+      button [ref=336]
+        svg_root
+        text "매수"
+        text "대기자금으로 상품 매수 · 가격확정 이후 수익 반영"
+        text "선택 ›"
+      button [ref=337]
+        svg_root
+        text "매도"
+        text "일반 보유 상품을 IRP 안에서 현금화"
+        text "선택 ›"
+      button [ref=338]
+        svg_root
+        text "바꾸기"
+        text "한 상품을 다른 상품으로"
+        text "선택 ›"
+      button [ref=339]
+        svg_root
+        text "리밸런싱"
+        text "성향 안 목표비중에 가깝게 복원"
+        text "선택 ›"
+      button [ref=340]
+        svg_root
+        text "디폴트옵션 옵트인/아웃"
+        text "상품을 직접 매수하거나 디폴트옵션 보유분을 환매"
+        text "선택 ›"
+      container
+        text "이번엔 그대로"
+        text "새 주문 없이 현재 구성을 유지하고 턴 마감"
+        button [ref=341]
+          text "그대로 두고 마감"
+      paragraph
+        text "5칸 이동 · 11턴 시장이 반영되었습니다. 이제 운용을 정하세요. · 성장 지역 도장 획득 · 두 곳 방문 완료"
+      container
+        button [ref=342]
+          text "포트폴리오 확인"
+        text "확인만으로 행동 횟수가 줄지 않아요."
+  text "5칸 이동 · 11턴 시장이 반영되었습니다. 이제 운용을 정하세요. · 성장 지역 도장 획득 · 두 곳 방문 완료"

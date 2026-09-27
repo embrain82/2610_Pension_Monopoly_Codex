@@ -1,0 +1,100 @@
+{
+  "initial": {
+    "A": "A1",
+    "B": "B5",
+    "character": "woni",
+    "approval": false,
+    "imagesLoaded": true,
+    "selectValues": [
+      "woni",
+      "woni"
+    ],
+    "overflow": false
+  },
+  "first": {
+    "color": "rgb(255, 249, 229)",
+    "firstPaint": {
+      "index": 5,
+      "background": "rgb(255, 249, 229)",
+      "label": "운용지시"
+    },
+    "passedStayMasked": true
+  },
+  "second": {
+    "previousColor": "rgb(255, 249, 229)",
+    "currentColor": "rgb(236, 244, 250)",
+    "paintHistory": [
+      {
+        "index": 5,
+        "background": "rgb(255, 249, 229)",
+        "label": "운용지시"
+      },
+      {
+        "index": 12,
+        "background": "rgb(236, 244, 250)",
+        "label": "은퇴전망"
+      }
+    ]
+  },
+  "typeChecks": [
+    {
+      "kind": "start",
+      "normal": "rgb(246, 251, 244)",
+      "active": "rgb(246, 251, 244)",
+      "same": true
+    },
+    {
+      "kind": "product",
+      "normal": "rgb(246, 251, 244)",
+      "active": "rgb(246, 251, 244)",
+      "same": true
+    },
+    {
+      "kind": "market",
+      "normal": "rgb(237, 245, 252)",
+      "active": "rgb(237, 245, 252)",
+      "same": true
+    },
+    {
+      "kind": "life",
+      "normal": "rgb(255, 243, 231)",
+      "active": "rgb(255, 243, 231)",
+      "same": true
+    },
+    {
+      "kind": "trade",
+      "normal": "rgb(255, 249, 229)",
+      "active": "rgb(255, 249, 229)",
+      "same": true
+    },
+    {
+      "kind": "policy",
+      "normal": "rgb(244, 239, 251)",
+      "active": "rgb(244, 239, 251)",
+      "same": true
+    },
+    {
+      "kind": "rebalance",
+      "normal": "rgb(255, 249, 229)",
+      "active": "rgb(255, 249, 229)",
+      "same": true
+    },
+    {
+      "kind": "outlook",
+      "normal": "rgb(236, 244, 250)",
+      "active": "rgb(236, 244, 250)",
+      "same": true
+    },
+    {
+      "kind": "profile",
+      "normal": "rgb(244, 239, 251)",
+      "active": "rgb(244, 239, 251)",
+      "same": true
+    }
+  ],
+  "reduced": {
+    "turn": 1,
+    "color": "rgb(255, 249, 229)"
+  },
+  "pass": true
+}

@@ -1,0 +1,15 @@
+{
+  "date": "2026-09-15",
+  "browser": "Ego Browser",
+  "checks": {
+    "desktopPreview1280": true,
+    "viewerMobileNoOverflow": true,
+    "resumeModeTwoActions": true,
+    "resumeDemoDialog": true,
+    "newGamePreparationDialog": true,
+    "favoritesCompare": true,
+    "notesPersistOnReload": true,
+    "exportDownloaded": true,
+    "testSelectionsCleared": true
+  }
+}

@@ -1,0 +1,130 @@
+[
+  {
+    "name": "주사위 8칸 이동과 게임판 포커스",
+    "pass": true
+  },
+  {
+    "name": "도착 후 시장 화면 이동",
+    "pass": true
+  },
+  {
+    "name": "추천과 선택 분리 및 선택 요약 갱신",
+    "pass": true
+  },
+  {
+    "name": "지정 안 함 선택",
+    "pass": true
+  },
+  {
+    "name": "5문항 재진단 모달 진행",
+    "pass": true
+  },
+  {
+    "name": "최소금액 미달 확정 비활성",
+    "pass": true
+  },
+  {
+    "name": "추가납입 잔여 한도 안내",
+    "pass": true
+  },
+  {
+    "name": "가능 금액 입력 후 확정 활성",
+    "pass": true
+  },
+  {
+    "name": "리밸런싱 금액 입력 제거",
+    "pass": true
+  },
+  {
+    "name": "교체매매 결제 순서 설명",
+    "pass": true
+  },
+  {
+    "name": "매도대금 IRP 귀속 안내",
+    "pass": true
+  },
+  {
+    "name": "주문 확정 전 확인",
+    "pass": true
+  },
+  {
+    "name": "정산 후 퀴즈 건너뛰기 안내",
+    "pass": true
+  },
+  {
+    "name": "정답 해설 및 중복 답안 차단",
+    "pass": true
+  },
+  {
+    "name": "퀴즈 안내 취소 후 복귀",
+    "pass": true
+  },
+  {
+    "name": "오답 벌점 없음",
+    "pass": true
+  },
+  {
+    "name": "수령 방식 변경",
+    "pass": true
+  },
+  {
+    "name": "완주 결과 표시",
+    "pass": true
+  },
+  {
+    "name": "연금 방식 재비교",
+    "pass": true
+  },
+  {
+    "name": "갤러리 단계별 후보 새로고침 후 유지",
+    "pass": true
+  },
+  {
+    "name": "선택 메모 저장",
+    "pass": true
+  },
+  {
+    "name": "PC 프레임 1280px 전환",
+    "pass": true
+  },
+  {
+    "name": "좌우 비교안 변경",
+    "pass": true
+  },
+  {
+    "name": "자금 소진 시 매수와 디폴트 메뉴 비활성 및 사유",
+    "pass": true
+  },
+  {
+    "name": "리밸런싱 미결제 시 반복 지시 제한",
+    "pass": true
+  },
+  {
+    "name": "위험비중 초과 안내",
+    "pass": true
+  },
+  {
+    "name": "운용 메뉴에서 해당 주문 탭으로 연결",
+    "pass": true
+  },
+  {
+    "name": "보유 없을 때 옵트아웃 제한과 사유",
+    "pass": true
+  },
+  {
+    "name": "옵트아웃 전액 환매 미리보기",
+    "pass": true
+  },
+  {
+    "name": "원리금보장형 즉시 처리 일정",
+    "pass": true
+  },
+  {
+    "name": "디폴트 거래 가능 조건 없는 두 탭 비활성",
+    "pass": true
+  },
+  {
+    "name": "점수 상한 시 점수 증가 없는 해설",
+    "pass": true
+  }
+]

@@ -1,0 +1,99 @@
+{
+  "recordedAt": "2026-09-15",
+  "source": "사용자가 첨부한 단계별 선택 화면과 주사위 유지 요청",
+  "main": "A-1",
+  "status": "사용자 선택 기록 · 주사위 연출 유지 조건 포함 · 구현 착수와 배포를 의미하지 않음",
+  "screens": [
+    {
+      "id": "01",
+      "name": "성향 진단·확인",
+      "variant": 5,
+      "title": "질문과 결과 나란히",
+      "file": "step-01-5.html"
+    },
+    {
+      "id": "02",
+      "name": "디폴트옵션 선택",
+      "variant": 5,
+      "title": "목록·상세 분할",
+      "file": "step-02-5.html"
+    },
+    {
+      "id": "03",
+      "name": "게임판·주사위",
+      "variant": 1,
+      "title": "게임판 우선",
+      "file": "step-03-1.html"
+    },
+    {
+      "id": "04",
+      "name": "시장 변화·도착 안내",
+      "variant": 3,
+      "title": "원인에서 결과로",
+      "file": "step-04-3.html"
+    },
+    {
+      "id": "05",
+      "name": "생활 사건",
+      "variant": 1,
+      "title": "한 사건 한 화면",
+      "file": "step-05-1.html"
+    },
+    {
+      "id": "06",
+      "name": "운용지시 메뉴",
+      "variant": 2,
+      "title": "아이콘 카드 메뉴",
+      "file": "step-06-2.html"
+    },
+    {
+      "id": "07",
+      "name": "일반 운용 주문",
+      "variant": 5,
+      "title": "입력·확인 분할",
+      "file": "step-07-5.html"
+    },
+    {
+      "id": "08",
+      "name": "디폴트옵션 거래",
+      "variant": 5,
+      "title": "탭·미리보기 분할",
+      "file": "step-08-5.html"
+    },
+    {
+      "id": "09",
+      "name": "포트폴리오",
+      "variant": 5,
+      "title": "분류·상세 분할",
+      "file": "step-09-5.html"
+    },
+    {
+      "id": "10",
+      "name": "퀴즈·해설",
+      "variant": 5,
+      "title": "선택·설명 분할",
+      "file": "step-10-5.html"
+    },
+    {
+      "id": "11",
+      "name": "턴 정산",
+      "variant": 5,
+      "title": "시장·행동 분할",
+      "file": "step-11-5.html"
+    },
+    {
+      "id": "12",
+      "name": "수령 방식·최종 결과",
+      "variant": 4,
+      "title": "함께한 여정",
+      "file": "step-12-4.html"
+    }
+  ],
+  "requiredMotion": [
+    "주사위 2개의 입체 형태와 점 눈",
+    "던짐·회전·튕김·착지",
+    "주사위 눈의 합만큼 한 칸씩 이동",
+    "보드로 자동 스크롤·포커스 및 사용자 스크롤 중단 존중",
+    "효과음·1배/2배·동작 줄이기 설정 존중"
+  ]
+}

@@ -1,0 +1,96 @@
+(() => {
+  const concepts = JSON.parse(document.querySelector('#design-data').textContent);
+  const key = 'pension-road-design-concepts-2026-09-15';
+  const byId = id => concepts.find(c => c.id === id) || concepts[0];
+  let selected = byId(location.hash.replace('#concept-','')).id;
+  let device = 'mobile';
+  let state = 'new';
+  let favoriteIds = [];
+  let storageOk = true;
+  const notes = document.querySelector('#notes');
+  try {
+    const stored = JSON.parse(localStorage.getItem(key) || '{}');
+    favoriteIds = Array.isArray(stored.favorites) ? stored.favorites.filter(id => concepts.some(c=>c.id===id)) : [];
+    notes.value = typeof stored.notes === 'string' ? stored.notes : '';
+  } catch { storageOk = false; }
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function toast(message) {
+    document.querySelector('.toast')?.remove();
+    const el = document.createElement('div');
+    el.className = 'toast'; el.setAttribute('role','status'); el.textContent = message;
+    document.body.append(el); setTimeout(()=>el.remove(),3500);
+  }
+  function save() {
+    try { localStorage.setItem(key, JSON.stringify({favorites:favoriteIds, notes:notes.value})); storageOk=true; }
+    catch {storageOk=false;}
+    document.querySelector('#saved-status').textContent = storageOk ? '후보·메모를 이 브라우저에 저장했습니다.' : '브라우저 저장을 사용할 수 없습니다. 선택 메모를 내려받아 보관하세요.';
+  }
+  function drawFavorites() {
+    document.querySelectorAll('[data-fav]').forEach(b=>{const yes=favoriteIds.includes(b.dataset.fav);b.setAttribute('aria-pressed',String(yes));b.textContent=yes?'♥':'♡';b.setAttribute('aria-label',byId(b.dataset.fav).name+(yes?' 후보에서 빼기':' 후보로 저장'));});
+    document.querySelector('#favorites-text').textContent = favoriteIds.length ? favoriteIds.map(id=>id+'. '+byId(id).name).join(' / ') : '아직 담은 후보가 없습니다. 카드의 ♡를 눌러보세요.';
+  }
+  function setFrame(frame, c) {
+    frame.onload = () => frame.contentWindow.postMessage({type:'design-state',state},'*');
+    frame.srcdoc = c.html;
+  }
+  function fit() {
+    document.querySelectorAll('.thumb').forEach(f=>{f.style.transform=`scale(${f.parentElement.clientWidth/390})`;});
+    const frame=document.querySelector('#main-frame');
+    const canvas=document.querySelector('.preview-canvas');
+    const available=canvas.clientWidth-(parseFloat(getComputedStyle(canvas).paddingLeft)+parseFloat(getComputedStyle(canvas).paddingRight));
+    const width=device==='mobile'?390:1280;
+    const height=device==='mobile'?844:850;
+    const scale=Math.min(1,available/width);
+    const box=frame.parentElement;box.style.width=width*scale+'px';box.style.height=height*scale+'px';
+    frame.style.width=width+'px';frame.style.height=height+'px';frame.style.transform=`scale(${scale})`;
+    box.style.borderRadius=device==='mobile'?'12px':'6px';
+    document.querySelector('#device-size').textContent=`${width} × ${height} · ${scale<.97?'축소 미리보기 · 독립 화면에서 실제 크기로 확인':'실제 글자와 버튼을 확인하세요'}`;
+    document.querySelectorAll('.comparison-stage').forEach(box=>{
+      const area=box.parentElement;const s=Math.min(1,(area.clientWidth-parseFloat(getComputedStyle(area).paddingLeft)-parseFloat(getComputedStyle(area).paddingRight))/390);
+      box.style.width=390*s+'px';box.style.height=870*s+'px';box.firstElementChild.style.transform=`scale(${s})`;
+    });
+  }
+  function choose(id, scroll=true) {
+    selected=byId(id).id; const c=byId(selected);
+    document.querySelector('#selected-name').textContent=c.id+'. '+c.name;
+    const link=document.querySelector('#open-concept');link.href=`concept-${c.id}.html?state=${state}`;
+    document.querySelectorAll('.number-tabs button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.select===selected)));
+    document.querySelector('#rationale').innerHTML=`<span class="reason-tag">${c.recommend}</span><h3>${c.fit}</h3><p class="reason-lead">${c.why}</p><div class="criteria">${['게임 인상','친근함','정돈된 정보'].map((s,i)=>`<div><span>${s}</span><i aria-label="5점 중 ${c.rating[i]}점">${'●'.repeat(c.rating[i])}${'○'.repeat(5-c.rating[i])}</i></div>`).join('')}</div><dl class="design-spec"><dt>화면 구성</dt><dd>${c.layout}</dd><dt>글꼴과 표현</dt><dd>${c.type}</dd><dt>움직임</dt><dd>${c.motion}</dd><dt>선택 전 고려할 점</dt><dd>${c.trade}</dd></dl><div class="effort">메인 화면 구현 난이도<br><strong>${c.effort}</strong><br><span>디자인 자산과 연결 작업 기준의 상대 평가</span></div>`;
+    setFrame(document.querySelector('#main-frame'),c);
+    fit();
+    if(scroll){history.replaceState(null,'','#concept-'+selected);document.querySelector('#preview').scrollIntoView({behavior:reduce?'instant':'smooth',block:'start'});}
+  }
+  concepts.forEach((c,i)=>{const f=document.querySelector(`[data-thumb="${i}"]`);f.srcdoc=c.html.replace('</style>','html{scrollbar-width:none}::-webkit-scrollbar{display:none}</style>');});
+  document.addEventListener('click',e=>{
+    const select=e.target.closest('[data-select]');if(select)choose(select.dataset.select);
+    const fav=e.target.closest('[data-fav]');if(fav){const id=fav.dataset.fav;favoriteIds=favoriteIds.includes(id)?favoriteIds.filter(v=>v!==id):[...favoriteIds,id];drawFavorites();save();}
+    const d=e.target.closest('[data-device]');if(d){device=d.dataset.device;document.querySelectorAll('[data-device]').forEach(b=>b.setAttribute('aria-pressed',String(b===d)));fit();}
+  });
+  document.querySelector('#state-select').addEventListener('change',e=>{
+    state=e.target.value;
+    ['main-frame','compare-frame-a','compare-frame-b'].forEach(id=>document.getElementById(id).contentWindow.postMessage({type:'design-state',state},'*'));
+    document.querySelector('#open-concept').href=`concept-${selected}.html?state=${state}`;
+  });
+  ['a','b'].forEach(side=>{
+    const s=document.querySelector('#compare-'+side);
+    const f=document.querySelector('#compare-frame-'+side);
+    s.addEventListener('change',()=>setFrame(f,byId(s.value)));
+    setFrame(f,byId(s.value));
+  });
+  document.querySelector('#compare-favorites').addEventListener('click',()=>{
+    if(favoriteIds.length<2){toast('카드의 ♡로 두 가지 이상 후보를 담아 주세요.');return;}
+    ['a','b'].forEach((side,i)=>{document.querySelector('#compare-'+side).value=favoriteIds[i];setFrame(document.querySelector('#compare-frame-'+side),byId(favoriteIds[i]));});
+    toast('먼저 담은 두 가지 후보를 비교합니다.');
+  });
+  notes.addEventListener('input',save);
+  document.querySelector('#export').addEventListener('click',()=>{
+    const lines=['연금로드 메인 디자인 선택 메모','2026-09-15 디자인 제안','',...favoriteIds.map(id=>`${id}. ${byId(id).name}`),'','수정/조합 의견:',notes.value||'(작성 없음)','','다음 단계: 선택안 확정 → 시작/이어하기 상세 디자인 → 구현 및 모바일 검증.'];
+    const blob=new Blob(['\uFEFF'+lines.join('\n')],{type:'text/plain;charset=utf-8'});
+    const a=document.createElement('a');const url=URL.createObjectURL(blob);a.href=url;a.download='연금로드-디자인-선택메모.txt';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);toast('선택 메모를 내려받습니다.');
+  });
+  const resize=new ResizeObserver(fit);resize.observe(document.querySelector('main'));
+  choose(selected,location.hash.startsWith('#concept-'));drawFavorites();
+  window.addEventListener('hashchange',()=>{if(location.hash.startsWith('#concept-'))choose(location.hash.replace('#concept-',''),true);});
+  if(!storageOk)document.querySelector('#saved-status').textContent='브라우저 저장을 사용할 수 없습니다. 선택 메모를 내려받아 보관하세요.';
+  window.addEventListener('resize',fit);
+})();

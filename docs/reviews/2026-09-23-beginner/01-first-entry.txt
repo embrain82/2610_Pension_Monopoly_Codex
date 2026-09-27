@@ -1,0 +1,115 @@
+[p1 "연금로드: 12턴의 은퇴설계" | space "연금로드 초보자 난이도 플레이 리뷰"(8): 1 managed, 0 untracked — p1* "연금로드: 12턴의 은퇴설계"]
+root
+  anchor [ref=21, loc=href:/#main, url=http://127.0.0.1:5237/#main]
+    text "본문으로 건너뛰기"
+  container
+    container
+      container
+        svg_root
+        text "연금로드"
+      button [ref=22]
+        text "설정"
+    container
+      container
+        paragraph
+          text "12턴의 은퇴설계"
+        heading [ref=23]
+          text "주사위로 시작하는"
+          text "나의 은퇴설계"
+        paragraph
+          text "시장을 읽고, 나에게 맞는 선택을 해보세요."
+          text "퇴직연금을 쉽고 재미있게 배우는 연금로드."
+        unordered_list
+          list_item
+            text "✓"
+            text "12턴 플레이"
+          list_item
+            text "✓"
+            text "주사위 보드게임"
+          list_item
+            text "✓"
+            text "퇴직연금 학습"
+      container
+        container
+          container
+            svg_root
+            text "12턴의 은퇴설계"
+          image
+        paragraph
+          text "한 칸씩 움직이며, 한 걸음씩 알아가요."
+      container
+        container
+          checkbox [ref=24]
+          container
+            text "교육용 단순화에 동의합니다."
+            text "실제 투자 권유가 아니며 수익·원금을 보장하지 않습니다."
+        button [ref=25]
+          text "새 판 시작 준비"
+        paragraph
+          text "성향 확인 · 디폴트옵션 선택 후 게임을 시작해요."
+    container
+      container [ref=26]
+        text "캐릭터 · 이번 판 설정"
+        text "살펴보기 ＋"
+      container
+        group [ref=27]
+          text "내 캐릭터"
+          paragraph
+            text "함께 여행할 친구를 골라주세요. 투자성향과는 별개예요."
+          button "올리 캐릭터 선택" [ref=28, loc=css:button[aria-label="올리 캐릭터 선택"]]
+            image "올리 · 평온"
+            text "올리"
+            text "선택"
+          button "원이 캐릭터 선택" [ref=29, loc=css:button[aria-label="원이 캐릭터 선택"]]
+            image "원이 · 평온"
+            text "원이"
+            text "선택"
+          button "단지 캐릭터 선택" [ref=30, loc=css:button[aria-label="단지 캐릭터 선택"]]
+            image "단지 · 평온"
+            text "단지"
+            text "✓ 선택됨"
+          button "달리 캐릭터 선택" [ref=31, loc=css:button[aria-label="달리 캐릭터 선택"]]
+            image "달리 · 평온"
+            text "달리"
+            text "선택"
+          button "코리 캐릭터 선택" [ref=32, loc=css:button[aria-label="코리 캐릭터 선택"]]
+            image "코리 · 평온"
+            text "코리"
+            text "선택"
+        text "이번 판 설정 · 금리의 두 얼굴 / 연금 목표"
+        container
+          text "시장 시나리오"
+          combobox [ref=33]
+            text "금리의 두 얼굴 · 금리 전환과 주가 충격 속에서 균형 찾기"
+          text "이번 판 미션"
+          combobox [ref=34]
+            text "연금 목표 · 시작할 때 정한 월 연금 달성"
+          paragraph
+            text "미션·성향·월 연금 목표는 시작 후 고정됩니다. 주간 도전은 기본 시장·연금 미션·위험중립형·월 50만원으로 통일합니다."
+          paragraph
+            text "12턴 압축 체험: 물가와 TDF 생애주기는 1턴=가상 3개월, 납입 한도는 한 판 합산입니다. 수익률·비용은 턴당 게임 값이며 실제 연율이 아닙니다."
+        paragraph
+          text "개인 추가납입은 턴당 합계 200만원까지 가능합니다. 게임 진행용 한도입니다."
+    container
+      button [ref=35]
+        text "학습 카드"
+        text "0"
+      button [ref=36]
+        text "업적"
+        text "0/12"
+      anchor [ref=37, loc=href:/user-manual.html, url=http://127.0.0.1:5237/user-manual.html]
+        text "사용자 매뉴얼"
+      anchor [ref=38, loc=href:/operator-manual.html, url=http://127.0.0.1:5237/operator-manual.html]
+        text "운영자 매뉴얼"
+      paragraph
+        text "가상 상품·시장 상황으로 배우는 교육용 게임입니다."
+    paragraph
+      text "최고 연금목표 진행률"
+      text "0%"
+      text "· 최고 IRP 잔액 증가율"
+      text "0.0%"
+      text "· 0점 · 0판"
+    container [ref=39]
+      text "최고 기록의 비교 조건"
+    paragraph
+      text "잔액 증가율은 납입·이전·인출을 포함합니다. 기존 최고 기록의 개별 규칙 버전은 저장되지 않았습니다."

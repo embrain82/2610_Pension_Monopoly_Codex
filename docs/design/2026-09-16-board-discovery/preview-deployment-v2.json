@@ -1,0 +1,31 @@
+{
+  "deploymentId": "dpl_BPHAnxc3hatnLRa7tMJTviszFFa6",
+  "url": "https://2609-pension-monopoly-caoqi6vxx-nonsleepers-projects.vercel.app",
+  "target": "preview",
+  "status": "READY",
+  "deployedAt": "2026-09-16T04:55:21.340917+00:00",
+  "artifact": "board-design-review-v2.html",
+  "artifactSha256": "53379a7018d9f98123936778382243515877d04dc5251d886a109ec81d96b219",
+  "shareLinkExpiresAt": "2026-09-17T03:53:50Z",
+  "validation": {
+    "httpStatusWithSharedAccess": 200,
+    "remoteDifference": "Only the 163-character Vercel feedback toolbar script; the authored artifact is unchanged.",
+    "viewport": [
+      390,
+      844
+    ],
+    "boards": 7,
+    "aDesigns": 5,
+    "bDesigns": 5,
+    "characterImagesLoaded": 12,
+    "horizontalOverflow": false,
+    "diceAndArrival": {
+      "turn": 1,
+      "position": 5,
+      "revealed": [
+        0,
+        5
+      ]
+    }
+  }
+}

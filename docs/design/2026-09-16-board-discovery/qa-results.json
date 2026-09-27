@@ -1,0 +1,225 @@
+{
+  "artifact": "index.html",
+  "date": "2026-09-16",
+  "behavior": [
+    {
+      "test": "click unknown does not reveal",
+      "ok": true
+    },
+    {
+      "test": "all five reveal only final tile",
+      "ok": true,
+      "states": [
+        {
+          "id": "demo-B1",
+          "pos": 5,
+          "shown": [
+            0,
+            5
+          ],
+          "turn": 1,
+          "running": false
+        },
+        {
+          "id": "demo-B2",
+          "pos": 5,
+          "shown": [
+            0,
+            5
+          ],
+          "turn": 1,
+          "running": false
+        },
+        {
+          "id": "demo-B3",
+          "pos": 5,
+          "shown": [
+            0,
+            5
+          ],
+          "turn": 1,
+          "running": false
+        },
+        {
+          "id": "demo-B4",
+          "pos": 5,
+          "shown": [
+            0,
+            5
+          ],
+          "turn": 1,
+          "running": false
+        },
+        {
+          "id": "demo-B5",
+          "pos": 5,
+          "shown": [
+            0,
+            5
+          ],
+          "turn": 1,
+          "running": false
+        }
+      ]
+    },
+    {
+      "test": "25 combinations",
+      "ok": true,
+      "count": 25
+    },
+    {
+      "test": "five character switches",
+      "ok": true,
+      "characters": [
+        {
+          "character": "olli",
+          "ok": true
+        },
+        {
+          "character": "woni",
+          "ok": true
+        },
+        {
+          "character": "danji",
+          "ok": true
+        },
+        {
+          "character": "dalli",
+          "ok": true
+        },
+        {
+          "character": "kori",
+          "ok": true
+        }
+      ]
+    },
+    {
+      "test": "reduced motion",
+      "ok": true
+    },
+    {
+      "test": "reset cancels active roll",
+      "ok": true
+    }
+  ],
+  "layout_and_offline": {
+    "layouts": [
+      {
+        "width": 320,
+        "bodyWidth": 305,
+        "noPageOverflow": true,
+        "boards": [
+          239,
+          237,
+          239,
+          239,
+          239,
+          239,
+          239
+        ],
+        "imageLoaded": true
+      },
+      {
+        "width": 390,
+        "bodyWidth": 375,
+        "noPageOverflow": true,
+        "boards": [
+          309,
+          307,
+          309,
+          309,
+          309,
+          309,
+          309
+        ],
+        "imageLoaded": true
+      },
+      {
+        "width": 430,
+        "bodyWidth": 415,
+        "noPageOverflow": true,
+        "boards": [
+          349,
+          347,
+          349,
+          349,
+          349,
+          349,
+          349
+        ],
+        "imageLoaded": true
+      },
+      {
+        "width": 768,
+        "bodyWidth": 753,
+        "noPageOverflow": true,
+        "boards": [
+          480,
+          285,
+          287,
+          287,
+          287,
+          287,
+          610
+        ],
+        "imageLoaded": true
+      },
+      {
+        "width": 1440,
+        "bodyWidth": 1425,
+        "noPageOverflow": true,
+        "boards": [
+          480,
+          490,
+          490,
+          490,
+          490,
+          490,
+          610
+        ],
+        "imageLoaded": true
+      }
+    ],
+    "offline": {
+      "title": "연금로드 · 내 말과 발견하는 게임판 — 디자인 10안 · 구현 계획",
+      "ready": true,
+      "images": 5,
+      "externalRequests": 0,
+      "roll": {
+        "id": "combined",
+        "pos": 5,
+        "shown": [
+          0,
+          5
+        ],
+        "turn": 1,
+        "running": false
+      }
+    }
+  },
+  "static": {
+    "embedded_images": 6,
+    "base64_decode": "passed",
+    "external_dependencies": 0,
+    "duplicate_ids": 0,
+    "js_syntax": "passed"
+  },
+  "limitations": [
+    "Page.captureScreenshot timed out; pixel screenshot inspection not completed.",
+    "No physical iPhone QA.",
+    "This verifies only the document prototype; no production feature implemented."
+  ],
+  "image_repair_v2": {
+    "svg_use_references": 0,
+    "direct_character_images": 12,
+    "all_decoded_and_laid_out": true,
+    "character_painted_pixels": {
+      "olli": 5844,
+      "woni": 5010,
+      "danji": 6279,
+      "dalli": 6315,
+      "kori": 7073
+    },
+    "proof": "Browser canvas render of the displayed source frame inspected; full-page screenshot API still timed out."
+  }
+}

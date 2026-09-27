@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>연금로드 · 올원프렌즈 캐릭터 5종 디자인 검토</title>
+  <link rel="stylesheet" href="review.css"><script defer src="review.js"></script>
+</head>
+<body>
+  <header class="top"><a class="brand" href="#">⚄ 연금로드 <span>DESIGN REVIEW</span></a><span class="draft">검토용 · 게임 반영 전</span></header>
+  <main>
+    <section class="intro">
+      <p class="eyebrow">A-1의 분위기를 이어가는 다섯 친구</p>
+      <h1>게임판 위에서 만나는<br>올원프렌즈</h1>
+      <p class="lead">올리 · 원이 · 단지 · 달리 · 코리<br>선택창의 큰 모습부터 게임판의 작은 말까지, 캐릭터별로 비교해 보세요.</p>
+      <div class="principles"><span>부드러운 3D 질감</span><span>작아도 구분되는 실루엣</span><span>외형과 투자자성향 분리</span></div>
+    </section>
+    <nav class="characters" aria-label="캐릭터 시안 선택"></nav>
+    <section class="work" aria-labelledby="character-name">
+      <div class="work-title"><div><p class="eyebrow" id="number">CHARACTER 01 / 05</p><h2 id="character-name">올리</h2><p id="description"></p></div><a id="original-link" class="button" href="assets/olli-review.png" target="_blank" rel="noopener">시안 원본 크게 보기 ↗</a></div>
+      <figure class="sheet"><img id="sheet" src="assets/olli-review.png" width="1536" height="1024" alt="올리의 선택창, 게임판 말, 대기·이동·도착 포즈 디자인 시안"><figcaption>왼쪽은 선택창, 오른쪽은 게임판 배치, 아래는 대기·이동·도착 포즈입니다.</figcaption></figure>
+      <div class="review-grid">
+        <section class="panel"><h3>이 캐릭터에서 볼 부분</h3><ul id="points"></ul><details><summary>농협 공식 원형과 비교하기</summary><img id="reference" src="references/olli-official.png" width="421" height="130" alt="농협 공식 올리 원형"><p class="small">공식 소개 이미지입니다. 위의 3D 시안은 이 원형을 참고해 새로 생성했습니다.</p></details></section>
+        <section class="panel"><h3>검토 의견</h3><label for="decision">검토 상태</label><select id="decision"><option value="undecided">미정</option><option value="candidate">채택 검토</option><option value="revise">수정 검토</option><option value="hold">보류</option></select><label for="memo">수정하고 싶은 부분</label><textarea id="memo" rows="3" placeholder="예: 받침을 더 얇게, 얼굴은 공식 원형에 더 가깝게"></textarea><p class="small" id="save-state" aria-live="polite">의견은 이 브라우저에만 저장되며 게임에는 반영되지 않습니다.</p></section>
+      </div>
+    </section>
+    <section class="all" aria-labelledby="all-title"><div class="section-title"><div><p class="eyebrow">FIVE FRIENDS, ONE STYLE</p><h2 id="all-title">다섯 시안 한눈에 비교</h2></div><button id="export" class="button">검토 의견 내려받기 ↓</button></div><div id="overview"></div></section>
+    <section class="scope panel"><h2>이번에 검토할 범위</h2><div class="scope-grid"><p><b>선택창</b>같은 크기의 전신, 캐릭터 이름, 선택 상태를 함께 표시합니다. 캐릭터마다 수익률이나 투자성향을 부여하지 않습니다.</p><p><b>게임판</b>얇은 받침과 작은 전신을 사용합니다. 말의 크기를 칸 폭에 맞추고 이름이 보이는 공간을 확보하는 방향입니다.</p><p><b>움직임</b>대기 → 짧은 점프 이동 → 도착 반응으로 연결하는 포즈 제안입니다. 기존 두 주사위 굴림과 말의 이동은 유지합니다.</p></div><p class="small">시안 속 게임판은 크기·배치를 비교하기 위한 확대 예시입니다. 실제 24칸 경로·칸 이름·아이콘·게임 규칙의 변경안은 아닙니다. 생성 이미지 속 부가 문구도 확정 카피가 아닙니다. 채택 후 투명 배경의 게임용 자산과 실제 화면 연결을 별도로 제작합니다.</p></section>
+  </main>
+  <footer><p>2026-09-15 · Codex 내장 이미지 생성 도구로 제작한 디자인 시안</p><p><a href="https://www.nhbank.com/goSubPage.do?srchGb=KO_NHPR_17&amp;srchSiteGb=KR" target="_blank" rel="noopener">NH농협은행 공식 올원프렌즈 소개 ↗</a> · <a href="image-prompts.json">생성 프롬프트</a> · <a href="README.md">제작 기록</a></p><p>공식 배포 자산과 생성 시안을 구분하며, 현재 게임 코드와 운영 배포는 변경하지 않았습니다.</p></footer>
+</body></html>

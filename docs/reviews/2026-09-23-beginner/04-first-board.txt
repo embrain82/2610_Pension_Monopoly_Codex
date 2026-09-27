@@ -1,0 +1,245 @@
+[p1 "연금로드: 12턴의 은퇴설계" | space "연금로드 초보자 난이도 플레이 리뷰"(8): 1 managed, 0 untracked — p1* "연금로드: 12턴의 은퇴설계"]
+root
+  anchor [ref=21, loc=href:/#main, url=http://127.0.0.1:5237/#main]
+    text "본문으로 건너뛰기"
+  container
+    container
+      container
+        text "턴"
+        text "0/12"
+      container
+        button "효과음 켜기" [ref=73, loc=css:button[aria-label="효과음 켜기"]]
+          text "♪"
+          text "끔"
+        button [ref=74]
+          text "안정추구형 · 설정"
+    container
+      container
+        container
+          paragraph
+            text "TURN 1 / 12"
+          heading [ref=75]
+            text "한 칸씩, 내 은퇴를 향해"
+        container "게임판 · 말의 이동과 도착 칸" [ref=76]
+          group "안정 성장 생활 은퇴 연말정산 01 ? 미지의 칸 02 ? 미지의 칸 03 ? 미지의 칸 04 ? 미지의 칸 05 ? 미지의 칸 06 ? 미지의 칸 07 ? 미지의 칸 08 ? 미지의 칸 09 ? �..."
+            text "안정"
+            text "성장"
+            text "생활"
+            text "은퇴"
+            text "연말정산"
+            text "01"
+            text "?"
+            text "미지의 칸"
+            text "02"
+            text "?"
+            text "미지의 칸"
+            text "03"
+            text "?"
+            text "미지의 칸"
+            text "04"
+            text "?"
+            text "미지의 칸"
+            text "05"
+            text "?"
+            text "미지의 칸"
+            text "06"
+            text "?"
+            text "미지의 칸"
+            text "07"
+            text "?"
+            text "미지의 칸"
+            text "08"
+            text "?"
+            text "미지의 칸"
+            text "09"
+            text "?"
+            text "미지의 칸"
+            text "10"
+            text "?"
+            text "미지의 칸"
+            text "11"
+            text "?"
+            text "미지의 칸"
+            text "12"
+            text "?"
+            text "미지의 칸"
+            text "13"
+            text "?"
+            text "미지의 칸"
+            text "14"
+            text "?"
+            text "미지의 칸"
+            text "15"
+            text "?"
+            text "미지의 칸"
+            text "16"
+            text "?"
+            text "미지의 칸"
+            text "17"
+            text "?"
+            text "미지의 칸"
+            text "18"
+            text "?"
+            text "미지의 칸"
+            text "19"
+            text "?"
+            text "미지의 칸"
+            text "20"
+            text "?"
+            text "미지의 칸"
+            text "21"
+            text "?"
+            text "미지의 칸"
+            text "22"
+            text "?"
+            text "미지의 칸"
+            text "23"
+            text "?"
+            text "미지의 칸"
+            text "24"
+            text "TURN 01 / 12"
+            text "대기"
+            text "주사위를 굴려"
+            text "시장을 확인하세요"
+          svg_root
+        container
+          container
+            text "현재 1번 칸 ·"
+            text "연말정산"
+          button [ref=77]
+            text "칸 살펴보기"
+        paragraph
+          text "발견 1/24"
+          text "출발칸 공개 · 최종 도착칸만 열려요"
+        paragraph
+          text "다음 순서 · 주사위 굴리기"
+        container "이번 판 목표와 자금"
+          container
+            text "연금 목표"
+            text "목표용 월 환산액 · 세전 450,000원 / 500,000원"
+          container
+            container
+              text "생활자금 · IRP 밖"
+              text "1,200만원"
+            container
+              text "주문 가능 · IRP 안"
+              text "0원"
+        container
+          image "12턴 중 0턴 정산 후 시장 대기 · 사건 3회 남음"
+            text "1"
+            text "2"
+            text "3"
+            text "4"
+            text "5"
+            text "6"
+            text "7"
+            text "8"
+            text "9"
+            text "10"
+            text "11"
+            text "12"
+          container
+            text "♥"
+            text "사건 3회 남음"
+      container "시장과 자산 상세" [ref=78]
+        container
+          text "금리의 두 얼굴 · 연금 목표"
+          paragraph
+            text "목표용 월 환산액 · 세전 450,000원 / 500,000원 · 1장 / 4장"
+          text "누적 물가 0.0% · TDF 2029 주식 비중 45.0%"
+        container "지역 탐험"
+          text "탐험 도장 0/4"
+          button [ref=79]
+            text "○"
+            text "안정"
+            text "도장 0/2 · 방문 0/6"
+          button [ref=80]
+            text "○"
+            text "성장"
+            text "도장 0/2 · 방문 0/6"
+          button [ref=81]
+            text "○"
+            text "생활"
+            text "도장 0/2 · 방문 0/6"
+          button [ref=82]
+            text "○"
+            text "은퇴"
+            text "도장 0/2 · 방문 0/6"
+          button [ref=83]
+            text "지도·지역 미션 확인"
+        container
+          text "TURN 01 · 시장 대기"
+          heading
+            text "주사위를 굴려 시장을 확인하세요"
+          paragraph
+            text "주사위 눈의 합만큼 말이 이동한 뒤 브리핑이 공개됩니다."
+          paragraph
+            text "시장 국면은 이번 판 시드마다 달라지고, 말은 나온 숫자만큼 보드를 돕니다."
+          text "금리"
+          text "—"
+          text "물가"
+          text "—"
+          text "주가"
+          text "—"
+          paragraph
+            text "상품별 시장 예시 · 보수 전 · 실제 보유분 수익과 다름"
+          unordered_list
+            list_item
+              text "예금"
+              text "0.0%"
+              text "시장 예시"
+            list_item
+              text "단기채"
+              text "0.0%"
+              text "시장 예시"
+            list_item
+              text "장기채"
+              text "0.0%"
+              text "시장 예시"
+            list_item
+              text "혼합형"
+              text "0.0%"
+              text "시장 예시"
+            list_item
+              text "주식 ETF"
+              text "0.0%"
+              text "시장 예시"
+            list_item
+              text "TDF"
+              text "0.0%"
+              text "시장 예시"
+        container
+          text "나의 은퇴설계"
+          image "단지 · 평온"
+          text "IRP 평가액"
+          text "1.08억원"
+          text "목표용 월 환산액 · 세전"
+          text "450,000원"
+          text "IRP 잔액 증가율"
+          text "0.0%"
+          text "연금 목표 · 목표 50만"
+          text "진행률 90%"
+          text "남은 턴 12"
+          paragraph
+            text "목표까지 50,000원 · 현재 기준 별 0개 · 2/3 조건 통과 · 남은 과제: 목표용 월 환산액 450,000원 / 500,000원"
+          paragraph
+            text "성향 과제 · 생활자금 700만원 이상 / 낙폭 8.0% 이내"
+          paragraph
+            text "미지급 생활비 0원 · 다음 급여에서 우선 지급"
+          text "투자 성향"
+          text "안정추구형"
+          text "4~6등급 매수"
+          text "위험자산 비중"
+          text "0.0%"
+          text "생활자금 1,200만원"
+    container "게임 행동"
+      button [ref=84]
+        text "◫"
+        text "포트폴리오"
+      button [ref=85]
+        text "⚄"
+        text "주사위 굴리기"
+      button [ref=86]
+        text "☰"
+        text "타임라인"
+  text "시작 조건을 확인했습니다. 주사위를 굴려 첫 시장을 만나세요."

@@ -1,0 +1,14 @@
+{
+  "deploymentId": "dpl_HYG2xMJSRhrTf8xSqKJTExiKPCKS",
+  "url": "https://2609-pension-monopoly-2rmmpp37n-nonsleepers-projects.vercel.app",
+  "target": "preview",
+  "status": "READY",
+  "deployedAt": "2026-09-16T05:21:53.094202+00:00",
+  "artifact": "board-design-review-v3.html",
+  "artifactSha256": "b47808eb6f2b3a0eb228f035f6072c79ab95c2cb2a7da6c02985e01710f3c4de",
+  "shareLinkExpiresAt": "2026-09-17T04:20:26Z",
+  "selection": "selection.json",
+  "gameImplementationApproved": false,
+  "validation": "qa-selection-v3.json",
+  "productionGameChanged": false
+}

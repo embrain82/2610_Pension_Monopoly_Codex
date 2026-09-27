@@ -1,0 +1,65 @@
+{
+  "imageStatus": [
+    {
+      "name": "olli",
+      "width": 2172,
+      "height": 724
+    },
+    {
+      "name": "woni",
+      "width": 2172,
+      "height": 724
+    },
+    {
+      "name": "danji",
+      "width": 2172,
+      "height": 724
+    },
+    {
+      "name": "dalli",
+      "width": 2172,
+      "height": 724
+    },
+    {
+      "name": "kori",
+      "width": 2172,
+      "height": 724
+    }
+  ],
+  "labelChecks": {
+    "labels": 8,
+    "samples": 5,
+    "issues": []
+  },
+  "layouts": [
+    {
+      "width": 320,
+      "scrollWidth": 305,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "scrollWidth": 375,
+      "overflow": false
+    },
+    {
+      "width": 768,
+      "scrollWidth": 753,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "scrollWidth": 1425,
+      "overflow": false
+    }
+  ],
+  "interaction": "woni/happy/rebalance/sample03/right-tile",
+  "remote_preview": {
+    "verified": true,
+    "cards": 6,
+    "new_samples": 5,
+    "character_image_decoded": true,
+    "external_image_requests": 0,
+    "horizontal_overflow": false
+  }
+}

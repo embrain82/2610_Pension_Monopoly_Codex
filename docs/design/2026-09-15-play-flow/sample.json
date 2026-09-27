@@ -1,0 +1,41 @@
+{
+  "irp": 107800000,
+  "cash": 6000000,
+  "irpCash": 9880000,
+  "market": -1200000,
+  "contribution": 1000000,
+  "before": 108000000,
+  "afterMarket": 106800000,
+  "positions": [
+    {
+      "name": "예금",
+      "value": 43520000
+    },
+    {
+      "name": "단기채",
+      "value": 21760000
+    },
+    {
+      "name": "혼합형",
+      "value": 32640000
+    }
+  ],
+  "payoutPlans": [
+    {
+      "choice": "annuity20",
+      "taxRate": 0.020045454545454547,
+      "tax": 2646000,
+      "net": 129354000,
+      "monthlyNet": 538975,
+      "monthlyBasis": 550000
+    },
+    {
+      "choice": "lumpSum",
+      "taxRate": 0.054886363636363636,
+      "tax": 7245000,
+      "net": 124755000,
+      "monthlyNet": 519812.5,
+      "monthlyBasis": 530445.5215919106
+    }
+  ]
+}
