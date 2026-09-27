@@ -1,3 +1,4 @@
+import { journeyChapter } from './journey-view';
 import { formatWon as won } from './format';
 import { missionDisplay } from '../engine/progress-engine';
 import { products } from '../data/content';
@@ -17,7 +18,7 @@ export function renderCampaignStatus(g:GameState):string {
   if(!g.campaign) return '';
   const d=g.campaign, mission=missionDisplay(g);
   return `<aside class="campaign-status"><strong>${SCENARIOS[d.scenario].name} · ${MISSIONS[d.mission].name}</strong>
-    <p>${mission.progress} · ${Math.min(4,Math.floor(g.turn/3)+1)}장 / 4장</p>
+    <p>${mission.progress} · ${journeyChapter(g)}장 / 4장</p>
     <small>누적 물가 ${pct(d.priceIndex-1)} · TDF 2029 주식 비중 ${pct(tdfEquity(g.turn))}</small></aside>`;
 }
 export function renderCampaignResult(g:GameState):string {

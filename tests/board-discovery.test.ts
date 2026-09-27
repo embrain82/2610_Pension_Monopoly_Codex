@@ -120,7 +120,7 @@ afterEach(()=>{vi.restoreAllMocks();vi.useRealTimers();});
 it('새 UI 판만 탐험 보드로 시작하고 캐릭터는 선택값을 유지한다', () => {
   mount(undefined,true);
   root.querySelector<HTMLElement>('[data-action="pick-avatar"][data-avatar="aggressive"]')!.click();
-  click('begin');click('prepare-continue');click('confirm-default-option');
+  click('begin');click('confirm-default-option');
   expect(saved().game.boardVisibility).toBe('arrival-v1');expect(saved().game.avatarId).toBe('aggressive');
   expect(root.querySelectorAll('.tile-hidden')).toHaveLength(23);
   expect(root.querySelector('.board-discovery-progress')!.textContent).toContain('발견 1/24');
@@ -169,6 +169,6 @@ it('이미 공개된 최종 칸은 공개 애니메이션을 반복하지 않는
 it('같은 시드 재도전은 이전 보드 규칙을 유지하고 새 시드는 탐험 보드를 쓴다',()=>{
   mount(createGame('old-retry','balanced',500000,{updatedFinance:true,ghost:false}),true);
   const button=document.createElement('button');button.dataset.action='same-seed';root.append(button);button.click();
-  click('prepare-continue');click('confirm-default-option');expect(saved().game.boardVisibility).toBe('open-v1');
-  const fresh=document.createElement('button');fresh.dataset.action='new-seed';root.append(fresh);fresh.click();click('prepare-continue');click('confirm-default-option');expect(saved().game.boardVisibility).toBe('arrival-v1');
+  click('confirm-default-option');expect(saved().game.boardVisibility).toBe('open-v1');
+  const fresh=document.createElement('button');fresh.dataset.action='new-seed';root.append(fresh);fresh.click();click('confirm-default-option');expect(saved().game.boardVisibility).toBe('arrival-v1');
 });

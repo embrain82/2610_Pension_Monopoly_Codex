@@ -70,11 +70,9 @@ it('퀴즈 점수 상한에서는 답하기 전·후 모두 추가 점수를 약
  expect(knowledgeScoreOf(gameOf(app))).toBe(points);expect(root.querySelector('.quiz-answer')?.textContent).toContain('추가 점수 없이 복습 완료');
 });
 
-it('퀴즈 스킵 안내 취소는 상태를 유지하고 확인한 스킵은 벌점 없이 정산으로 돌아간다',()=>{
+it('퀴즈 스킵은 추가 확인 없이 벌점 없이 정산으로 돌아간다',()=>{
  const cp=quizCheckpoint(),app=mount(cp);click('[data-action="quiz-skip"]');
- expect(root.querySelector('.modal-quiz-confirm')).not.toBeNull();expect(gameOf(app)).toEqual(cp.game);
- click('[data-action="close-modal"]');expect(root.querySelector('.road-quiz')).not.toBeNull();expect(gameOf(app)).toEqual(cp.game);
- click('[data-action="quiz-skip"]');click('[data-action="notice-continue"]');
+ expect(root.querySelector('.modal-quiz-confirm')).toBeNull();
  expect(root.querySelector('.road-settle')).not.toBeNull();expect(gameOf(app).quizLog).toEqual(cp.game.quizLog);
  expect(knowledgeScoreOf(gameOf(app))).toBe(knowledgeScoreOf(cp.game));expect(portfolioValue(gameOf(app))).toBe(portfolioValue(cp.game));
 });

@@ -14,13 +14,13 @@ it('시작 선택을 저장하고 정산 퀴즈는 선택적으로 열어 복귀
   const scenario=root.querySelector<HTMLSelectElement>('#scenario-pick')!;scenario.value='inflation';scenario.dispatchEvent(new Event('change',{bubbles:true}));
   expect(root.querySelector<HTMLDetailsElement>('.campaign-picker')!.open).toBe(true);
   const mission=root.querySelector<HTMLSelectElement>('#mission-pick')!;mission.value='cushion';mission.dispatchEvent(new Event('change',{bubbles:true}));
-  click('[data-action="begin"]');click('[data-action="prepare-continue"]');click('[data-action="prepare-no-option"]');click('[data-action="confirm-default-option"]');click('[data-action="roll-dice"]');
+  click('[data-action="begin"]');click('[data-action="prepare-no-option"]');click('[data-action="confirm-default-option"]');click('[data-action="roll-dice"]');
   if(root.querySelector('[data-action="quiz-skip"]')) click('[data-action="quiz-skip"]');
   if(root.querySelector('[data-action="dismiss-news"]')) click('[data-action="dismiss-news"]');
   expect(saved().game.campaign!.scenario).toBe('inflation');expect(saved().game.campaign!.mission).toBe('cushion');
   click('[data-action="show-all-actions"]');click('[data-action="action-view"][data-view="contribute"]');click('[data-action="do-contribute"]');
   if(saved().game.awaitingAction) click('[data-action="do-hold"]');
-  const before=structuredClone(saved().game);click('[data-action="action-quiz"]');click('[data-action="quiz-skip"]');click('[data-action="notice-continue"]');
+  const before=structuredClone(saved().game);click('[data-action="action-quiz"]');click('[data-action="quiz-skip"]');
   expect(root.querySelector('.modal-settle')).not.toBeNull();
   expect(saved().game.cash).toBe(before.cash);expect(saved().game.campaign!.reviews).toEqual(before.campaign!.reviews);
 });

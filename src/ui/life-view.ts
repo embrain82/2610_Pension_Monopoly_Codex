@@ -46,10 +46,10 @@ export function renderLifeModal(state: GameState, event: LifeEvent): string {
     <h2>${event.title}</h2>
     <p class="modal-lead">${event.body}</p>
     <div class="event-cost"><div><span>${lifeCostLabel(event)}</span><strong>${formatWon(Math.abs(event.cost))}</strong></div><div class="event-cash"><span>현재 생활자금</span><b>${formatWon(state.cash)}</b></div></div>
-    ${coverNote}
+    ${coverNote}${event.kind==='cost'?`<p class="life-preparation">${state.cash>=Math.abs(event.cost)?'지금까지 남겨 둔 생활자금으로 이번 필요 금액을 감당할 수 있어요.':'현재 생활자금만으로는 부족해요. 각 선택의 미지급액과 비용을 확인하세요.'}${state.logs.some(l=>l.turn<state.turn && l.type==='life')?' 앞선 생활사건 이후 남은 자금으로 다시 판단하는 순간입니다.':''}</p>`:''}
     <p class="life-prompt">어떻게 할까요? 선택마다 생활자금과 IRP에 미치는 영향이 다릅니다.</p>
-    <div class="life-choices">${choices.map((option, index) => renderLifeChoice(option, index)).join('')}</div>
-    <p class="life-account-note">${event.kind==='cost'?'IRP 안의 상품 매도와 계좌 밖 중도인출·해지는 다른 절차입니다. 선택 가능 여부는 이번 사건의 조건을 반영합니다.':event.kind==='bonus'?'생활자금과 IRP 대기자금은 별개입니다. 납입만으로 상품을 매수하지 않습니다.':'IRP 이전과 현금 수령은 세금·생활자금에 미치는 영향이 다릅니다. 위의 지금·나중 안내를 함께 확인하세요.'}</p></div>`;
+    <div class="life-choices">${choices.flatMap((option, index) => option.enabled ? [renderLifeChoice(option, index)] : []).join('')}</div>
+    ${choices.some(c=>!c.enabled)?`<details class="life-blocked"><summary>지금 선택할 수 없는 방법 · 이유 보기</summary>${choices.flatMap((option,index)=>option.enabled?[]:[renderLifeChoice(option,index)]).join('')}</details>`:''}<p class="life-account-note">${event.kind==='cost'?'IRP 안의 상품 매도와 계좌 밖 중도인출·해지는 다른 절차입니다. 선택 가능 여부는 이번 사건의 조건을 반영합니다.':event.kind==='bonus'?'생활자금과 IRP 대기자금은 별개입니다. 납입만으로 상품을 매수하지 않습니다.':'IRP 이전과 현금 수령은 세금·생활자금에 미치는 영향이 다릅니다. 위의 지금·나중 안내를 함께 확인하세요.'}</p></div>`;
 }
 
 /** 정산 「사건」 블록. 무엇을 골랐고 무엇이 움직였는지, 다른 선택이었다면 한 줄 */

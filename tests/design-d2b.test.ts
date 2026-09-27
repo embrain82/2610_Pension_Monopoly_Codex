@@ -42,7 +42,7 @@ it.each(['contribute','buy','sell','switch','rebalance'] as const)('%s 입력→
  const choice:GameAction=kind==='buy'?{kind,productId:'tdf',amount}:kind==='sell'?{kind,productId:'deposit',amount}:
  kind==='switch'?{kind,fromProductId:'balanced',toProductId:'tdf',amount}:kind==='contribute'?{kind,amount:previewContribution(g,{requested:amount}).accepted}:{kind};
  const expected=performAction(g,choice);expect(expected.ok).toBe(true);expect(saved().game).toEqual(g);
- const submit=root.querySelector<HTMLButtonElement>(`[data-action="do-${kind}"]`)!;expect(panels[1].contains(submit)).toBe(true);submit.click();
+ const submit=root.querySelector<HTMLButtonElement>(`[data-action="do-${kind}"]`)!;expect(root.querySelector('.order-confirm')!.contains(submit)).toBe(true);expect(panels[1].compareDocumentPosition(submit) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();submit.click();
  expect(saved().game).toEqual(expected.state);
 });
 

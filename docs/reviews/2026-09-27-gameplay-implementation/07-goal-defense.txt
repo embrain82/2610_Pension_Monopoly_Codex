@@ -1,0 +1,173 @@
+- link "본문으로 건너뛰기":
+  - /url: "#main"
+- main:
+  - generic: 턴
+  - strong: 11/12
+  - button "효과음 켜기":
+    - generic: ♪
+    - generic: 끔
+  - button "안정추구형 · 설정"
+  - paragraph: TURN 12 / 12
+  - heading "한 칸씩, 내 은퇴를 향해" [level=1]
+  - generic "게임판 · 말의 이동과 도착 칸":
+    - group "24칸 순환 보드. 현재 말은 3번 칸 시장 뉴스에 있습니다.":
+      - generic: 안정
+      - generic: 성장
+      - generic: 생활
+      - generic: 은퇴
+      - button "1. 연말정산 · 안정 지역 · 칸 정보":
+        - generic: 연말정산
+        - generic: "01"
+      - button "2. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "02"
+      - button "3. 시장 뉴스 · 안정 지역 · 칸 정보":
+        - generic: 시장 뉴스
+        - generic: "03"
+      - button "4. 단기채 거리 · 안정 지역 · 칸 정보":
+        - generic: 단기채
+        - generic: "04"
+      - button "5. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "05"
+      - button "6. 운용지시 · 안정 지역 · 칸 정보":
+        - generic: 운용지시
+        - generic: "06"
+      - button "7. 장기채 거리 · 성장 지역 · 칸 정보":
+        - generic: 장기채
+        - generic: "07"
+      - button "8. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "08"
+      - button "9. 혼합형 거리 · 성장 지역 · 칸 정보":
+        - generic: 혼합형
+        - generic: "09"
+      - button "10. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "10"
+      - button "11. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "11"
+      - button "12. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "12"
+      - button "13. 은퇴 전망대 · 생활 지역 · 칸 정보":
+        - generic: 은퇴전망
+        - generic: "13"
+      - button "14. TDF 거리 · 생활 지역 · 칸 정보":
+        - generic: TDF
+        - generic: "14"
+      - button "15. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "15"
+      - button "16. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "16"
+      - button "17. 운용지시 · 생활 지역 · 칸 정보":
+        - generic: 운용지시
+        - generic: "17"
+      - button "18. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "18"
+      - button "19. 제도 안내 · 은퇴 지역 · 칸 정보":
+        - generic: 제도 안내
+        - generic: "19"
+      - button "20. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "20"
+      - button "21. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "21"
+      - button "22. 시장 뉴스 · 은퇴 지역 · 칸 정보":
+        - generic: 시장 뉴스
+        - generic: "22"
+      - button "23. 생활 사건 · 은퇴 지역 · 칸 정보":
+        - generic: 생활 사건
+        - generic: "23"
+      - button "24. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "24"
+      - generic: TURN 12 / 12
+      - generic: 대기
+      - generic: 주사위를 굴려
+      - generic: 시장을 확인하세요
+  - img "직전 주사위 4과 6, 합계 10칸 이동":
+    - generic: 직전 주사위
+    - strong: 10칸 이동
+  - text: 현재 3번 칸 ·
+  - strong: 시장 뉴스
+  - button "칸 살펴보기"
+  - paragraph:
+    - strong: 발견 12/24
+    - generic: 출발칸 공개 · 최종 도착칸만 열려요
+  - paragraph:
+    - strong: 평온
+    - generic: 차분하게 다음 선택을 준비해요
+  - paragraph: 다음 순서 · 주사위 굴리기
+  - region "이번 판 목표와 자금":
+    - strong: 연금 목표
+    - generic: 목표용 월 환산액 · 세전 499,628원 / 500,000원
+    - generic: 생활자금 · IRP 밖
+    - strong: 1,484만원
+    - generic: 주문 가능 · IRP 안
+    - strong: 501만원
+    - paragraph: 게임 목표는 세전 월 환산 · 실제 세후 수령액은 마지막에 따로 비교해요.
+    - generic "잠정 0별 · 조건과 학습 점수"
+  - img "12턴 중 11턴 정산 후 시장 대기 · 남은 턴이 적고 목표 미달 · 예정 사건 없음":
+    - generic "혼조·관망": "1"
+    - generic "저금리·경기회복": "2"
+    - generic "저금리·경기회복": "3"
+    - generic "저금리·경기회복": "4"
+    - generic "위험자산 충격 · 충격": "5"
+    - generic "저금리·경기회복": "6"
+    - generic "채권 강세 · 충격": "7"
+    - generic "저금리·경기회복": "8"
+    - generic "혼조·관망": "9"
+    - generic "혼조·관망": "10"
+    - generic "혼조·관망": "11"
+    - generic "12턴": "12"
+  - generic: ♥
+  - text: 예정 사건 없음
+  - complementary "시장과 자산 상세":
+    - region "장별 도전과 탐험":
+      - paragraph: 4장 / 4장 · 10–12턴
+      - heading "은퇴 준비 마무리" [level=2]
+      - paragraph: 한 번 닿았던 목표를 회복해 보세요.
+      - paragraph: 생활자금 기준 7,000,000원 · 최종 별은 12턴 뒤 판정
+      - generic "이번 장 작은 탐험 · 두 곳 중 한 곳 고르기"
+      - generic "내 탐험 앨범 1/4"
+    - region "진행 중인 일":
+      - heading "진행 중인 일" [level=2]
+      - complementary "디폴트옵션 진행 상태":
+        - heading "디폴트옵션 · 지금 상태" [level=3]
+        - generic: 사전지정 저위험
+        - paragraph: 자동운용을 기다리는 만기자금이 없어요. 사전지정만으로 일반 대기자금이 매수되지는 않아요.
+        - paragraph: 혼합 디폴트옵션 안의 예금 1건은 새 약정으로 재예치했습니다.
+        - generic "어떤 돈이 언제 움직이나요?"
+        - button "만기자금 확인"
+      - paragraph: 자동주문도 예금은 즉시, 펀드·TDF는 결제 후 반영돼요. 위 대기금액과 만기 대상은 겹칠 수 있어 합산하지 않아요.
+    - generic "시장·자산·지역 기록 자세히"
+    - text: ● ●
+  - navigation "게임 행동":
+    - button "◫ 포트폴리오":
+      - generic: ◫
+      - text: 포트폴리오
+    - button "⚄ 주사위 굴리기":
+      - generic: ⚄
+      - text: 주사위 굴리기
+    - button "☰ 타임라인":
+      - generic: ☰
+      - text: 타임라인
+- generic: 새 운용지시 없이 현재 구성을 유지했습니다.
