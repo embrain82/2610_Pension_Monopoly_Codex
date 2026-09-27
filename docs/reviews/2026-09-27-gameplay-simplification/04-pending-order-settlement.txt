@@ -1,0 +1,313 @@
+- link "본문으로 건너뛰기":
+  - /url: "#main"
+- main:
+  - generic: 턴
+  - strong: 2/12
+  - button "효과음 켜기":
+    - generic: ♪
+    - generic: 끔
+  - button "안정추구형 · 설정"
+  - paragraph: TURN 3 / 12
+  - heading "한 칸씩, 내 은퇴를 향해" [level=1]
+  - generic "게임판 · 말의 이동과 도착 칸":
+    - group "24칸 순환 보드. 현재 말은 23번 칸 생활 사건에 있습니다.":
+      - generic: 안정
+      - generic: 성장
+      - generic: 생활
+      - generic: 은퇴
+      - button "1. 연말정산 · 안정 지역 · 칸 정보":
+        - generic: 연말정산
+        - generic: "01"
+      - button "2. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "02"
+      - button "3. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "03"
+      - button "4. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "04"
+      - button "5. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "05"
+      - button "6. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "06"
+      - button "7. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "07"
+      - button "8. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "08"
+      - button "9. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "09"
+      - button "10. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "10"
+      - button "11. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "11"
+      - button "12. ETF 거리 · 성장 지역 · 칸 정보":
+        - generic: ETF
+        - generic: "12"
+      - button "13. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "13"
+      - button "14. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "14"
+      - button "15. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "15"
+      - button "16. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "16"
+      - button "17. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "17"
+      - button "18. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "18"
+      - button "19. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "19"
+      - button "20. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "20"
+      - button "21. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "21"
+      - button "22. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "22"
+      - button "23. 생활 사건 · 은퇴 지역 · 칸 정보":
+        - generic: 생활 사건
+        - generic: "23"
+      - button "24. 아직 모르는 칸 · 최종 도착하면 공개":
+        - generic: "?"
+        - generic: 미지의 칸
+        - generic: "24"
+      - generic: TURN 03 / 12
+      - generic: 대기
+      - generic: 주사위를 굴려
+      - generic: 시장을 확인하세요
+  - img "직전 주사위 5과 6, 합계 11칸 이동":
+    - generic: 직전 주사위
+    - strong: 11칸 이동
+  - text: 현재 23번 칸 ·
+  - strong: 생활 사건
+  - button "칸 살펴보기"
+  - paragraph:
+    - strong: 발견 3/24
+    - generic: 출발칸 공개 · 최종 도착칸만 열려요
+  - paragraph:
+    - strong: 평온
+    - generic: 차분하게 다음 선택을 준비해요
+  - paragraph: 다음 순서 · 주사위 굴리기
+  - region "이번 판 목표와 자금":
+    - strong: 연금 목표
+    - generic: 목표용 월 환산액 · 세전 458,443원 / 500,000원
+    - generic: 생활자금 · IRP 밖
+    - strong: 956만원
+    - generic: 주문 가능 · IRP 안
+    - strong: 0원
+    - generic: 미결제 · 사용 대기
+    - strong: 100만원
+    - paragraph: 미션 미충족 · 생활 안정 ✓ · 낙폭 예산 ✓
+    - generic "별 조건 2/3 충족 · 현재 0별"
+    - paragraph: 학습 6/20점 · 퀴즈 1개 정답 · 최종 종합점수에 포함
+  - img "12턴 중 2턴 정산 후 시장 대기 · 사건 3회 남음":
+    - generic "혼조·관망": "1"
+    - generic "혼조·관망": "2"
+    - generic "3턴": "3"
+    - generic "4턴": "4"
+    - generic "5턴": "5"
+    - generic "6턴": "6"
+    - generic "7턴": "7"
+    - generic "8턴": "8"
+    - generic "9턴": "9"
+    - generic "10턴": "10"
+    - generic "11턴": "11"
+    - generic "12턴": "12"
+  - generic: ♥
+  - text: 사건 3회 남음
+  - complementary "시장과 자산 상세":
+    - complementary:
+      - strong: 금리의 두 얼굴 · 연금 목표
+      - paragraph: 목표용 월 환산액 · 세전 458,443원 / 500,000원 · 1장 / 4장
+      - text: 누적 물가 1.0% · TDF 2029 주식 비중 41.7%
+    - region "지역 탐험":
+      - strong: 탐험 도장 0/4
+      - button "안정 도장 0/2 · 방문 0/6":
+        - text: ○ 안정
+        - generic: 도장 0/2 · 방문 0/6
+      - button "성장 도장 1/2 · 방문 1/6":
+        - text: ○ 성장
+        - generic: 도장 1/2 · 방문 1/6
+      - button "생활 도장 0/2 · 방문 0/6":
+        - text: ○ 생활
+        - generic: 도장 0/2 · 방문 0/6
+      - button "은퇴 도장 1/2 · 방문 1/6":
+        - text: ○ 은퇴
+        - generic: 도장 1/2 · 방문 1/6
+      - button "지도·지역 미션 확인"
+    - article:
+      - generic: TURN 02 · 정산 완료
+      - heading "가상 금리 동결 · 주가 하락" [level=2]
+      - paragraph: 금리 2.50% (변화 없음) · 주가 -0.1%
+      - paragraph: 이번 턴 가상 금리는 바뀌지 않았습니다. 채권·주식 수익에는 이자와 다른 시장 요인도 반영됩니다. 다음 턴 방향은 확정되지 않았습니다.
+      - paragraph: 주사위를 굴려 다음 턴(3턴) 시장을 확인하세요. 시장 국면은 이번 판 시드마다 달라집니다.
+      - text: 금리
+      - generic: 이전 2.50%
+      - generic: →
+      - generic: 현재 2.50%
+      - emphasis: →0.00%p
+      - text: 물가
+      - generic: 2.0%
+      - text: 주가
+      - generic: "99.7"
+      - emphasis: "-0.1%"
+      - paragraph: 교육용 가상 금리 · 실제 금리 전망이 아닙니다
+      - strong: 내 보유분에 실제 반영 · 주요 2개
+      - figure "실제 보유 손익 · 이번 턴 주요 영향":
+        - generic: 실제 보유 손익 · 이번 턴 주요 영향
+        - paragraph:
+          - text: ← 감소
+          - generic: 0원 기준
+          - text: 증가 →
+          - generic: 좌우 끝 각각 500,000원 · 같은 금액 축
+        - list:
+          - generic: ● 예금
+          - generic: +356,400원
+          - generic: ● 장기채
+          - generic: +118,369원
+      - list:
+        - strong: 예금
+        - generic: +356,400원 (+0.55%)
+        - paragraph: 시장금리 변동과 별개로 가입 때 정한 약정 이자가 붙어 예금이 늘었어요.
+        - generic "왜 이 금액인가요?"
+        - text: 가입 건별 약정·만기 반영 · 시장 예시와 다름
+        - strong: 장기채
+        - generic: +118,369원 (+0.73%)
+        - paragraph: 채권의 이자수익과 가격 변동을 합친 뒤 보수를 빼도 이익이 남았어요. 주가지수 등락을 그대로 따르는 상품은 아니에요.
+        - generic "왜 이 금액인가요?"
+        - text: 실제 가격 변동·상품 보수 반영
+      - text: 턴 시작 시장 구간 · 매매·납입 전. 가격 변동 중인 대기 주문 포함.
+      - paragraph: 상품별 시장 예시 · 보수 전 · 실제 보유분 수익과 다름
+      - list:
+        - generic: 예금
+        - generic: +0.6%
+        - generic: 시장 예시
+        - generic: 단기채
+        - generic: +0.4%
+        - generic: 시장 예시
+        - generic: 장기채
+        - generic: +0.8%
+        - generic: 시장 예시
+        - generic: 혼합형
+        - generic: +0.6%
+        - generic: 시장 예시
+        - generic: 주식 ETF
+        - generic: +0.7%
+        - generic: 시장 예시
+        - generic: TDF
+        - generic: +0.6%
+        - generic: 시장 예시
+    - article:
+      - generic: 나의 은퇴설계
+      - img "단지 · 평온":
+      - generic: IRP 평가액
+      - strong: 1.10억원
+      - generic "IRP를 240개월로 나눈 세전 목표용 값입니다. 세후 수령 평균은 수령 비교에서 따로 봅니다.": 목표용 월 환산액 · 세전
+      - strong: 458,443원
+      - text: IRP 잔액 증가율
+      - strong: +1.9%
+      - generic "그대로 둔 나 91%"
+      - generic: 연금 목표 · 목표 50만
+      - strong: 진행률 92%
+      - generic: 남은 턴 10
+      - paragraph: "목표까지 41,557원 · 현재 기준 별 0개 · 2/3 조건 통과 · 남은 과제: 목표용 월 환산액 458,443원 / 500,000원"
+      - paragraph: 성향 과제 · 생활자금 700만원 이상 / 낙폭 8.0% 이내
+      - paragraph: 미지급 생활비 0원 · 다음 급여에서 우선 지급
+      - generic: 투자 성향 안정추구형
+      - generic: 4~6등급 매수
+      - generic: 위험자산 비중 0.0%
+      - generic: 생활자금 956만원
+      - img "위험자산 비중 0.0%, 한도 70%"
+      - paragraph: 주문 1건이 다음 턴 기준가·결제를 기다리는 중
+      - paragraph: 세액공제 132,000원 환급 대기 · 연말정산 칸을 지나면 생활자금으로
+  - navigation "게임 행동":
+    - button "◫ 포트폴리오":
+      - generic: ◫
+      - text: 포트폴리오
+    - button "⚄ 주사위 굴리기":
+      - generic: ⚄
+      - text: 주사위 굴리기
+    - button "☰ 타임라인":
+      - generic: ☰
+      - text: 타임라인
+- dialog "턴 정산 요약":
+  - button "닫기" [active]: ×
+  - paragraph: 2턴 정산
+  - heading "무엇이 바뀌었나요?" [level=2]
+  - paragraph: 가상 금리 동결 · 주가 하락
+  - region "이번 턴 핵심 변화":
+    - strong: 정산 요약
+    - paragraph:
+      - text: 턴 시작
+      - generic: 109,462,098원
+      - text: → 정산 후
+      - generic: 110,026,240원
+    - paragraph: IRP 잔액 변화 · 입출금 포함 +564,142원 (+0.5%)
+    - paragraph: 잔액 변화에는 납입·인출과 거래 정산이 포함됩니다.
+    - paragraph: 납입은 운용 수익이 아닙니다.
+    - term: 시장 손익·대기 이자
+    - definition: +564,142원
+    - term: 내 납입·출금
+    - definition: 0원
+    - term: 매매·정산 영향
+    - definition: 0원
+    - paragraph:
+      - strong: 이번 턴 배운 한 가지
+      - text: 새 거래가 없어도 보유 상품의 이자와 가격 변화가 잔액에 반영될 수 있어요.
+    - paragraph: 미션 미충족 · 생활 안정 ✓ · 낙폭 예산 ✓
+    - generic "별 조건 2/3 충족 · 현재 0별"
+  - complementary:
+    - strong: 펀드는 기준가가 나와야 확정돼요
+    - paragraph: 다음 문제 정답이면 이해 점수를 최대 2점 더 얻을 수 있어요. 오답 벌점 없이 건너뛸 수 있습니다.
+    - complementary "퀴즈 점수의 쓰임":
+      - strong: 학습 6/20점 · 퀴즈 정답 1개
+      - paragraph: 학습 점수는 12턴 최종 종합점수 100점 중 20점에 포함돼요.
+      - generic "퀴즈 기여와 평가 기준"
+    - button "관련 한 문제 풀기 · 선택"
+  - button "다음 턴 준비"
+  - generic "금리와 보유 영향 · 왜 늘거나 줄었나요?"
+  - generic "내 행동과 변화의 구성"
+  - text: ● ◆ ■
+  - generic "▸ 자세히 상품별 수익률 · 비교 지수 · 칸 효과 · 다음 판단":
+    - text: ▸
+    - generic: 자세히
+    - generic: 상품별 수익률 · 비교 지수 · 칸 효과 · 다음 판단
+  - paragraph: 장기채 매수 접수 → 다음 턴 기준가 확정 → 그다음 턴 결제(게임 시간)
+- generic: 장기채 매수 접수 → 다음 턴 기준가 확정 → 그다음 턴 결제(게임 시간)
