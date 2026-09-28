@@ -38,12 +38,14 @@ it('금리 전후·원인·실제 손익 순서이며 추가납입 뒤에도 시
   expect(game).toEqual(before);
   root.innerHTML = initial;
   expect([...root.querySelectorAll('h3')].map(e => e.textContent)).toEqual([
-    '01 이번 턴 시장 변화', '02 왜 영향을 받나요?', '03 내 보유분에 반영'
+    '01 이번 턴 시장 변화', '02 내 보유분에 반영'
   ]);
   expect(root.querySelector('.story-rate-values')?.textContent).toContain((game.lastMarket.ratePct - game.lastMarket.rateDeltaPct).toFixed(2) + '%');
   expect(root.querySelector('.story-rate-delta')?.textContent).toContain('%p');
   expect(root.querySelector('.news-irp b')?.textContent).toContain(Math.round(game.ledger.afterMarket - game.ledger.open).toLocaleString('ko-KR'));
   expect(root.querySelector('.actual-market-impact')).not.toBeNull();
+  expect(root.querySelectorAll('.market-story-rate .product-returns li')).toHaveLength(6);
+  expect(root.querySelector('.market-story-reason')).toBeNull();
   expect(root.textContent).toContain('추가납입·매매 결과는 포함하지 않습니다');
 });
 
@@ -115,4 +117,20 @@ it('첫 행동 전액 매수 후 비활성 카드에 접근 가능한 사유가 
   expect(reason.textContent!.length).toBeGreaterThan(5);
   expect(button.contains(reason)).toBe(false);
   button.click(); expect(saved().game).toEqual(first.state);
+});
+
+it('시장 이동 결과만 시장 상세 위로 옮기고 거래 오류 피드백은 하단에 남긴다', () => {
+ const app = new PensionRoadApp(root);
+ // Inject only the already-rendered UI context; no engine transitions are simulated here.
+ const view = app as unknown as {game:GameState;modal:string;actionView:string;feedback:string;renderModal:()=>string};
+ view.game=open();view.modal='action';view.actionView='menu';
+ view.feedback='2칸 이동 · 1턴 시장이 반영되었습니다. 이제 운용을 정하세요.';
+ root.innerHTML=view.renderModal();
+ expect(root.querySelector('.market-turn-feedback')?.textContent).toBe(view.feedback);
+ expect(root.querySelector('.modal-feedback')?.textContent).toBe('');
+ expect(root.querySelector('.market-turn-feedback')!.compareDocumentPosition(root.querySelector('.market-impact-details')!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+ view.feedback='주문 가능 대기자금이 부족합니다.';
+ root.innerHTML=view.renderModal();
+ expect(root.querySelector('.market-turn-feedback')).toBeNull();
+ expect(root.querySelector('.modal-feedback')?.textContent).toBe(view.feedback);
 });

@@ -22,7 +22,7 @@ export const operationLabels = {
 } as const;
 
 export function renderTermHelp(keys: readonly LearningTerm[], title = '말뜻이 궁금해요', compact = false): string {
-  return `<details class="term-help${compact ? ' action-heading-help' : ''}" data-preserve-open data-key="terms-${keys.join('-')}"><summary${compact ? ` aria-label="${title}" title="${title}"` : ''}>${compact ? '<span aria-hidden="true">?</span>' : `${title}<span aria-hidden="true">＋</span>`}</summary><dl>${keys.map(key => `<div><dt>${learningTerms[key][0]}</dt><dd>${learningTerms[key][1]}</dd></div>`).join('')}</dl></details>`;
+  return `<details class="term-help${compact ? ' action-heading-help' : ''}" data-preserve-open data-key="terms-${keys.join('-')}"><summary${compact ? ` aria-label="${title}" title="${title}"` : ''}>${compact ? '<span aria-hidden="true">용어</span>' : `${title}<span aria-hidden="true">＋</span>`}</summary><dl>${keys.map(key => `<div><dt>${learningTerms[key][0]}</dt><dd>${learningTerms[key][1]}</dd></div>`).join('')}</dl></details>`;
 }
 
 export function renderProductHelp(id: ProductId): string {

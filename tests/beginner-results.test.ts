@@ -42,7 +42,7 @@ it('추가납입 미리보기는 생활자금→대기자금만 강조하고 자
  expect(d.querySelector('.money-flow-trade')).toBeNull();expect(d.textContent).toContain('생활 지갑 → 대기자금');expect(d.textContent).toContain('이번 납입으로 변하지 않아요');
  expect(d.querySelectorAll('.money-flow-changed')).toHaveLength(2);
  expect(moneyFlowData(after).total-moneyFlowData(s).total).toBe(1000000);expect(s).toEqual(copy);
- expect(renderMoneyFlow(s)).toContain('화살표는 이번 거래 내역이 아니에요');
+ expect(renderMoneyFlow(s)).toContain('대기자금 · 보유상품 · 처리중');
 });
 it('상품·디폴트옵션의 최소 성향 표시는 실제 허용 판정과 일치한다',()=>{
  for(const p of products){const ids=PROFILE_IDS.filter(id=>canBuyForProfile(id,p.id).ok);const name=investorProfiles.find(x=>x.id===ids[0])!.name;expect(productRequirement(p.id)).toContain(ids.length===5?'모든 성향':name+' 이상');}

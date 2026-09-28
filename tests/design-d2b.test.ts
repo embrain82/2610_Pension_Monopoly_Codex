@@ -7,7 +7,7 @@ import { previewDefaultOptIn, nextDefaultCommand } from '../src/engine/default-t
 import { portfolioValue, settleAllOrders } from '../src/engine/portfolio-engine';
 import { scopedHolding } from '../src/engine/position-engine';
 import { PensionRoadApp } from '../src/ui/app';
-import { portfolioComposition, renderPortfolio } from '../src/ui/portfolio-view';
+import { portfolioComposition, holdingComposition, renderPortfolio } from '../src/ui/portfolio-view';
 import { CHECKPOINT_KEY, parseCheckpoint } from '../src/ui/play-checkpoint';
 import { defaultSave, STORAGE_KEY } from '../src/ui/ui-state';
 import type { GameState } from '../src/types';
@@ -91,9 +91,13 @@ it('직접·옵션·미결제·대기자금 분류는 예약/부분결제/환매
  const out=performAction({...held,actionsLeft:2,awaitingAction:true},{kind:'default-opt-out',fraction:.5,commandId:nextDefaultCommand(held)}).state;
  for(const state of [g,pending,held,out]){
   const snapshot=structuredClone(state),parts=portfolioComposition(state);
+  const heldParts=holdingComposition(state);
+  expect(heldParts).toHaveLength(7);
+  expect(heldParts.reduce((sum,p)=>sum+p.amount,0)).toBeCloseTo(state.holdings.reduce((sum,h)=>sum+h.amount,0),5);
+  expect(heldParts.find(p=>p.id==='default')!.amount).toBe(parts[1].amount);
   expect(parts.reduce((s,p)=>s+p.amount,0)).toBeCloseTo(portfolioValue(state),5);
   expect(parts.find(p=>p.id==='pending')!.amount).toBe(state.pendingOrders.reduce((s,o)=>s+o.amount,0));
-  root.innerHTML=renderPortfolio(state);expect(root.querySelectorAll('.portfolio-category')).toHaveLength(4);
+  root.innerHTML=renderPortfolio(state);expect(root.querySelector('.portfolio-categories')).toBeNull();
   expect(root.querySelector('.portfolio-direct')?.textContent).toContain(Math.round(scopedHolding(state,'deposit').amount).toLocaleString('ko-KR')+'원');
   expect(root.querySelector('.portfolio-risk')?.textContent).toContain('전체 IRP');
   expect(state).toEqual(snapshot);
@@ -107,4 +111,35 @@ it('주문 입력 후 스크롤은 숫자 입력 초점을 해제하고 금액·
  field.dispatchEvent(new WheelEvent('wheel',{deltaY:400,bubbles:true,cancelable:true}));
  expect(document.activeElement).not.toBe(field);expect(field.value).toBe('123456');
  expect(saved().actionContext!.draft!.amount).toBe(123456);expect(saved().game).toEqual(g);
+});
+
+
+it('상품 그래프는 전액 대기·미결제 상태에 허위 비중을 만들지 않고 상세보다 먼저 읽힌다', () => {
+ const g={...game(),holdings:[]};
+ root.innerHTML=renderPortfolio(g);
+ expect(root.querySelector('.portfolio-donut')).toBeNull();
+ expect(root.querySelector('.portfolio-empty')).not.toBeNull();
+ expect(root.querySelectorAll('.holding-category')).toHaveLength(7);
+ const ordered=['.portfolio-composition','.portfolio-direct','.portfolio-account-summary','.portfolio-risk'].map(s=>root.querySelector(s)!);
+ for(let i=1;i<ordered.length;i++)expect(ordered[i-1].compareDocumentPosition(ordered[i])&Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+ expect(root.querySelector('.money-flow-trade')).toBeNull();
+ expect(root.querySelector('[data-money-bucket="pending"]')).not.toBeNull();
+});
+
+
+it('상품 상세는 기본 접힘이며 예금은 현재 금리가 아닌 가입 건별 금리를 보여준다', () => {
+ const g={...game(),turn:5};
+ const holding=g.holdings.find(h=>h.productId==='deposit')!;
+ holding.positions=undefined;
+ holding.lots=[{amount:1000000,principal:1000000,openedTurn:1,maturityTurn:7,ratePerTurn:.004},{amount:2000000,principal:2000000,openedTurn:2,maturityTurn:4,ratePerTurn:.006}];
+ holding.amount=3000000;
+ root.innerHTML=renderPortfolio(g);
+ expect(root.querySelectorAll('.portfolio-holdings-disclosure')).toHaveLength(2);
+ expect(root.querySelectorAll('.portfolio-holdings-disclosure[open]')).toHaveLength(0);
+ const rates=root.querySelector('.portfolio-direct .holding-deposit-rates')!.textContent;
+ expect(rates).toContain('턴당 0.40%');expect(rates).toContain('턴당 0.60%');expect(rates).toContain('만기 완료');
+ expect(root.querySelector('.portfolio-total-card')).toBeNull();
+ expect(root.querySelector('.portfolio-fund-breakdown')).toBeNull();
+ expect(root.querySelector('.cash-rule')).toBeNull();
+ expect(root.querySelector('[data-money-bucket="cash"]')).not.toBeNull();
 });

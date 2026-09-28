@@ -148,3 +148,18 @@
  .portfolio-detail { border:0; padding:0; }
  .portfolio-donut { print-color-adjust:exact; }
 }
+
+/* FB-038/039: one reading order on every viewport; original typography retained. */
+.road-portfolio .portfolio-split { display:block; }
+.road-portfolio .portfolio-detail { border-left:0; padding-left:0; }
+.holding-legend { min-width:0; }
+.portfolio-risk { margin-bottom:20px; }
+@media(min-width:700px){.portfolio-composition { grid-template-columns:180px minmax(0,1fr); align-items:center; }}
+
+/* Portfolio detail disclosures reuse existing font sizes. */
+.portfolio-holdings-disclosure { border:1px solid var(--line); border-radius:14px; margin-bottom:18px; background:#fff; }
+.portfolio-holdings-disclosure>summary { padding:18px; cursor:pointer; color:var(--green); font-weight:700; min-height:44px; }
+.portfolio-holdings-body { padding:0 18px 18px; }
+.holding-deposit-rates { margin-top:12px; }
+.holding-deposit-rates ul { padding-left:18px; margin:8px 0; }
+.holding-deposit-rates li { overflow-wrap:anywhere; }

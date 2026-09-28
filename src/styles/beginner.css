@@ -215,3 +215,8 @@ html[data-reduce-motion="true"] #all-actions-panel { animation:none; }
 .road-header .reset-button { color:#96503e; }
 .reset-warning { color:#96503e; font-weight:700; }
 .modal-reset .reset-confirm { background:#96503e; border-color:#96503e; }
+
+/* FB-041: remove the trade-arrow column, keep existing type sizes. */
+.money-flow .money-flow-invest { grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:16px; }
+.market-turn-feedback { color:var(--green); margin:0 0 12px; }
+@media(max-width:380px){.money-flow .money-flow-invest { grid-template-columns:1fr; }}

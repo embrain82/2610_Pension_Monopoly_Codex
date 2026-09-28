@@ -35,5 +35,5 @@ it('가입 건별 만기는 직접·옵션 출처를 구분하고 해당 턴에�
 });
 it('포트폴리오 합계는 현금·보유·미결제를 중복 합산하지 않고 원 단위를 유지한다',()=>{
  const g=buyProduct(open(),'tdf',1234567).state,html=renderPortfolio(g);
- expect(html).toContain('1,234,567원');expect(html).toContain('미결제 주문 · 사용 불가');expect(html).toContain('IRP 밖 자금');expect(html).toContain('미보유 상품');expect(html).toContain('portfolio-mobile');expect(html).toContain('portfolio-desktop');
+ expect(html).toContain('1,234,567원');expect(html).toContain('미결제 주문 · 지금 다시 쓸 수 없어요');expect(html).toContain('생활비에 쓸 돈 · IRP 밖');expect(html).toContain('미보유 상품');expect(html).toContain('portfolio-mobile');expect(html).toContain('portfolio-desktop');
 });
