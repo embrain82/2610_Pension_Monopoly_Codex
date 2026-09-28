@@ -157,6 +157,8 @@ export interface LifeChoiceOption {
   immediate: string;
   /** 장기 비용·효과 한 줄 */
   longTerm: string;
+  /** 게임의 단순 수령기간 기준 월 연금 증가 표시 */
+  pensionEstimate?: string;
   payment?: LifePaymentPreview;
 }
 

@@ -46,7 +46,7 @@ describe('선택지 표(lifeChoicesFor)', () => {
     const choices = lifeChoicesFor(withEvent(base(), 'medical'), event('medical'));
     const withdraw = choices.find((choice) => choice.id === 'withdraw')!;
     expect(withdraw.enabled).toBe(true);
-    expect(withdraw.immediate).toContain('재원별 세금');
+    expect(withdraw.immediate).toContain('예상 세금은');
     expect(withdraw.immediate).not.toContain('3%');
   });
 
@@ -62,6 +62,18 @@ describe('선택지 표(lifeChoicesFor)', () => {
     expect(choices.map((choice) => choice.id)).toEqual(['contribute-all', 'contribute-half', 'cash']);
     expect(choices.every((choice) => choice.enabled)).toBe(true);
     expect(choices[0].immediate).toContain('환급 대기');
+  });
+
+  it('보너스 안내는 생활자금 잔액과 세액공제 0원, 납입 한도에 맞춰 달라진다', () => {
+    const state = withEvent(base(), 'bonus');
+    const full = lifeChoicesFor(state, event('bonus'))[0];
+    expect(full.immediate).toContain('생활자금은 늘어나지 않아요');
+    expect(full.pensionEstimate).toBeDefined();
+    const capped = lifeChoicesFor({ ...state, contributionTotal: policyRules.annualContributionLimit - 500_000 }, event('bonus'))[0];
+    expect(capped.immediate).toContain('나머지 2,000,000원');
+    expect(capped.immediate).toContain('추가되는 세액공제는 없어요');
+    const blocked = lifeChoicesFor({ ...state, contributionTotal: policyRules.annualContributionLimit }, event('bonus'))[0];
+    expect(blocked.enabled).toBe(false);
   });
 
   it('이직 퇴직금: IRP 이전(세금 없음) · 일시 수령(16.5%)', () => {

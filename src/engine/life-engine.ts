@@ -28,9 +28,9 @@ export const CASH_CHOICE_LABELS: Record<LifeEvent['kind'], string> = {
 
 /** 원천별 세금과 공통 매도 규칙으로 인출을 미리 계산한다. 미결 펀드는 생활비로 쓸 수 없다. */
 function withdrawalPlan(state: GameState, event: LifeEvent, depositOnly = false): ActionResult {
-  if (!event.eligibleWithdrawal) return { ok: false, message: '법정 중도인출 사유가 아닙니다.', state };
-  if (state.rebalancePlan || state.pendingOrders.length) return { ok: false, message: '접수한 주문 정산 전에는 인출할 수 없습니다. 생활비 분할 지급을 선택할 수 있습니다.', state };
-  if (depositOnly && !state.holdings.some(h => h.productId === 'deposit' && h.amount > 0)) return { ok: false, message: '현금화할 예금이 없습니다.', state };
+  if (!event.eligibleWithdrawal) return { ok: false, message: '이번 사건은 IRP 중도인출 사유에 해당하지 않아요. 생활자금으로 해결하는 방법을 확인해보세요.', state };
+  if (state.rebalancePlan || state.pendingOrders.length) return { ok: false, message: '처리 중인 주문이 있어 지금은 인출할 수 없어요. 생활자금으로 지급하고, 부족한 금액은 나누어 지급하는 방법을 확인해보세요.', state };
+  if (depositOnly && !state.holdings.some(h => h.productId === 'deposit' && h.amount > 0)) return { ok: false, message: '현재 현금화할 수 있는 IRP 예금이 없어요. 다른 해결 방법을 확인해보세요.', state };
   let next = state;
   const amount = Math.abs(event.cost);
   const covers = (candidate: GameState) => withdrawalTax(portfolioValue(candidate), candidate.accountBasis, candidate.irpCash).net >= amount;
@@ -54,7 +54,7 @@ function withdrawalPlan(state: GameState, event: LifeEvent, depositOnly = false)
     next = sellProduct(next, id, high, true, scope).state;
   }
   const gross = grossForNet(portfolioValue(next), next.accountBasis, amount);
-  if (!Number.isFinite(gross) || next.irpCash + 0.001 < gross) return { ok: false, message: '결제된 IRP 자금이 부족합니다. 펀드·대기주문을 즉시 인출할 수 없습니다.', state };
+  if (!Number.isFinite(gross) || next.irpCash + 0.001 < gross) return { ok: false, message: '지금 인출할 수 있는 IRP 자금이 부족해요. 펀드나 처리 중인 주문의 금액은 바로 인출할 수 없어요.', state };
   const tax = withdrawalTax(portfolioValue(next), next.accountBasis, gross);
   next = { ...consumeMaturityCash(next, gross), irpCash: Math.max(0, next.irpCash - gross), accountBasis: tax.nextBasis,
     cashFlows: [...next.cashFlows, { turn: state.turn, kind: 'withdrawal', amount: -gross }] };
@@ -91,17 +91,17 @@ export function lifeChoicesFor(state: GameState, event: LifeEvent): LifeChoiceOp
     const cash = costChoicePlan(state, event, 'cash');
     const shortage = cash.payment.unpaid;
     const cashLine = shortage > 0
-      ? `생활자금 ${won(cash.payment.cashPaid)} 사용 · 부족 ${won(shortage)}는 미지급 생활비로 기록, 다음 급여에서 우선 지급`
-      : `생활자금 −${won(amount)}`;
+      ? `생활자금에서 ${won(cash.payment.cashPaid)}을 지급해요. 부족한 ${won(shortage)}은 미지급 생활비로 남아요.`
+      : `생활자금에서 ${won(amount)}을 지급해요.`;
     const withdraw = costChoicePlan(state, event, 'withdraw');
     const deposit = costChoicePlan(state, event, 'deposit');
     return [
       { id: 'cash', label: shortage ? '생활비 분할 지급' : LIFE_CHOICE_LABELS.cash, enabled: true,
-        payment: cash.payment, immediate: cashLine, longTerm: 'IRP는 그대로. 미지급 생활비가 있으면 안정성 평가에 반영됩니다.' },
+        payment: cash.payment, immediate: cashLine, longTerm: shortage > 0 ? 'IRP의 은퇴자금은 유지돼요. 미지급 생활비는 다음 급여에서 우선 지급하고, 안정성 평가에 반영돼요.' : `지급 후 생활자금은 ${won(state.cash - amount)}이고, IRP의 은퇴자금은 유지돼요.` },
       { id: 'deposit', label: 'IRP 예금 현금화 후 중도인출', enabled: deposit.result.ok, reason: deposit.result.ok ? undefined : deposit.result.message,
-        payment: deposit.payment, immediate: deposit.result.message, longTerm: '허용 사유·결제 자금·재원별 세금 확인 후 인출. 중도해지는 발생 이자의 일부만 조정합니다.' },
+        payment: deposit.payment, immediate: deposit.result.ok ? `IRP 예금을 현금화한 뒤, 필요한 생활비 ${won(amount)}을 인출해요. 이번 선택의 예상 세금은 ${won(deposit.payment.tax)}이에요.` : deposit.result.message, longTerm: '예금을 중도해지하면 받는 이자가 줄어들 수 있어요. 인출한 금액만큼 IRP에 남는 은퇴자금도 줄어들어요.' },
       { id: 'withdraw', label: LIFE_CHOICE_LABELS.withdraw, enabled: withdraw.result.ok, reason: withdraw.result.ok ? undefined : withdraw.result.message,
-        payment: withdraw.payment, immediate: withdraw.result.message, longTerm: '미공제 원금 → 퇴직급여 → 공제 원금·수익 순서. 의료비 세법상 특별 감면은 별도 요건이므로 이 사례에는 가정하지 않습니다.' }
+        payment: withdraw.payment, immediate: withdraw.result.ok ? `IRP에서 필요한 생활비 ${won(amount)}을 인출해요. 이번 선택의 예상 세금은 ${won(withdraw.payment.tax)}이에요.` : withdraw.result.message, longTerm: '인출한 금액만큼 IRP에 남는 은퇴자금이 줄어들어요. 인출에 쓰이는 자금의 종류에 따라 세금이 달라질 수 있어요.' }
     ];
   }
   if (event.kind === 'bonus') {
@@ -110,18 +110,21 @@ export function lifeChoicesFor(state: GameState, event: LifeEvent): LifeChoiceOp
     const all = fullQuote.accepted, half = halfQuote.accepted;
     const creditAll = contributionCredit(state.contributionTotal, all).benefit;
     const creditHalf = contributionCredit(state.contributionTotal, half).benefit;
+    const contributionLine = (accepted: number, credit: number) => `받은 금액 중 ${won(accepted)}을 IRP에 납입해요. ${amount > accepted ? `나머지 ${won(amount - accepted)}은 생활자금으로 남아요.` : '이번 선택으로 생활자금은 늘어나지 않아요.'} ${credit > 0 ? `예상 세액공제 ${won(credit)}은 환급 대기 금액에 반영돼요.` : '이번 납입으로 추가되는 세액공제는 없어요.'}`;
     const choices: LifeChoiceOption[] = [
       {
         id: 'contribute-all', label: state.contributionPacing ? `${won(all)} 납입 · ${won(amount - all)} 생활자금` : LIFE_CHOICE_LABELS['contribute-all'], enabled: fullQuote.availability.enabled, reason: fullQuote.availability.enabled ? undefined : fullQuote.availability.reason,
-        immediate: `IRP 대기자금 +${won(all)}${all < amount ? ` (한도 밖 ${won(amount - all)}는 생활자금)` : ''} · 세액공제 ${won(creditAll)} 환급 대기`,
-        longTerm: `월 연금 +${monthly(all)}. ${amount > all ? `나머지 ${won(amount - all)}는 생활자금으로 남습니다.` : '생활자금은 늘지 않습니다.'}${state.contributionPacing ? ' 같은 턴의 추가납입 한도를 함께 사용합니다.' : ''}`
+        immediate: contributionLine(all, creditAll),
+        longTerm: `납입한 돈은 IRP 대기자금이 돼요. 상품을 보유하려면 별도 매수가 필요해요.${state.contributionPacing ? ' 이번 납입은 같은 턴의 추가납입 한도를 함께 사용해요.' : ''}`,
+        pensionEstimate: monthly(all)
       },
       {
         id: 'contribute-half', label: state.contributionPacing ? `${won(half)} 납입 · ${won(amount - half)} 생활자금` : LIFE_CHOICE_LABELS['contribute-half'], enabled: halfQuote.availability.enabled, reason: halfQuote.availability.enabled ? undefined : halfQuote.availability.reason,
-        immediate: `IRP +${won(half)} · 생활자금 +${won(amount - half)} · 세액공제 ${won(creditHalf)} 환급 대기`,
-        longTerm: `월 연금 +${monthly(half)}. 비상자금도 조금 늘어납니다.`
+        immediate: contributionLine(half, creditHalf),
+        longTerm: '은퇴자금을 늘리면서 다음 지출에 쓸 생활자금도 마련해요. IRP에 납입한 돈은 우선 대기자금으로 남아요.',
+        pensionEstimate: monthly(half)
       },
-      { id: 'cash', label: CASH_CHOICE_LABELS.bonus, enabled: true, immediate: `생활자금 +${won(amount)}`, longTerm: 'IRP·월 연금 변화 없음. 남은 한도 안에서 운용지시로 납입할 수 있습니다.' }
+      { id: 'cash', label: CASH_CHOICE_LABELS.bonus, enabled: true, immediate: `받은 ${won(amount)}을 모두 생활자금으로 남겨요.`, longTerm: '이번 선택으로 IRP의 은퇴자금은 늘어나지 않아요. 이후에도 남은 납입 한도 안에서 IRP에 추가로 납입할 수 있어요.' }
     ];
     return state.contributionPacing && all === half ? choices.filter(c => c.id !== 'contribute-half') : choices;
   }
@@ -129,13 +132,14 @@ export function lifeChoicesFor(state: GameState, event: LifeEvent): LifeChoiceOp
   return [
     {
       id: 'transfer-irp', label: LIFE_CHOICE_LABELS['transfer-irp'], enabled: true,
-      immediate: `IRP 대기자금 +${won(amount)} · 세금 없음(과세 이연)`,
-      longTerm: `월 연금 +${monthly(amount)}. 대기자금은 매수나 디폴트옵션으로 운용됩니다. 납입 한도와 무관.`
+      immediate: `퇴직급여 ${won(amount)}을 IRP로 옮겨요. 지금 세금을 차감하지 않고, 세금 납부를 뒤로 미뤄요.`,
+      longTerm: '옮긴 돈은 IRP 대기자금이 되고, 생활자금은 늘어나지 않아요. 퇴직급여 이전은 추가납입 한도를 사용하지 않아요.',
+      pensionEstimate: monthly(amount)
     },
     {
       id: 'cash', label: CASH_CHOICE_LABELS.transfer, enabled: true,
-      immediate: `가상 원천징수영수증의 퇴직소득세 ${won(tax)} 차감 → 생활자금 +${won(amount - tax)}`,
-      longTerm: '연금 재원이 늘지 않습니다. 생활자금이 넉넉해지지만 세금은 돌아오지 않습니다.'
+      immediate: `퇴직급여에서 가상 영수증에 적힌 퇴직소득세 ${won(tax)}을 빼고, ${won(amount - tax)}을 생활자금으로 받아요.`,
+      longTerm: '당장 사용할 생활자금이 늘어나지만, 이번 퇴직급여가 IRP의 은퇴자금으로 쌓이지는 않아요.'
     }
   ];
 }

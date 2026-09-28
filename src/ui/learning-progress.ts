@@ -14,7 +14,7 @@ export function learningProgressData(state:GameState) {
 }
 export function renderLearningProgress(state:GameState):string {
  const k=learningProgressData(state);
- return `<aside class="learning-progress" aria-label="퀴즈 점수의 쓰임"><strong>학습 ${k.total}/20점 · 퀴즈 정답 ${k.quizCorrect}개</strong><p>학습 점수는 12턴 최종 종합점수 100점 중 20점에 포함돼요.</p><details data-preserve-open><summary>퀴즈 기여와 평가 기준</summary><p>퀴즈 항목 ${k.quiz}/${k.quizCap}점 · 정답 1개당 최대 2점.</p><small>현재 퀴즈가 종합점수에 더한 점수 +${k.contribution}점 · 상한·감점 반영. 연금액·자산·별을 직접 늘리지는 않아요. 퀴즈는 선택이며 오답 벌점은 없어요.</small></details></aside>`;
+ return `<aside class="learning-progress" aria-label="퀴즈 점수의 쓰임"><strong>학습 ${k.total}/20점 · 퀴즈 정답 ${k.quizCorrect}개</strong><p>시작 기본 ${KNOWLEDGE_CAPS.base}점 · 퀴즈 획득 ${k.quiz}/${k.quizCap}점${!state.campaign ? ` · 이해 ${k.understanding}점 · 리밸런싱 ${k.rebalance}점` : ''}${k.penalty ? ` · 위반 감점 −${k.penalty}점` : ''}</p><p>학습 점수는 12턴 최종 종합점수 100점 중 20점에 포함돼요.</p><details data-preserve-open><summary>퀴즈 기여와 평가 기준</summary><p>퀴즈 항목 ${k.quiz}/${k.quizCap}점 · 정답 1개당 최대 2점.</p><small>현재 퀴즈가 종합점수에 더한 점수 +${k.contribution}점 · 상한·감점 반영. 연금액·자산·별을 직접 늘리지는 않아요. 퀴즈는 선택이며 오답 벌점은 없어요.</small></details></aside>`;
 }
 export function renderFinalPerformance(state:GameState):string {
  const s=calculateScore(state), k=learningProgressData(state),checks=starChecklist(state,s);

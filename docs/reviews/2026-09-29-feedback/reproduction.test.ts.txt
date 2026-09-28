@@ -1,0 +1,27 @@
+// @vitest-environment happy-dom
+import {it,expect} from 'vitest';
+import {PensionRoadApp} from '../src/ui/app';
+import {createGame,startTurn} from '../src/engine/game-engine';
+import {knowledgeBreakdown} from '../src/engine/scoring-engine';
+import {defaultSave,STORAGE_KEY} from '../src/ui/ui-state';
+import {CHECKPOINT_KEY,checkpointVersion,parseCheckpoint} from '../src/ui/play-checkpoint';
+const setup=(modal:string|null)=>{
+ localStorage.clear();document.body.innerHTML='<div id="app"></div>';
+ const g={...startTurn(createGame('life-report','growth',500000,{scenario:'classic',ghost:false}),5).state,currentEventId:'moving',awaitingAction:false};
+ localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,disclaimerAccepted:true,quickGuideSeen:true,howtoSeen:true}));
+ localStorage.setItem(CHECKPOINT_KEY,JSON.stringify({version:checkpointVersion(g),game:g,modal,arrivalPending:false,lastSummary:null,quizCardId:null,quizPicked:null,finalQuizQueue:[],finalQuizTotal:0,finishing:false,defaultOptionAsk:false}));
+ const root=document.querySelector<HTMLElement>('#app')!;new PensionRoadApp(root);
+ root.querySelector<HTMLButtonElement>('[data-action="resume-game"]')!.click();return root;
+};
+it('未回答でも基本4点がある',()=>{const g=createGame('score-report','growth',500000,{scenario:'classic',ghost:false});expect(knowledgeBreakdown(g)).toMatchObject({total:4,quiz:0,quizCorrect:0});});
+it.each(['open-portfolio','open-market','open-settings'])('現行障害の再現 %s 後に閉じると事件に復帰しない',action=>{
+ const root=setup('life');expect(root.querySelector('.modal-life')).not.toBeNull();
+ root.querySelector<HTMLButtonElement>(`[data-action="${action}"]`)!.click();
+ root.querySelector<HTMLButtonElement>('[data-action="close-modal"]')!.click();
+ expect(root.querySelector('[role="dialog"]')).toBeNull();
+ expect(root.querySelector<HTMLButtonElement>('.dice-button')!.disabled).toBe(true);
+ expect(parseCheckpoint(localStorage.getItem(CHECKPOINT_KEY))!.game.currentEventId).toBe('moving');
+});
+it('未解決事件とmodal nullの記録は続行後も閉塞する',()=>{
+ const root=setup(null);expect(root.querySelector('[role="dialog"]')).toBeNull();expect(root.querySelector<HTMLButtonElement>('.dice-button')!.disabled).toBe(true);
+});

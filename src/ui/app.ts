@@ -1,3 +1,4 @@
+import { renderActionAccountSummary } from './action-account-summary';
 import { animateDiceThrow } from './dice-throw';
 import { renderFinalPerformance, renderLearningProgress } from './learning-progress';
 import { renderGoalConditions } from './hud';
@@ -505,6 +506,8 @@ export class PensionRoadApp {
       this.persist();
       this.screen = this.setupReturn === 'game' && this.game ? 'game' : 'title';
       this.announce(`월 연금 목표 ${formatWon(this.goalMonthly)}이 지금 판에 반영되었습니다.`);
+    } else if (action === 'open-life' && this.game?.currentEventId && !this.arrivalPending) {
+      this.modal = 'life';
     } else if (action === 'roll-dice') {
       this.actionMenuExpanded = false;
       this.requestProgress({ kind: 'roll-next-turn' });
@@ -811,11 +814,13 @@ export class PensionRoadApp {
     if (this.modal === 'default-option') { this.modal = 'settings'; return; }
     if(this.modal==='quiz' && this.game?.learningFlow) { this.nextQuiz(); return; }
     if (this.modal === 'action') { this.buyLimitConfirm = null; this.modal = null; this.announce('운용 선택을 취소했습니다. 턴과 남은 행동은 그대로입니다.'); }
+    else if (this.game?.currentEventId && !this.arrivalPending && ['portfolio','market','settings','cards','explore'].includes(this.modal ?? '')) { this.portfolioReturn = false; this.modal = 'life'; }
     else if (this.modal === 'portfolio' && this.portfolioReturn) { this.portfolioReturn = false; this.requestActionEntry(); }
     else if (this.modal === 'howto') this.afterHowTo();
     else if (this.modal === 'tile') this.afterTileBriefing();
     else if (this.modal === 'news') this.afterNews();
     else this.modal = null;
+    if (!this.modal && this.game?.currentEventId && !this.arrivalPending) this.modal = 'life';
   }
 
   /** 게임 방법 창 뒤: 판 시작이면 디폴트옵션을 묻고, 설정에서 열었으면 그냥 닫는다 */
@@ -1204,7 +1209,8 @@ export class PensionRoadApp {
     this.defaultTradeDraft=data.actionContext?.draft??null;
     this.actionView=data.actionContext?.view??'menu';
     this.portfolioReturn=data.actionContext?.portfolioReturn??false;
-    if (this.modal === 'action') this.requestActionEntry();
+    if (this.game.currentEventId && !this.arrivalPending && (!this.modal || this.modal === 'action')) { this.modal = 'life'; this.portfolioReturn = false; }
+    else if (this.modal === 'action') this.requestActionEntry();
     this.announce('저장된 결정 시점에서 이어갑니다. 시장·급여·거래를 다시 처리하지 않습니다.');
   }
 
@@ -1595,7 +1601,7 @@ export class PensionRoadApp {
       return `<button class="dice-button ready" data-action="roll-dice"><span>⚄</span>주사위 굴리기</button>`;
     }
     if (state.currentEventId) {
-      return `<button class="dice-button" disabled><span>♥</span>생활사건 해결 중</button>`;
+      return `<button class="dice-button" data-action="open-life"><span>♥</span>생활사건 선택하기</button>`;
     }
     if (state.awaitingAction) {
       const done = state.turnActionLines.length;
@@ -1918,7 +1924,7 @@ export class PensionRoadApp {
           ${game.defaultTrading ? card('default', '디폴트옵션 옵트인/아웃', '상품을 직접 매수하거나 디폴트옵션 보유분을 환매') : ''}
         </div>` : ''}</section>`;
       return `<div class="beginner-action-menu">${heading}${renderPractice(game,this.practice,true)}${practiceIsActive(game,this.practice)?'':renderActionHint(guide)}
-        <div class="action-money"><div><span>주문 가능 · IRP 안</span><strong>${formatWon(game.irpCash)}</strong></div><div><span>생활자금 · IRP 밖</span><strong>${formatWon(game.cash)}</strong></div></div>
+        ${renderActionAccountSummary(game)}
         ${allActions}${renderPurposeChoices(guide)}${hold}
         ${game.turn===12?'<p class="info-note">마지막 운용 · 남은 주문은 종료 가격으로 최종 정산합니다. 추가 시장·급여는 없습니다.</p>':''}
         ${resolved}${soFar}${renderOngoing(game)}${spotlightNote}${this.renderActionMarketContext(true)}</div>`;

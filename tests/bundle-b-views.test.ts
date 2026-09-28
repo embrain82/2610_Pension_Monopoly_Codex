@@ -22,11 +22,11 @@ describe('생활사건 3지선다 모달(life-view)', () => {
     expect(html).toContain('data-choice="deposit"');
     expect(html).toContain('data-choice="withdraw"');
     expect(html).toContain('필요 금액');
-    expect(html).toContain('지금:');
-    expect(html).toContain('나중:');
+    expect(html).toContain('선택하면:');
+    expect(html).toContain('알아둘 점:');
     // car는 법정 중도인출 사유가 아니다 → 잠금 + 이유
     expect(event('repair').eligibleWithdrawal).toBe(false);
-    expect(html).toContain('법정 중도인출 사유');
+    expect(html).toContain('중도인출 사유에 해당하지 않아요');
     expect(html).toMatch(/data-choice="withdraw"[^>]*disabled/);
   });
 
@@ -34,7 +34,7 @@ describe('생활사건 3지선다 모달(life-view)', () => {
     const state = withEvent({ ...createGame('lv-2', 'balanced'), cash: 500_000 }, 'repair');
     const html = renderLifeModal(state, event('repair'));
     expect(html).toContain('생활비 분할 지급');
-    expect(html).toContain('부족 1,700,000원');
+    expect(html).toContain('부족한 1,700,000원');
     expect(html).toContain('IRP 대기자금·보유 상품은 그대로');
     expect(html).not.toContain('자동 매도');
   });
