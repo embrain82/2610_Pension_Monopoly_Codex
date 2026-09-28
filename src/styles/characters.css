@@ -5,10 +5,17 @@
 .character-choice { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; min-width:0; padding:12px 4px 10px; border:1px solid #d6e3dc; border-radius:16px; background:#fff; color:#24473a; box-shadow:none; }
 .character-choice[aria-pressed="true"] { background:#edf8ee; border:2px solid #178343; padding:11px 3px 9px; box-shadow:0 3px 12px #17834312; }
 .character-choice:hover { background:#f3f9f3; }
+.character-choice { isolation:isolate; }
 .character-choice:focus-visible { outline:3px solid #285aba; outline-offset:3px; }
 .character-choice strong { font-size:.92rem; }
 .character-portrait { display:grid; place-items:center; width:100%; aspect-ratio:1; }
 .character-portrait>.avatar { width:100%; height:auto; max-width:104px; filter:none; }
+.character-portrait { position:relative; }
+.character-selection-video { display:none; position:absolute; width:100%; max-width:104px; aspect-ratio:1; object-fit:contain; pointer-events:none; border-radius:12px; }
+.character-selection-video[data-ready] { display:block; }
+/* Blend the generated white studio backdrop into this card, including hover. */
+.character-selection-video { mix-blend-mode:multiply; border-radius:0; }
+.character-portrait:has(.character-selection-video[data-ready])>.avatar { visibility:hidden; }
 .character-status { font-size:.7rem; color:#60766a; min-height:1.5em; white-space:nowrap; }
 .character-choice[aria-pressed="true"] .character-status { color:#14743b; font-weight:800; }
 .avatar-frame { pointer-events:none; }
@@ -24,3 +31,8 @@
   .character-choice { border-radius:14px; }
 }
 html[data-reduce-motion="true"] .character-choice { transition:none; }
+
+/* Board walking shares the avatar's framing; static art stays ready as fallback. */
+.board-walk-canvas { display:none; width:100%; height:100%; filter:drop-shadow(1.5px 0 0 #fff) drop-shadow(-1.5px 0 0 #fff) drop-shadow(0 1.5px 0 #fff) drop-shadow(0 -1.5px 0 #fff) drop-shadow(0 2px 2px #18363535); }
+.board-walk-canvas[data-playing] { display:block; }
+.token-face:has(.board-walk-canvas[data-playing])>svg { display:none; }
