@@ -13,7 +13,7 @@ it.each([false,true])('기기 동작 줄이기 %s에서도 명시적 선택이 �
   expect(shouldSkipDiceAnimation(false, os, 'system')).toBe(os);
 });
 it.each([false,true])('이전 동작 줄이기 %s 저장을 보존한다', reducedMotion => {
-  localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,settings:{...defaultSave.settings,reducedMotion}}));
+  localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,settings:{...defaultSave.settings,motionEffects:undefined,reducedMotion}}));
   const saved=loadSave().settings;
   expect(saved.reducedMotion).toBe(reducedMotion);
   expect(shouldSkipDiceAnimation(saved.reducedMotion, false, saved.motionEffects)).toBe(reducedMotion);
@@ -36,13 +36,13 @@ it('OS 동작 줄이기가 켜져도 게임 효과 켜기를 저장하고 실제
   localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,profileAssessment:{profileId:'balanced',origin:'confirmed'},disclaimerAccepted:true,quickGuideSeen:true,howtoSeen:true}));
   const root=document.querySelector<HTMLElement>('#app')!; new PensionRoadApp(root);
   const click=(action:string)=>root.querySelector<HTMLButtonElement>(`[data-action="${action}"]`)!.click();
-  expect(document.documentElement.dataset.reduceMotion).toBe('true');
+  expect(document.documentElement.dataset.reduceMotion).toBe('false');
   click('open-settings');
   const select=root.querySelector<HTMLSelectElement>('#motion-effects')!;
   select.value='on'; select.dispatchEvent(new Event('change',{bubbles:true}));
   expect(loadSave().settings.motionEffects).toBe('on');
   expect(document.documentElement.dataset.reduceMotion).toBe('false');
-  click('close-modal'); click('begin'); click('prepare-no-option'); click('confirm-default-option'); click('roll-dice');
+  click('close-modal'); click('begin');root.querySelector<HTMLButtonElement>('[data-action="character-continue"]')?.click(); click('prepare-no-option'); click('confirm-default-option'); click('roll-dice');
   expect(root.querySelector('.dice-overlay .rolling')).not.toBeNull();
   await vi.advanceTimersByTimeAsync(10000);
   expect(root.querySelector('.dice-overlay')).toBeNull();

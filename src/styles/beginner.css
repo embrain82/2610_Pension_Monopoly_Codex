@@ -193,3 +193,19 @@
 @media(max-width:600px){.performance-parts,.result-takeaway{grid-template-columns:1fr}.money-flow-contribution .money-flow-invest{grid-template-columns:1fr}.settle-essential,.final-performance{padding:16px}.essential-changes{font-size:14px}.holding-cause-detail dl>div{flex-wrap:wrap}.holding-cause-detail dd{margin-left:auto}.concept-example,.learning-progress{padding:14px}.final-performance h2{font-size:22px}}
 .learning-progress summary{min-height:44px;padding:10px 0;cursor:pointer;font-weight:700;color:#167344}
 .goal-check-brief{font-size:13px;line-height:1.6;margin:8px 0;grid-column:1/-1}
+
+/* Mobile playtest: keep help and all operations in the same decision context. */
+.action-menu-heading { position:relative; }
+.action-menu-heading>.eyebrow { padding-right:54px; min-height:44px; display:flex; align-items:center; }
+.road-action-menu .action-heading-help { position:absolute; right:0; top:0; margin:0; width:44px; z-index:2; border:0; background:transparent; }
+.road-action-menu .action-heading-help>summary { width:44px; height:44px; padding:0; justify-content:center; border:1px solid var(--line); border-radius:50%; background:#f0f6f0; }
+.road-action-menu .action-heading-help[open]>summary>span { transform:none; }
+.road-action-menu .action-heading-help>dl { position:absolute; right:0; top:50px; width:min(340px,calc(100vw - 64px)); max-height:45vh; overflow:auto; padding:16px; border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:0 8px 28px #183f3426; }
+#all-actions-panel:not([hidden]) { animation:operations-reveal .2s ease-out; }
+#all-actions-panel .action-list { margin-top:12px; }
+@keyframes operations-reveal { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+html[data-reduce-motion="true"] #all-actions-panel { animation:none; }
+.modal-character .character-options { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.modal-character .character-choice { min-width:0; }
+.modal-character .character-portrait svg { max-width:100%; }
+.modal-character>.primary { margin-top:20px; width:100%; }

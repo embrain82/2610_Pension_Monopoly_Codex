@@ -14,12 +14,12 @@ const change=(id:string,value:string)=>{const e=root.querySelector<HTMLInputElem
 function mount(game?:GameState) {
   const g=game??{...startTurn(createGame('trade-ui','balanced',500000,{ghost:false,scenario:'classic',defaultTrading:true,defaultOption:'highRisk'}),5).state,irpCash:2000000};
   localStorage.setItem(CHECKPOINT_KEY,JSON.stringify({version:g.defaultTrading?'c3':'c2',game:g,modal:'action',lastSummary:null,quizCardId:null,quizPicked:null,finalQuizQueue:[],finalQuizTotal:0,finishing:false,defaultOptionAsk:false}));
-  new PensionRoadApp(root);click('[data-action="resume-game"]'); root.querySelector<HTMLButtonElement>('[data-action="show-all-actions"]')?.click();return g;
+  new PensionRoadApp(root);click('[data-action="resume-game"]'); root.querySelector<HTMLButtonElement>('[data-action="show-all-actions"][aria-expanded="false"]')?.click();return g;
 }
-beforeEach(()=>{localStorage.clear();document.body.innerHTML='<div id="app"></div>';root=document.querySelector('#app')!;localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,profileAssessment:{profileId:'balanced',origin:'confirmed'},disclaimerAccepted:true,quickGuideSeen:true,howtoSeen:true,settings:{...defaultSave.settings,reducedMotion:true}}));});
-it('기존 6개 카드와 같은 디자인의 새 카드 한 개, 상세 탭은 하위 화면에만 표시',()=>{
-  mount();expect(root.querySelectorAll('.action-list > article')).toHaveLength(7);
-  expect([...root.querySelectorAll('.action-list strong')].map(e=>e.textContent)).toEqual(['돈 넣기 · 추가납입','상품 사기 · 매수','상품 팔기 · 매도','다른 상품으로 · 교체매매','구성 다시 맞추기 · 리밸런싱','디폴트옵션 사기·나오기 · 옵트인/아웃','이번엔 그대로']);
+beforeEach(()=>{localStorage.clear();document.body.innerHTML='<div id="app"></div>';root=document.querySelector('#app')!;localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,profileAssessment:{profileId:'balanced',origin:'confirmed'},disclaimerAccepted:true,quickGuideSeen:true,howtoSeen:true,settings:{...defaultSave.settings,motionEffects:'off',reducedMotion:true}}));});
+it('전체 운용 카드 6개와 별도 마감 버튼, 상세 탭은 하위 화면에만 표시',()=>{
+  mount();expect(root.querySelectorAll('.action-list > article')).toHaveLength(6);
+  expect([...root.querySelectorAll('.action-list strong')].map(e=>e.textContent)).toEqual(['돈 넣기 · 추가납입','상품 사기 · 매수','상품 팔기 · 매도','다른 상품으로 · 교체매매','구성 다시 맞추기 · 리밸런싱','디폴트옵션 사기·나오기 · 옵트인/아웃']);
   expect(root.querySelectorAll('[data-action="default-trade-tab"]')).toHaveLength(0);
   click('[data-view="default"]');expect(root.querySelectorAll('[data-action="default-trade-tab"]')).toHaveLength(2);
   expect(root.querySelectorAll('[role="dialog"] [data-action="close-modal"]')).toHaveLength(1);
@@ -30,11 +30,11 @@ it('포트폴리오 왕복·재접속은 탭과 금액 초안을 보존하고 X/
   let base={...startTurn(createGame('draft-both','balanced',500000,{ghost:false,scenario:'classic',defaultTrading:true}),5).state,irpCash:2000000};
   base=settleAllOrders(performAction(base,{kind:'default-opt-in',optionId:'highRisk',amount:1000000,commandId:nextDefaultCommand(base)}).state);
   const g=mount({...base,awaitingAction:true,actionsLeft:2});click('[data-view="default"]');change('#default-trade-amount','345678');click('[data-action="default-trade-tab"][data-tab="out"]');click('[data-action="default-trade-fraction"][data-fraction="1"]');click('[data-action="action-portfolio"]');
-  document.body.innerHTML='<div id="second"></div>';root=document.querySelector('#second')!;new PensionRoadApp(root);click('[data-action="resume-game"]'); root.querySelector<HTMLButtonElement>('[data-action="show-all-actions"]')?.click();click('[data-action="return-action"]');
+  document.body.innerHTML='<div id="second"></div>';root=document.querySelector('#second')!;new PensionRoadApp(root);click('[data-action="resume-game"]'); root.querySelector<HTMLButtonElement>('[data-action="show-all-actions"][aria-expanded="false"]')?.click();click('[data-action="return-action"]');
   expect(root.querySelector('[data-action="default-trade-tab"][data-tab="out"]')?.getAttribute('aria-pressed')).toBe('true');
   click('[data-action="default-trade-tab"][data-tab="in"]');expect(root.querySelector<HTMLInputElement>('#default-trade-amount')?.value).toBe('345678');
   expect(saved().game).toEqual(g);document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape'}));expect(root.querySelector('[role="dialog"]')).toBeNull();expect(saved().game).toEqual(g);
-  click('[data-action="open-action"]'); root.querySelector<HTMLButtonElement>('[data-action="show-all-actions"]')?.click();expect(root.querySelectorAll('.action-list>article')).toHaveLength(7);
+  click('[data-action="open-action"]'); root.querySelector<HTMLButtonElement>('[data-action="show-all-actions"][aria-expanded="false"]')?.click();expect(root.querySelectorAll('.action-list>article')).toHaveLength(6);
 });
 it('확정은 한 번만 접수하고 남은 행동과 결제 진행을 표시한다',()=>{
   const g=mount();click('[data-view="default"]');change('#default-trade-amount','100000');click('[data-action="submit-default-trade"]');
@@ -49,7 +49,7 @@ it('보유분 환매와 지정 해제가 분리되고 같은 일반 상품 매�
   expect(saved().game.defaultOption).toBe('highRisk');expect(saved().game.defaultTrading!.groups.at(-1)!.kind).toBe('out');expect(saved().game.pendingOrders.every(o=>!!o.defaultScope)).toBe(true);
 });
 it('새 판의 사전지정 안내와 순수 마감은 자동 매수를 약속하지 않는다',()=>{
-  new PensionRoadApp(root);click('[data-action="begin"]');expect(root.textContent).toContain('지정만으로 매수되지 않습니다');expect(root.textContent).not.toContain('「이번엔 그대로」를 고르면 대기자금이 이 옵션으로 운용');
+  new PensionRoadApp(root);click('[data-action="begin"]');root.querySelector<HTMLButtonElement>('[data-action="character-continue"]')?.click();expect(root.textContent).toContain('지정만으로 매수되지 않습니다');expect(root.textContent).not.toContain('「이번엔 그대로」를 고르면 대기자금이 이 옵션으로 운용');
 });
 it('마지막 턴 주문은 가상의 13·14턴 대신 최종 정산으로 안내한다',()=>{
   const g={...startTurn(createGame('last-ui','balanced',500000,{ghost:false,scenario:'classic',defaultTrading:true}),5).state,turn:12,irpCash:1000000};
@@ -60,7 +60,7 @@ it('마지막 턴 주문은 가상의 13·14턴 대신 최종 정산으로 안�
 
 it('추천과 선택을 각각 표시하고 CTA와 실제 저장이 같은 상품을 가리킨다',()=>{
   localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,profileAssessment:{profileId:'growth',origin:'confirmed'},profileId:'growth',defaultOption:'principal',disclaimerAccepted:true,quickGuideSeen:true,howtoSeen:true}));
-  new PensionRoadApp(root);click('[data-action="begin"]');
+  new PensionRoadApp(root);click('[data-action="begin"]');root.querySelector<HTMLButtonElement>('[data-action="character-continue"]')?.click();
   expect(root.querySelector('[data-option="highRisk"] .suggest')).not.toBeNull();
   expect(root.querySelector('[data-option="principal"] .selected')?.textContent).toContain('현재 선택됨');
   expect(root.querySelector('[data-action="confirm-default-option"]')?.textContent).toBe('원리금보장형 확인 · 게임 시작');
@@ -82,7 +82,7 @@ it('설정의 명시적 미지정을 과거 저장값으로 대체하지 않고 
 });
 it('키보드로 허용 카드만 이동하고 선택·초점·확정 문구가 함께 갱신된다',()=>{
   localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,profileAssessment:{profileId:'stable',origin:'confirmed'},profileId:'stable',disclaimerAccepted:true,quickGuideSeen:true,howtoSeen:true}));
-  new PensionRoadApp(root);click('[data-action="begin"]');
+  new PensionRoadApp(root);click('[data-action="begin"]');root.querySelector<HTMLButtonElement>('[data-action="character-continue"]')?.click();
   const principal=root.querySelector<HTMLButtonElement>('[data-option="principal"]')!;principal.focus();
   principal.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true}));
   expect(root.querySelector('[aria-checked="true"]')?.getAttribute('data-option')).toBe('lowRisk');
@@ -113,17 +113,17 @@ it('두 번째 행동에서 전액 매수 후 메뉴 비활성은 클릭 이벤�
   const buy=root.querySelector<HTMLButtonElement>('[data-view="buy"]')!;
   expect(buy.disabled).toBe(true);expect(root.querySelector('#reason-buy')?.textContent).toContain('10만원 미만');
   buy.dispatchEvent(new MouseEvent('click',{bubbles:true}));expect(saved().game).toEqual(after);
-  expect(root.querySelectorAll('.action-list>article')).toHaveLength(7);
+  expect(root.querySelectorAll('.action-list>article')).toHaveLength(6);
   expect(root.querySelector<HTMLButtonElement>('[data-view="sell"]')?.disabled).toBe(false);
 });
 it('이전 저장 판은 기존 6개 메뉴와 기존 운용 규칙을 유지한다',()=>{
   mount({...startTurn(createGame('legacy-ui','balanced',500000,{ghost:false}),5).state,irpCash:0});
-  expect(root.querySelectorAll('.action-list>article')).toHaveLength(6);expect(root.querySelector('[data-view="default"]')).toBeNull();
+  expect(root.querySelectorAll('.action-list>article')).toHaveLength(5);expect(root.querySelector('[data-view="default"]')).toBeNull();
   expect(root.querySelector<HTMLButtonElement>('[data-view="buy"]')?.disabled).toBe(true);
 });
 it('성향 밖 저장 옵션은 창을 열 때 이유와 추천 초안을 표시하고 그 초안을 확정한다',()=>{
   localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,profileAssessment:{profileId:'stable',origin:'confirmed'},profileId:'stable',defaultOption:'highRisk',disclaimerAccepted:true,quickGuideSeen:true,howtoSeen:true}));
-  new PensionRoadApp(root);click('[data-action="begin"]');
+  new PensionRoadApp(root);click('[data-action="begin"]');root.querySelector<HTMLButtonElement>('[data-action="character-continue"]')?.click();
   expect(root.textContent).toContain('이전에 저장한 옵션이 현재 투자성향 범위 밖');
   expect(root.querySelector('[aria-checked="true"]')?.getAttribute('data-option')).toBe('principal');
   expect(root.querySelector('[data-action="confirm-default-option"]')?.textContent).toBe('원리금보장형 확인 · 게임 시작');

@@ -7,14 +7,14 @@ import {autoplay} from '../src/engine/game-engine';
 let root:HTMLElement;
 const click=(s:string)=>{const el=root.querySelector<HTMLElement>(s);expect(el,s).not.toBeNull();el!.click();};
 const saved=()=>parseCheckpoint(localStorage.getItem(CHECKPOINT_KEY))!;
-beforeEach(()=>{localStorage.clear();document.body.innerHTML='<div id="app"></div>';root=document.querySelector('#app')!;localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,profileAssessment:{profileId:'balanced',origin:'confirmed'},disclaimerAccepted:true,quickGuideSeen:true,howtoSeen:true,settings:{...defaultSave.settings,reducedMotion:true}}));});
+beforeEach(()=>{localStorage.clear();document.body.innerHTML='<div id="app"></div>';root=document.querySelector('#app')!;localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,profileAssessment:{profileId:'balanced',origin:'confirmed'},disclaimerAccepted:true,quickGuideSeen:true,howtoSeen:true,settings:{...defaultSave.settings,motionEffects:'off',reducedMotion:true}}));});
 it('시작 선택을 저장하고 정산 퀴즈는 선택적으로 열어 복귀한다',()=>{
   new PensionRoadApp(root);
   root.querySelector<HTMLDetailsElement>('.campaign-picker')!.open=true;
   const scenario=root.querySelector<HTMLSelectElement>('#scenario-pick')!;scenario.value='inflation';scenario.dispatchEvent(new Event('change',{bubbles:true}));
   expect(root.querySelector<HTMLDetailsElement>('.campaign-picker')!.open).toBe(true);
   const mission=root.querySelector<HTMLSelectElement>('#mission-pick')!;mission.value='cushion';mission.dispatchEvent(new Event('change',{bubbles:true}));
-  click('[data-action="begin"]');click('[data-action="prepare-no-option"]');click('[data-action="confirm-default-option"]');click('[data-action="roll-dice"]');
+  click('[data-action="begin"]');root.querySelector<HTMLButtonElement>('[data-action="character-continue"]')?.click();click('[data-action="prepare-no-option"]');click('[data-action="confirm-default-option"]');click('[data-action="roll-dice"]');
   if(root.querySelector('[data-action="quiz-skip"]')) click('[data-action="quiz-skip"]');
   if(root.querySelector('[data-action="dismiss-news"]')) click('[data-action="dismiss-news"]');
   expect(saved().game.campaign!.scenario).toBe('inflation');expect(saved().game.campaign!.mission).toBe('cushion');

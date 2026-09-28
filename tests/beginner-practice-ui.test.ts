@@ -11,7 +11,7 @@ const game=():GameState=>({...startTurn(createGame('practice-ui','balanced',5000
 const current=()=>parseCheckpoint(localStorage.getItem(CHECKPOINT_KEY))!;
 const click=(action:string)=>{const e=root.querySelector<HTMLElement>(`[data-action="${action}"]`);expect(e,action).not.toBeNull();e!.click();};
 function mount(g:GameState,practice?:unknown){localStorage.setItem(CHECKPOINT_KEY,JSON.stringify({version:checkpointVersion(g),game:g,practice,modal:'action',lastSummary:null,quizCardId:null,quizPicked:null,finalQuizQueue:[],finalQuizTotal:0,finishing:false,defaultOptionAsk:false}));new PensionRoadApp(root);click('resume-game');}
-beforeEach(()=>{localStorage.clear();document.body.innerHTML='<div id="app"></div>';root=document.querySelector('#app')!;localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,disclaimerAccepted:true,howtoSeen:true,quickGuideSeen:true,settings:{...defaultSave.settings,reducedMotion:true}}));});
+beforeEach(()=>{localStorage.clear();document.body.innerHTML='<div id="app"></div>';root=document.querySelector('#app')!;localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,disclaimerAccepted:true,howtoSeen:true,quickGuideSeen:true,settings:{...defaultSave.settings,motionEffects:'off',reducedMotion:true}}));});
 it('실습 안내·자금 조회·납입 미리보기·완료는 실제 거래를 전혀 하지 않는다',()=>{
  const g=game();mount(g);expect(root.querySelector('.guided-practice')).toBeNull();click('practice-start');
  expect(root.querySelector('.beginner-action-hint')).toBeNull();expect(current().game).toEqual(g);
