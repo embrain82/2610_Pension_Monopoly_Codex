@@ -75,6 +75,7 @@ import { renderBoardHud, ghostMonthlyNow, renderGoalMeter, renderRiskMeter } fro
 import { renderGhostVerdict } from './ghost';
 import { percent, renderProductReturns, renderMarketCard, renderMarketTimeline, renderSettingsEntry, renderTurnTrack, signedPercent } from './market-view';
 import { loadSave, saveData } from './ui-state';
+import { resetProgress } from './reset-progress';
 import { AUTO_SETTLE_MS, SETTLE_CTA_NEXT, canAutoSettle, renderSettlementModal } from './settlement';
 import { avatarEmotion, avatarMood, MOOD_LABELS, renderAvatar, showAvatarFallbacks, AVATAR_NAMES } from './avatars';
 import { renderCharacterPicker } from './character-picker';
@@ -89,7 +90,7 @@ import { revealBoard } from './board-viewport';
 import { actionGuidance, renderActionHint, renderPurposeChoices, type PortfolioSection } from './action-guidance';
 
 type Screen = 'prepare' | 'title' | 'diagnosis' | 'goal' | 'game' | 'result';
-type Modal = 'character' | 'risk-notice' | 'quiz-confirm' | 'life' | 'action' | 'portfolio' | 'market' | 'cards' | 'settings' | 'howto' | 'news' | 'tile' | 'settle' | 'quiz' | 'payout' | 'default-option' | 'explore' | null;
+type Modal = 'reset' | 'character' | 'risk-notice' | 'quiz-confirm' | 'life' | 'action' | 'portfolio' | 'market' | 'cards' | 'settings' | 'howto' | 'news' | 'tile' | 'settle' | 'quiz' | 'payout' | 'default-option' | 'explore' | null;
 interface PendingPrompt {
   kind: 'risk-notice' | 'quiz-confirm';
   intent: ProgressIntent;
@@ -652,6 +653,18 @@ export class PensionRoadApp {
     } else if (action === 'open-cards') {
       this.cardsTab = (button.dataset.tab as CardsTab | undefined) ?? 'cards';
       this.modal = 'cards';
+    } else if (action === 'open-reset' && this.screen === 'title') {
+      this.feedback = ''; this.modal = 'reset';
+    } else if (action === 'confirm-reset' && this.modal === 'reset' && this.screen === 'title') {
+      if (!resetProgress()) {
+        this.announce('초기화를 완료하지 못했습니다. 브라우저 저장소 설정을 확인해 주세요.');
+      } else {
+        this.clearDiceTimer(); this.clearAutoSettle(); this.sound.stop();
+        this.starTimers.forEach(timer => window.clearTimeout(timer));
+        this.game = null; this.resumeData = null; this.preparation = null; this.pendingPrompt = null;
+        this.save = loadSave();
+        window.location.reload(); return;
+      }
     } else if (action === 'open-settings') {
       this.modal = 'settings';
     } else if (action === 'open-howto') {
@@ -1472,7 +1485,7 @@ export class PensionRoadApp {
   private renderTitle(): string {
     const needsDisclaimer = !this.save.disclaimerAccepted;
     return `<section class="title-screen road-title">
-      <header class="road-header">${brandWordmark()}<button class="text-button" data-action="open-settings">설정</button></header>
+      <header class="road-header">${brandWordmark()}<nav class="title-utilities" aria-label="시작 화면 메뉴"><button class="text-button" data-action="open-settings">설정</button><button class="text-button reset-button" data-action="open-reset">초기화</button></nav></header>
       <div class="road-hero">
         <div class="road-intro"><p class="eyebrow">12턴의 은퇴설계</p><h1>주사위로 시작하는<br><strong>나의 은퇴설계</strong></h1><p class="lead">시장을 읽고, 나에게 맞는 선택을 해보세요.<br>퇴직연금을 쉽고 재미있게 배우는 연금로드.</p><ul class="road-benefits"><li>12턴 플레이</li><li>주사위 보드게임</li><li>퇴직연금 학습</li></ul></div>
         <div class="road-hero-art">${renderBrandArt('board',this.save.settings.characters && !this.failedBrandArt.has('board'))}<p>한 칸씩 움직이며, 한 걸음씩 알아가요.</p></div>
@@ -1732,6 +1745,7 @@ export class PensionRoadApp {
     const reducedMotion = shouldSkipDiceAnimation(this.save.settings.reducedMotion, window.matchMedia('(prefers-reduced-motion: reduce)').matches, this.save.settings.motionEffects);
     if (this.modal === 'risk-notice' && this.game) content = renderRiskNotice(this.game);
     if (this.modal === 'quiz-confirm' && this.game && this.pendingPrompt) content = renderQuizNotice(this.progressQuizOpportunity(this.pendingPrompt.intent), this.game.status === 'finished');
+    if (this.modal === 'reset') content = `<p class="eyebrow">처음부터 다시</p><h2>게임 기록을 초기화할까요?</h2><p>이 브라우저에 저장된 진행 중인 판, 최고 기록·업적·학습 카드, 캐릭터·투자자성향과 모든 게임 설정을 지웁니다.</p><p>초기화하면 처음 접속한 화면으로 돌아가요. 새 판을 시작할 때 캐릭터 선택부터 다시 진행할 수 있습니다.</p><p class="reset-warning">삭제한 기록은 되돌릴 수 없습니다.</p><div class="button-stack"><button class="secondary" data-action="close-modal">취소 · 기록 유지</button><button class="primary reset-confirm" data-action="confirm-reset">기록 삭제하고 처음으로</button></div>`;
     if (this.modal === 'character') content = `<p class="eyebrow">첫 여행 준비</p><h2>함께할 친구를 골라주세요</h2>${renderCharacterPicker(this.startingAvatar ?? this.save.avatarId, true, 'first-game')}<button class="primary jumbo" data-action="character-continue">${AVATAR_NAMES[this.startingAvatar ?? this.save.avatarId]}와 함께 시작 준비</button><p class="hint">나중에 설정에서 바꿀 수 있어요.</p>`;
     if (this.modal === 'life') content = this.renderLifeModal();
     if (this.modal === 'explore' && this.game) content = renderExplore(this.game, this.exploreIndex);
@@ -1801,7 +1815,7 @@ export class PensionRoadApp {
     }
     if (this.game?.defaultLifecycle && this.modal === 'news') content = renderOngoing(this.game) + content;
     const labels: Record<NonNullable<Modal>, string> = {
-      character: '첫 판 캐릭터 선택', 'risk-notice': '위험자산 비중 확인', 'quiz-confirm': '퀴즈 건너뛰기 확인',
+      reset: '게임 기록 초기화', character: '첫 판 캐릭터 선택', 'risk-notice': '위험자산 비중 확인', 'quiz-confirm': '퀴즈 건너뛰기 확인',
       action: '운용 행동 선택', life: '생활사건', howto: '게임 방법', tile: '도착 칸 설명', news: '시장 속보', settle: '턴 정산 요약',
       explore: '지도·지역 미션', quiz: '퀴즈', payout: '수령 방식 선택', 'default-option': '디폴트옵션 지정', portfolio: '포트폴리오', market: '시장 타임라인', cards: '도감', settings: '설정'
     };

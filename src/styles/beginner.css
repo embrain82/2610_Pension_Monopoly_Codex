@@ -209,3 +209,9 @@ html[data-reduce-motion="true"] #all-actions-panel { animation:none; }
 .modal-character .character-choice { min-width:0; }
 .modal-character .character-portrait svg { max-width:100%; }
 .modal-character>.primary { margin-top:20px; width:100%; }
+
+.title-utilities { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+.title-utilities .text-button { min-height:44px; padding:8px 10px; }
+.road-header .reset-button { color:#96503e; }
+.reset-warning { color:#96503e; font-weight:700; }
+.modal-reset .reset-confirm { background:#96503e; border-color:#96503e; }
