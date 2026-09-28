@@ -18,7 +18,7 @@ const game=()=>createGame('simpler-road','balanced',500000,{scenario:'classic',d
 let root:HTMLElement;
 const click=(selector:string)=>{const button=root.querySelector<HTMLButtonElement>(selector);expect(button,selector).not.toBeNull();button!.click();};
 const saved=()=>parseCheckpoint(localStorage.getItem(CHECKPOINT_KEY))!;
-beforeEach(()=>{localStorage.clear();document.body.innerHTML='<div id="app"></div>';root=document.querySelector('#app')!;localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,disclaimerAccepted:true,settings:{...defaultSave.settings,reducedMotion:true}}));});
+beforeEach(()=>{localStorage.clear();document.body.innerHTML='<div id="app"></div>';root=document.querySelector('#app')!;localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,disclaimerAccepted:true,settings:{...defaultSave.settings,motionEffects:'off',reducedMotion:true}}));});
 function mount(g:GameState){localStorage.setItem(CHECKPOINT_KEY,JSON.stringify({version:checkpointVersion(g),game:g,modal:null,lastSummary:null,quizCardId:null,quizPicked:null,finalQuizQueue:[],finalQuizTotal:0,finishing:false,defaultOptionAsk:false}));new PensionRoadApp(root);click('[data-action="resume-game"]');}
 it('탐험 오답과 정답, 새로고침은 금융·주사위·학습 점수와 칸 발견을 바꾸지 않는다',()=>{
  const g=game();mount(g);const before=structuredClone(saved().game);

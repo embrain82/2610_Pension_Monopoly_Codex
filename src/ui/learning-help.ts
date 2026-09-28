@@ -21,8 +21,8 @@ export const operationLabels = {
   switch: learningTerms.switch[0], rebalance: learningTerms.rebalance[0], default: '디폴트옵션 사기·나오기 · 옵트인/아웃'
 } as const;
 
-export function renderTermHelp(keys: readonly LearningTerm[], title = '말뜻이 궁금해요'): string {
-  return `<details class="term-help" data-preserve-open data-key="terms-${keys.join('-')}"><summary>${title}<span aria-hidden="true">＋</span></summary><dl>${keys.map(key => `<div><dt>${learningTerms[key][0]}</dt><dd>${learningTerms[key][1]}</dd></div>`).join('')}</dl></details>`;
+export function renderTermHelp(keys: readonly LearningTerm[], title = '말뜻이 궁금해요', compact = false): string {
+  return `<details class="term-help${compact ? ' action-heading-help' : ''}" data-preserve-open data-key="terms-${keys.join('-')}"><summary${compact ? ` aria-label="${title}" title="${title}"` : ''}>${compact ? '<span aria-hidden="true">?</span>' : `${title}<span aria-hidden="true">＋</span>`}</summary><dl>${keys.map(key => `<div><dt>${learningTerms[key][0]}</dt><dd>${learningTerms[key][1]}</dd></div>`).join('')}</dl></details>`;
 }
 
 export function renderProductHelp(id: ProductId): string {

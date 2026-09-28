@@ -45,7 +45,7 @@ it('화면 이동 중 중복 주사위 입력·탭 중단은 턴과 급여를 �
   vi.useFakeTimers();localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,profileAssessment:{profileId:'balanced',origin:'confirmed'},disclaimerAccepted:true,quickGuideSeen:true,howtoSeen:true}));
   const root=document.querySelector<HTMLElement>('#app')!;new PensionRoadApp(root);
   const click=(action:string)=>root.querySelector<HTMLButtonElement>(`[data-action="${action}"]`)!.click();
-  click('begin');click('prepare-no-option');click('confirm-default-option');
+  click('begin');root.querySelector<HTMLButtonElement>('[data-action="character-continue"]')?.click();click('prepare-no-option');click('confirm-default-option');
   const board=root.querySelector<HTMLElement>('.board-stage')!;
   vi.spyOn(board,'getBoundingClientRect').mockReturnValue(rect(-400) as DOMRect);vi.spyOn(window,'scrollY','get').mockReturnValue(500);
   vi.spyOn(document.documentElement,'scrollHeight','get').mockReturnValue(3000);vi.spyOn(document.documentElement,'clientHeight','get').mockReturnValue(844);vi.spyOn(window,'scrollTo').mockImplementation(()=>{});

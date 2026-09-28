@@ -6,11 +6,11 @@ import { CHECKPOINT_KEY, parseCheckpoint } from '../src/ui/play-checkpoint';
 import { createGame, startTurn } from '../src/engine/game-engine';
 import { prepareStart, reassessPreparation, canConfirmPreparation } from '../src/ui/start-preparation';
 let root:HTMLElement;
-const click=(action:string)=>{const b=root.querySelector<HTMLButtonElement>(`[data-action="${action}"]`);expect(b,action).not.toBeNull();b!.click();if(['begin','weekly-seed'].includes(action)) root.querySelector<HTMLButtonElement>('[data-action="prepare-guide-continue"]')?.click();};
+const click=(action:string)=>{const b=root.querySelector<HTMLButtonElement>(`[data-action="${action}"]`);expect(b,action).not.toBeNull();b!.click();root.querySelector<HTMLButtonElement>('[data-action="character-continue"]')?.click();if(['begin','weekly-seed'].includes(action)) root.querySelector<HTMLButtonElement>('[data-action="prepare-guide-continue"]')?.click();};
 const checkpoint=()=>parseCheckpoint(localStorage.getItem(CHECKPOINT_KEY))!;
 beforeEach(()=>{localStorage.clear();document.body.innerHTML='<div id="app"></div>';root=document.querySelector('#app')!;});
 it('처음에는 기본값을 결과로 부르지 않고 진단과 확인 뒤에만 새 판을 생성한다',()=>{
- new PensionRoadApp(root); const agree=root.querySelector<HTMLInputElement>('#disclaimer')!; agree.checked=true; agree.dispatchEvent(new Event('change',{bubbles:true}));click('begin');
+ new PensionRoadApp(root); const agree=root.querySelector<HTMLInputElement>('#disclaimer')!; agree.checked=true; agree.dispatchEvent(new Event('change',{bubbles:true}));click('begin');root.querySelector<HTMLButtonElement>('[data-action="character-continue"]')?.click();
  expect(root.textContent).toContain('아직 진단하지 않았습니다');expect(root.querySelector('[data-action="prepare-continue"]')).toBeNull();expect(root.textContent).not.toContain('위험중립형');
  click('prepare-diagnosis');for(let i=0;i<5;i++) click('answer');
  expect(root.textContent).toContain('교육용 진단 결과');expect(root.textContent).toContain('안정형');expect(localStorage.getItem(CHECKPOINT_KEY)).toBeNull();
@@ -22,14 +22,14 @@ it('준비 중 재진단·옵션 변경·취소·재접속은 기존 판과 개�
  const g=startTurn(createGame('saved-before-prep','growth',500000,{ghost:false,scenario:'classic',defaultTrading:true}),5).state;
  const raw=JSON.stringify({version:'c3',game:g,modal:'action',lastSummary:null,quizCardId:null,quizPicked:null,finalQuizQueue:[],finalQuizTotal:0,finishing:false,defaultOptionAsk:false});
  localStorage.setItem(CHECKPOINT_KEY,raw);localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,profileId:'growth',avatarId:'aggressive',defaultOption:'highRisk',disclaimerAccepted:true}));
- new PensionRoadApp(root);const saved=localStorage.getItem(STORAGE_KEY);click('begin');click('prepare-diagnosis');for(let i=0;i<5;i++)click('answer');
+ new PensionRoadApp(root);const saved=localStorage.getItem(STORAGE_KEY);click('begin');root.querySelector<HTMLButtonElement>('[data-action="character-continue"]')?.click();click('prepare-diagnosis');for(let i=0;i<5;i++)click('answer');
  expect(root.textContent).toContain('성향 범위 밖');expect(localStorage.getItem(CHECKPOINT_KEY)).toBe(raw);expect(localStorage.getItem(STORAGE_KEY)).toBe(saved);
  click('cancel-preparation');click('resume-game');expect(checkpoint().game).toEqual(g);
 });
 it('준비 화면 새로고침 후 이어하기는 기존 판으로 돌아간다',()=>{
  const g=createGame('reload-old','stable',500000,{scenario:'classic',defaultTrading:true});
  localStorage.setItem(CHECKPOINT_KEY,JSON.stringify({version:'c3',game:g,modal:null,lastSummary:null,quizCardId:null,quizPicked:null,finalQuizQueue:[],finalQuizTotal:0,finishing:false,defaultOptionAsk:false}));
- localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,disclaimerAccepted:true}));new PensionRoadApp(root);click('begin');click('prepare-diagnosis');
+ localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,disclaimerAccepted:true}));new PensionRoadApp(root);click('begin');root.querySelector<HTMLButtonElement>('[data-action="character-continue"]')?.click();click('prepare-diagnosis');
  root.remove();document.body.innerHTML='<div id="app2"></div>';root=document.querySelector('#app2')!;new PensionRoadApp(root);click('resume-game');expect(checkpoint().game).toEqual(g);
 });
 it('주간 도전은 고정 성향을 먼저 알리고 개인 성향·캐릭터를 바꾸지 않는다',()=>{
@@ -53,7 +53,7 @@ it('최초 진단 전 임시 추천은 진단 뒤 갱신하고 직접 고른 유
 it('설정 저장·새로고침이나 legacy 이력은 기본 성향을 진단 결과로 승격하지 않는다',()=>{
  for(const assessment of [undefined,{profileId:'balanced',origin:'legacy'},{profileId:'growth',origin:'diagnosed'}]) {
   localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,disclaimerAccepted:true,profileAssessment:assessment}));
-  document.body.innerHTML='<div id="app"></div>';root=document.querySelector('#app')!;new PensionRoadApp(root);click('begin');
+  document.body.innerHTML='<div id="app"></div>';root=document.querySelector('#app')!;new PensionRoadApp(root);click('begin');root.querySelector<HTMLButtonElement>('[data-action="character-continue"]')?.click();
   expect(root.querySelector('.preparation-profile')).toBeNull();expect(root.querySelector('.preparation-facts')).toBeNull();
   expect(root.querySelector('[data-action="prepare-continue"]')).toBeNull();
  }
@@ -65,7 +65,7 @@ it('진단·명시 확인 이력은 유지하되 질문을 바꾸면 답안 DOM�
   const draft=prepareStart({...defaultSave,profileAssessment:{profileId:'balanced',origin}},'seed','classic','pension',500000,'title');
   expect(canConfirmPreparation({...draft,stage:'option'})).toBe(true);
  }
- localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,disclaimerAccepted:true}));new PensionRoadApp(root);click('begin');click('prepare-diagnosis');
+ localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,disclaimerAccepted:true}));new PensionRoadApp(root);click('begin');root.querySelector<HTMLButtonElement>('[data-action="character-continue"]')?.click();click('prepare-diagnosis');
  const first=root.querySelector<HTMLButtonElement>('[data-action="answer"]')!;first.click();
  const second=root.querySelector<HTMLButtonElement>('[data-action="answer"]')!;
  expect(second).not.toBe(first);expect(second.dataset.question).toBe('1');expect(root.querySelector('h1')).toBe(document.activeElement);

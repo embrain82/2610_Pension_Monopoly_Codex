@@ -12,7 +12,7 @@ export function emptyCollection(): Collection {
 
 export const defaultSave: SaveData = {
   version: 7,
-  settings: { reducedMotion: false, sound: false, characters: true, ghost: true, speed: 1.5, autoSettle: false, settleExpanded: false },
+  settings: { motionEffects: 'on', reducedMotion: false, sound: false, characters: true, ghost: true, speed: 1.5, autoSettle: false, settleExpanded: false },
   defaultOption: null,
   achievements: [],
   collection: emptyCollection(),
@@ -92,8 +92,7 @@ function migrateSave(value: unknown): SaveData | null {
     version: 7,
     settings: {
       reducedMotion: data.settings.reducedMotion,
-      ...(data.settings.motionEffects === 'on' || data.settings.motionEffects === 'off' || data.settings.motionEffects === 'system'
-        ? { motionEffects: data.settings.motionEffects } : {}),
+      motionEffects: data.settings.motionEffects === 'off' || (!['on','system'].includes(String(data.settings.motionEffects)) && data.settings.reducedMotion) ? 'off' : 'on',
       sound: data.settings.sound,
       // v1·v2 저장에는 없던 값. 캐릭터는 기본 켬.
       characters: typeof data.settings.characters === 'boolean' ? data.settings.characters : true,

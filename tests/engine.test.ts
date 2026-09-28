@@ -480,7 +480,7 @@ describe('점수와 저장 복구', () => {
     const v2 = { getItem: () => JSON.stringify({ version: 2, settings: { reducedMotion: false, sound: true }, unlockedCards: [], bestScore: 1, lastSeed: 'x' }) };
     const v3 = { getItem: () => JSON.stringify({ version: 3, settings: { reducedMotion: false, sound: false, characters: false }, unlockedCards: [], bestScore: 1, lastSeed: 'x' }) };
     const v4 = { getItem: () => JSON.stringify({ version: 4, settings: { reducedMotion: false, sound: false, characters: true, ghost: false }, unlockedCards: [], bestScore: 1, lastSeed: 'x' }) };
-    expect(loadSave(v2).settings).toEqual({ reducedMotion: false, sound: true, characters: true, ghost: true, speed: 1.5, autoSettle: false, settleExpanded: false });
+    expect(loadSave(v2).settings).toEqual({ motionEffects: 'on', reducedMotion: false, sound: true, characters: true, ghost: true, speed: 1.5, autoSettle: false, settleExpanded: false });
     expect(loadSave(v3).settings.characters).toBe(false);
     expect(loadSave(v3).settings.ghost).toBe(true);
     expect(loadSave(v4).settings.ghost).toBe(false);

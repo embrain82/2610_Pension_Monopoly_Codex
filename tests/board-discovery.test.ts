@@ -99,7 +99,7 @@ let root:HTMLElement;
 const click=(action:string)=>root.querySelector<HTMLElement>(`[data-action="${action}"]`)!.click();
 const saved=()=>parseCheckpoint(localStorage.getItem(CHECKPOINT_KEY))!;
 function mount(g?:GameState, reducedMotion=false) {
-  localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,profileAssessment:{profileId:'balanced',origin:'confirmed'},disclaimerAccepted:true,quickGuideSeen:true,howtoSeen:true,settings:{...defaultSave.settings,speed:1,speedSelected:true,reducedMotion}}));
+  localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,profileAssessment:{profileId:'balanced',origin:'confirmed'},disclaimerAccepted:true,quickGuideSeen:true,howtoSeen:true,settings:{...defaultSave.settings,speed:1,speedSelected:true,motionEffects:reducedMotion?'off':'on',reducedMotion}}));
   if(g)localStorage.setItem(CHECKPOINT_KEY,JSON.stringify(checkpoint(g)));
   document.body.innerHTML='<div id="app"></div>'; root=document.querySelector('#app')!;
   new PensionRoadApp(root);
@@ -120,7 +120,7 @@ afterEach(()=>{vi.restoreAllMocks();vi.useRealTimers();});
 it('새 UI 판만 탐험 보드로 시작하고 캐릭터는 선택값을 유지한다', () => {
   mount(undefined,true);
   root.querySelector<HTMLElement>('[data-action="pick-avatar"][data-avatar="aggressive"]')!.click();
-  click('begin');click('confirm-default-option');
+  click('begin');root.querySelector<HTMLButtonElement>('[data-action="character-continue"]')?.click();click('confirm-default-option');
   expect(saved().game.boardVisibility).toBe('arrival-v1');expect(saved().game.avatarId).toBe('aggressive');
   expect(root.querySelectorAll('.tile-hidden')).toHaveLength(23);
   expect(root.querySelector('.board-discovery-progress')!.textContent).toContain('발견 1/24');

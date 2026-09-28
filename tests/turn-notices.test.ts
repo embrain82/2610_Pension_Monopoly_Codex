@@ -13,7 +13,7 @@ import type { GameState, ProductId, TurnSummary } from '../src/types';
 let root: HTMLElement;
 const saved = () => parseCheckpoint(localStorage.getItem(CHECKPOINT_KEY))!;
 const click = (action: string) => { const b=root.querySelector<HTMLButtonElement>(`[data-action="${action}"]`);expect(b,action).not.toBeNull();b!.click(); };
-const view = (name: string) => { root.querySelector<HTMLButtonElement>('[data-action="show-all-actions"]')?.click(); root.querySelector<HTMLButtonElement>(`[data-view="${name}"]`)!.click(); };
+const view = (name: string) => { root.querySelector<HTMLButtonElement>('[data-action="show-all-actions"][aria-expanded="false"]')?.click(); root.querySelector<HTMLButtonElement>(`[data-view="${name}"]`)!.click(); };
 function mount(game: GameState, modal: string|null='action', summary: TurnSummary|null=null, progress?: PlayCheckpoint['uiProgress']) {
   const data:PlayCheckpoint={version:game.defaultTrading?'c3':'c2',game,modal,lastSummary:summary,quizCardId:null,quizPicked:null,finalQuizQueue:[],finalQuizTotal:0,finishing:false,defaultOptionAsk:false,uiProgress:progress};
   localStorage.setItem(CHECKPOINT_KEY,JSON.stringify(data));expect(parseCheckpoint(JSON.stringify(data))).not.toBeNull();new PensionRoadApp(root);click('resume-game');
@@ -30,7 +30,7 @@ function settled(): {state: GameState; summary: TurnSummary} {
   return {state:result.state,summary:result.summary!};
 }
 beforeEach(()=>{localStorage.clear();document.body.innerHTML='<div id="app"></div>';root=document.querySelector('#app')!;
-  localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,disclaimerAccepted:true,quickGuideSeen:true,howtoSeen:true,settings:{...defaultSave.settings,reducedMotion:true}}));});
+  localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,disclaimerAccepted:true,quickGuideSeen:true,howtoSeen:true,settings:{...defaultSave.settings,motionEffects:'off',reducedMotion:true}}));});
 afterEach(()=>vi.useRealTimers());
 
 it.each([.699,.7,.700009,.700009999])('시장 한도 경계 %s에는 초과 팝업을 만들지 않는다',ratio=>expect(marketRiskNotice(riskGame(ratio)).exceeded).toBe(false));
@@ -102,7 +102,7 @@ it('마지막 턴은 추가 확인 없이 수령으로 이동한다',()=>{
  mount(done.state,'settle',done.summary!);expect(root.textContent).toContain('결과로 넘어가면');click('dismiss-settle');expect(root.querySelector('.modal-quiz-confirm')).toBeNull();expect(root.querySelector('.modal-payout')).not.toBeNull();
 });
 it('추가 점수 기회가 있으면 자동 정산을 예약하지 않는다',async()=>{
-  vi.useFakeTimers();const save={...defaultSave,disclaimerAccepted:true,settings:{...defaultSave.settings,reducedMotion:true,autoSettle:true}};localStorage.setItem(STORAGE_KEY,JSON.stringify(save));
+  vi.useFakeTimers();const save={...defaultSave,disclaimerAccepted:true,settings:{...defaultSave.settings,motionEffects:'off',reducedMotion:true,autoSettle:true}};localStorage.setItem(STORAGE_KEY,JSON.stringify(save));
   mount({...game(),actionsLeft:1});if(root.querySelector('.modal-risk-notice'))click('notice-continue');click('do-hold');expect(root.querySelector('.modal-settle')).not.toBeNull();expect(root.querySelector('.settle-cta.auto')).toBeNull();await vi.advanceTimersByTimeAsync(5000);expect(root.querySelector('.modal-settle')).not.toBeNull();
 });
 it('높이가 작은 안내창에서는 두 선택 버튼을 내부 스크롤로 보이게 한다',()=>{

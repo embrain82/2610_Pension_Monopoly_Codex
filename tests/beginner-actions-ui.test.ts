@@ -21,7 +21,7 @@ function mount(game: GameState) {
 beforeEach(() => {
   localStorage.clear(); document.body.innerHTML = '<div id="app"></div>'; root = document.querySelector('#app')!;
   localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...defaultSave, disclaimerAccepted: true, howtoSeen: true, quickGuideSeen: true,
-    settings: { ...defaultSave.settings, reducedMotion: true } }));
+    settings: { ...defaultSave.settings, motionEffects: 'off', reducedMotion: true } }));
 });
 
 it('두 목적 카드와 마감만 먼저 보이고 전체 메뉴·왕복은 거래하지 않는다', () => {
@@ -31,11 +31,11 @@ it('두 목적 카드와 마감만 먼저 보이고 전체 메뉴·왕복은 거
   expect(root.querySelectorAll('[data-action="do-hold"]')).toHaveLength(1);
   expect(root.querySelectorAll('.beginner-action-hint')).toHaveLength(1);
   click('[data-action="show-all-actions"]');
-  expect(root.querySelectorAll('.action-list>article')).toHaveLength(7);
-  expect(root.querySelectorAll('.purpose-choice')).toHaveLength(0);
+  expect(root.querySelectorAll('.action-list>article')).toHaveLength(6);
+  expect(root.querySelectorAll('.purpose-choice')).toHaveLength(2);
   for (const name of ['contribute', 'buy', 'sell', 'switch', 'rebalance', 'default'] as const)
     expect(root.querySelector<HTMLButtonElement>(`[data-view="${name}"]`)!.disabled).toBe(!actionAvailability(g, name).enabled);
-  click('[data-action="show-simple-actions"]');
+  click('[data-action="show-all-actions"]');
   expect(root.querySelectorAll('.purpose-choice')).toHaveLength(2); expect(saved().game).toEqual(g);
 });
 

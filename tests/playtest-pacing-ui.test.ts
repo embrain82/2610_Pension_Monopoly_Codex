@@ -17,15 +17,15 @@ const open = (paced = true): GameState => ({ ...startTurn(createGame('pacing-ui'
 function mount(game = open()) {
   localStorage.setItem(CHECKPOINT_KEY, JSON.stringify({ version: 'c3', game, modal: 'action', lastSummary: null,
     quizCardId: null, quizPicked: null, finalQuizQueue: [], finalQuizTotal: 0, finishing: false, defaultOptionAsk: false }));
-  new PensionRoadApp(root); click('[data-action="resume-game"]'); root.querySelector<HTMLButtonElement>('[data-action="show-all-actions"]')?.click(); return game;
+  new PensionRoadApp(root); click('[data-action="resume-game"]'); root.querySelector<HTMLButtonElement>('[data-action="show-all-actions"][aria-expanded="false"]')?.click(); return game;
 }
 beforeEach(() => {
   localStorage.clear(); document.body.innerHTML = '<div id="app"></div>'; root = document.querySelector('#app')!;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...defaultSave,profileAssessment:{profileId:'balanced',origin:'confirmed'}, disclaimerAccepted: true, quickGuideSeen: true, howtoSeen: true, settings: { ...defaultSave.settings, reducedMotion: true } }));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...defaultSave,profileAssessment:{profileId:'balanced',origin:'confirmed'}, disclaimerAccepted: true, quickGuideSeen: true, howtoSeen: true, settings: { ...defaultSave.settings, motionEffects: 'off', reducedMotion: true } }));
 });
 
 it('실제 새 판에만 턴 한도를 넣고 구 판의 이어하기는 보존한다', () => {
-  new PensionRoadApp(root); click('[data-action="begin"]');  click('[data-action="confirm-default-option"]');
+  new PensionRoadApp(root); click('[data-action="begin"]');root.querySelector<HTMLButtonElement>('[data-action="character-continue"]')?.click();  click('[data-action="confirm-default-option"]');
   expect(saved().game.contributionPacing).toEqual({ version: 'v1', perTurnLimit: 2_000_000 });
 });
 it('구 저장에는 200만원 제한을 표시하거나 적용하지 않는다', () => {
@@ -90,7 +90,7 @@ it('펼침·금액·스크롤은 포트폴리오 왕복에서 보존하고 새�
   expect(root.querySelector<HTMLDetailsElement>('.market-impact-details')!.open).toBe(true);
   click('[data-action="do-contribute"]');
   document.body.innerHTML = '<div id="second"></div>'; root = document.querySelector('#second')!;
-  new PensionRoadApp(root); click('[data-action="resume-game"]'); root.querySelector<HTMLButtonElement>('[data-action="show-all-actions"]')?.click();
+  new PensionRoadApp(root); click('[data-action="resume-game"]'); root.querySelector<HTMLButtonElement>('[data-action="show-all-actions"][aria-expanded="false"]')?.click();
   expect(saved().game.contributionTotal).toBe(2_000_000);
   expect(root.querySelector<HTMLButtonElement>('[data-view="contribute"]')!.disabled).toBe(true);
   expect(root.querySelector<HTMLDetailsElement>('.market-impact-details')!.open).toBe(false);
