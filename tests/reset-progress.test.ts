@@ -52,3 +52,8 @@ it('저장소 접근 오류는 완료로 표시하거나 페이지를 다시 열
   click('confirm-reset'); expect(reload).not.toHaveBeenCalled();
   expect(root.querySelector('.modal-reset')!.textContent).toContain('초기화를 완료하지 못했습니다');
 });
+
+it('브라우저가 저장소 객체 접근 자체를 막아도 실패를 반환한다',()=>{
+  vi.spyOn(window,'localStorage','get').mockImplementation(()=>{throw new Error('SecurityError');});
+  expect(resetProgress()).toBe(false);
+});
