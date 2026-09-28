@@ -7,8 +7,6 @@ import { presentMaturityNotices } from '../engine/default-lifecycle';
 import { beginPractice, normalizePractice, practiceAvailable, practiceChoice, practiceIsActive, renderPractice, type PracticeProgress } from './guided-practice';
 import { renderJourney } from './journey-view';
 import { renderOngoing } from './ongoing-view';
-import { renderDecisionHighlights } from './decision-highlights';
-import { renderMaturitySummary } from './maturity-view';
 import { activeCycle } from '../engine/maturity-cash';
 import { GENERAL_KNOWLEDGE_VERSION } from '../data/learning-rules';
 import { boardVisibilityOf, isTileRevealed, visibleTileLabel, renderDiscoveryProgress, TILE_REVEAL_MS } from './board-discovery';
@@ -50,7 +48,7 @@ import { finalQuizCards, optionalQuizCards } from '../engine/quiz-engine';
 import { renderDefaultOptionModal, defaultOptionName, defaultOptionProducts, initialDefaultOption } from './default-option-view';
 import { renderLifeModal } from './life-view';
 import { renderLearnedBlock, renderQuizModal } from './quiz-view';
-import { renderPayoutLine, renderPayoutModal } from './payout-view';
+import { renderPayoutSummary, renderPayoutModal } from './payout-view';
 import { ACHIEVEMENTS, newlyUnlocked, recordCollection, resultShareText } from '../engine/achievements';
 import { renderAchievementGallery, renderCollectionGallery, renderLifeResolvedStrip, renderSeedLine, renderWeeklyButton } from './achievements-view';
 import { rebalanceShares, rebalancePortfolio, buyProduct, sellProduct, switchProduct } from '../engine/portfolio-engine';
@@ -113,6 +111,7 @@ const questions = [
 
 const ACHIEVEMENT_COUNT = ACHIEVEMENTS.length;
 export class PensionRoadApp {
+  private scoreDetail: string | null = null;
   private screen: Screen = 'title';
   private preparation: StartPreparation | null = null;
   private startingAvatar: ProfileId | null = null;
@@ -417,12 +416,13 @@ export class PensionRoadApp {
     if (!button || button.matches(':disabled')) return;
     const action = button.dataset.action;
     if (!action) return;
-    if (this.review && !['open-payout','choose-payout','confirm-payout','close-modal','open-cards','cards-tab','open-portfolio','open-market'].includes(action)) {
+    if (this.review && !['score-detail','open-payout','choose-payout','confirm-payout','close-modal','open-cards','cards-tab','open-portfolio','open-market'].includes(action)) {
       this.announce('결과 검토 모드입니다. 다른 결과는 위 케이스 링크에서 선택하세요.');
       this.render(); return;
     }
     if (this.pendingPrompt && !['notice-continue', 'notice-quiz', 'close-modal'].includes(action)) return;
     void this.sound.unlock();
+    if (action === 'score-detail') { this.scoreDetail = this.scoreDetail === button.dataset.part ? null : button.dataset.part ?? null; this.render(); this.root.querySelector<HTMLElement>(`[data-action="score-detail"][data-part="${button.dataset.part}"]`)?.focus({preventScroll:true}); return; }
     if (action === 'test-sound') { this.setSound(true); this.render(); return; }
     if (action === 'resume-game' && this.resumeData) { this.resumeGame(this.resumeData); this.render(); return; }
     if (action === 'toggle-sound') {
@@ -1715,10 +1715,9 @@ export class PensionRoadApp {
       : '';
     return `<section class="result-screen road-result">
       ${renderResultHero(this.game,characters,!this.failedBrandArt.has('journey'))}
-      ${renderResultOverview(this.game)}${renderDecisionHighlights(this.game)}
-      ${renderFinalPerformance(this.game)}
-      ${renderMaturitySummary(this.game)}
-      <section class="result-payout" aria-label="선택한 수령 방식"><p class="payout-line ${payout}"><span>${renderPayoutLine(plan)}</span><button class="secondary" data-action="open-payout">수령 방식 다시 비교</button></p><small>실제 지급액이 아닌 재원별 게임 가정의 비교입니다.</small></section>
+      ${renderResultOverview(this.game)}<button class="secondary result-portfolio-button" data-action="open-portfolio">최종 포트폴리오 보기</button>
+      ${renderFinalPerformance(this.game, this.scoreDetail)}
+      ${renderPayoutSummary(plan)}
       ${renderRetrySuggestion(this.game) || '<article class="retry-suggestion"><p class="eyebrow">다음 도전</p><h3>다른 시장에서도 내 설계를 점검해 보세요</h3><button class="primary" data-action="new-seed">새 시드로 도전</button></article>'}
       ${renderResultCollection(this.game,this.newAchievements,characters)}
       <details data-preserve-open class="result-details"><summary>자산·별 조건·12턴 선택 자세히 보기</summary>
@@ -1767,7 +1766,7 @@ export class PensionRoadApp {
     if (this.modal === 'explore' && this.game) content = renderExplore(this.game, this.exploreIndex);
     if (this.modal === 'action') content = (this.actionView !== 'menu' && this.game ? renderPractice(this.game,this.practice) : '') + this.renderActionModal() + (this.actionView==='menu'||this.actionView==='default' ? '' : this.renderActionMarketContext(true));
     if (this.regionNotice && ['action', 'life', 'news', 'tile'].includes(this.modal)) content = `<p class="region-notice" data-key="region-notice-${this.game?.turn}"><span aria-hidden="true">★</span> ${this.regionNotice}</p>` + content;
-    if (this.modal === 'portfolio') content = (this.game ? renderPractice(this.game,this.practice) : '') + (this.portfolioReturn ? '<button class="secondary" data-action="return-action">← 운용 선택으로 돌아가기</button>' : '') + this.renderPortfolioModal();
+    if (this.modal === 'portfolio') content = (this.game && this.screen !== 'result' ? renderPractice(this.game,this.practice) : '') + (this.portfolioReturn ? '<button class="secondary" data-action="return-action">← 운용 선택으로 돌아가기</button>' : '') + this.renderPortfolioModal();
     if (this.modal === 'market') content = this.renderMarketModal();
     if (this.modal === 'cards') content = this.renderCardsModal();
     if (this.modal === 'settings') content = this.renderSettingsModal();
@@ -2050,7 +2049,7 @@ export class PensionRoadApp {
 
   private renderPortfolioModal(): string {
     if (!this.game) return '';
-    return renderPortfolio(this.game);
+    return renderPortfolio(this.game, this.screen === 'result');
   }
 
   private renderMarketModal(): string {
