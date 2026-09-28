@@ -1,3 +1,4 @@
+import { diceThrowPlan } from '../src/ui/dice-throw';
 import { describe, expect, it } from 'vitest';
 import { createGame, performAction, startTurn } from '../src/engine/game-engine';
 import {
@@ -52,8 +53,8 @@ describe('주사위 연출', () => {
     expect(markup.match(/class="dice /g)?.length).toBe(2);
     expect(markup).toContain('dice rolling');
     expect(markup).toContain('dice rolling alt');
-    expect(markup).toContain(diceLandTransform(4, 0));
-    expect(markup).toContain(diceLandTransform(6, 1));
+    expect(markup).toContain(diceThrowPlan(4, 0, 1).end);
+    expect(markup).toContain(diceThrowPlan(6, 1, 1).end);
     expect(markup).toContain(`--dice-ms:${DICE_ROLL_DURATION_MS}ms`);
     expect(diceLandTransform(3, 0)).not.toBe(diceLandTransform(3, 1));
   });

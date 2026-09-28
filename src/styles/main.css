@@ -302,13 +302,20 @@ button.primary.jumbo:disabled { opacity: .45; cursor: not-allowed; }
 
 .dice-overlay { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; align-content: center; gap: 18px; background: rgba(16, 40, 37, .62); backdrop-filter: blur(10px); color: #fff; }
 .dice-overlay p { margin: 0; font-weight: 800; letter-spacing: .04em; }
-.dice-scene { position: relative; width: min(100% - 24px, 280px); height: 230px; perspective: 750px; display: flex; align-items: center; justify-content: center; gap: 28px; transform-style: preserve-3d; }
+.dice-scene { position:relative; width:min(calc(100vw - 32px),420px); height:270px; overflow:hidden; perspective:750px; border-radius:20px; background:radial-gradient(ellipse at 50% 80%,#dce7d8 0,transparent 65%),#fffef9; }
+.dice-table { position:absolute; bottom:45px; left:8%; width:84%; height:90px; border-radius:50%; border:1px solid #c6d7c4; background:#e5eddf; transform:rotateX(45deg); }
 .dice-slot { position:relative; display:grid; place-items:center; width:88px; height:88px; }
 .dice { --dice-size:76px; --half:38px; position:relative; width:var(--dice-size); height:var(--dice-size); transform-style:preserve-3d; }
-.dice-flight { width:76px; height:76px; transform-style:preserve-3d; }
-.throwing .dice-flight { animation:dice-short-throw var(--throw-ms) cubic-bezier(.22,.6,.35,1) var(--throw-delay) both; }
-.throwing .dice.rolling { animation:dice-throw-spin calc(var(--throw-ms) * .94) cubic-bezier(.15,.55,.24,1) var(--throw-delay) both; will-change:transform; }
-.dice-shadow { position:absolute; left:3px; bottom:-5px; width:82px; height:20px; border-radius:50%; background:rgb(8 28 18 / 35%); filter:blur(5px); animation:dice-throw-shadow var(--throw-ms) ease-out var(--throw-delay) both; }
+.dice-overlay .dice-slot { position:absolute; display:block; top:118px; left:calc(50% - 78px); width:62px; height:62px; perspective:600px; }
+.dice-overlay .dice-slot.alt { left:calc(50% + 16px); }
+.dice-overlay .dice { --dice-size:62px; --half:31px; }
+.dice-flight { width:62px; height:62px; transform-style:preserve-3d; }
+.dice-shadow { position:absolute; left:-3px; top:59px; width:68px; height:17px; background:#183f342b; filter:blur(5px); border-radius:50%; }
+.dice-overlay .dice-face, .dice-overlay .dice-face.n6 { padding:10px; gap:4px; border-radius:10px; border:1px solid #bac9bb; background:linear-gradient(135deg,#fffef6,#e6ede1); box-shadow:inset 0 0 0 2px #ffffff80; }
+.dice-overlay .pip { border-radius:50%; background:transparent; }
+.dice-overlay .pip.on { background:#245143; box-shadow:inset 0 1px 2px #102c2760; }
+.dice-overlay .pip.on::after { content:none; }
+@media(max-width:1000px) { .dice-scene { height:230px; } .dice-overlay .dice-slot { top:95px; } }
 .dice.landed { transform: var(--land); }
 .dice-face { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); padding: 10px; background: linear-gradient(145deg, #fffef8, #eef3ea); border: 1px solid #c5d4cb; border-radius: 12px; box-shadow: inset 0 0 0 2px rgba(255,255,255,.55), 0 8px 18px rgba(16,40,37,.18); backface-visibility: hidden; }
 .dice-face.n1 { transform: rotateY(0deg) translateZ(var(--half)); }
@@ -418,26 +425,6 @@ td small { display: block; margin: 3px 0 0 20px; color: var(--muted); font-size:
 
 @keyframes modal-in { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: none; } }
 @keyframes dice-cta-pulse { 50% { filter: brightness(1.08); box-shadow: 0 10px 22px rgba(30, 91, 84, .32); } }
-/* B안: 짧은 포물선 → 첫 착지 → 작은 두 번의 반동. 화면 자체는 흔들지 않는다. */
-@keyframes dice-short-throw {
-  0% { transform:translate(var(--launch-x),-25px) scale(.86); }
-  24% { transform:translate(var(--apex-x),-78px) scale(1.05); }
-  61% { transform:translate(0,0) scale(1.08,.91); }
-  74% { transform:translate(0,-24px) scale(1); }
-  87% { transform:translate(0,0) scale(1.025,.97); }
-  93% { transform:translate(0,-4px); }
-  100% { transform:translate(0,0); }
-}
-@keyframes dice-throw-spin {
-  from { transform:var(--launch); }
-  to { transform:var(--land); }
-}
-@keyframes dice-throw-shadow {
-  0% { opacity:.25; transform:scale(.65); }
-  65% { opacity:.65; transform:scale(1.12); }
-  100% { opacity:1; transform:scale(1); }
-}
-
 @media (max-width: 800px) {
   .game-topbar { grid-template-columns: 1fr auto; padding: 8px 12px; }
   .settings-entry { padding: 8px 12px; font-size: .78rem; }

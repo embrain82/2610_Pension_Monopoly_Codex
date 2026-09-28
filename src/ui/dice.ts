@@ -1,3 +1,4 @@
+import { diceThrowPlan } from './dice-throw';
 import type { GameState } from '../types';
 
 export const DICE_THROW_DURATION_MS = 1700;
@@ -73,8 +74,8 @@ function facePips(face: number): string {
 function cubeMarkup(face: number, variant: 0 | 1, rolling: boolean, durationMs: number): string {
   const faces = [1, 2, 3, 4, 5, 6].map((value) => `<div class="dice-face n${value}">${facePips(value)}</div>`).join('');
   const alt = variant === 1 ? ' alt' : '';
-  const land = diceLandTransform(face, variant);
-  const cube = `<div class="dice ${rolling ? `rolling${alt}` : 'landed'}" style="--land:${land};--launch:rotateX(720deg) rotateY(${variant === 0 ? -360 : 360}deg) ${land};--dice-ms:${durationMs}ms">${faces}</div>`;
+  const land = rolling ? diceThrowPlan(face, variant, 1).end : diceLandTransform(face, variant);
+  const cube = `<div class="dice ${rolling ? `rolling${alt}` : 'landed'}" style="--land:${land};--dice-ms:${durationMs}ms">${faces}</div>`;
   if (!rolling) return `<div class="dice-slot${alt}">${cube}</div>`;
   const ratio = durationMs / DICE_ROLL_DURATION_MS;
   return `<div class="dice-slot throwing${alt}" style="--throw-ms:${DICE_THROW_DURATION_MS * ratio}ms;--throw-delay:${variant * DICE_STAGGER_MS * ratio}ms;--launch-x:${variant === 0 ? -30 : 30}px;--apex-x:${variant === 0 ? -12 : 12}px"><div class="dice-shadow" aria-hidden="true"></div><div class="dice-flight">${cube}</div></div>`;
@@ -84,7 +85,7 @@ function cubeMarkup(face: number, variant: 0 | 1, rolling: boolean, durationMs: 
 export function renderDiceMarkup(faces: [number, number], rolling: boolean, durationMs = DICE_ROLL_DURATION_MS): string {
   const label = dicePairLabel(faces[0], faces[1]);
   return `<div class="dice-overlay" data-dice-motion="short-throw" role="status" aria-live="assertive" aria-label="${rolling ? '주사위 두 개를 굴리는 중입니다' : `주사위 결과 ${label}`}">
-    <div class="dice-scene" style="--dice-ms:${durationMs}ms">
+    <div class="dice-scene" style="--dice-ms:${durationMs}ms"><div class="dice-table" aria-hidden="true"></div>
       ${cubeMarkup(faces[0], 0, rolling, durationMs)}
       ${cubeMarkup(faces[1], 1, rolling, durationMs)}
     </div>

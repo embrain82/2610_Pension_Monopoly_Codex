@@ -99,7 +99,7 @@ let root:HTMLElement;
 const click=(action:string)=>root.querySelector<HTMLElement>(`[data-action="${action}"]`)!.click();
 const saved=()=>parseCheckpoint(localStorage.getItem(CHECKPOINT_KEY))!;
 function mount(g?:GameState, reducedMotion=false) {
-  localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,profileAssessment:{profileId:'balanced',origin:'confirmed'},disclaimerAccepted:true,quickGuideSeen:true,howtoSeen:true,settings:{...defaultSave.settings,reducedMotion}}));
+  localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,profileAssessment:{profileId:'balanced',origin:'confirmed'},disclaimerAccepted:true,quickGuideSeen:true,howtoSeen:true,settings:{...defaultSave.settings,speed:1,speedSelected:true,reducedMotion}}));
   if(g)localStorage.setItem(CHECKPOINT_KEY,JSON.stringify(checkpoint(g)));
   document.body.innerHTML='<div id="app"></div>'; root=document.querySelector('#app')!;
   new PensionRoadApp(root);
@@ -109,7 +109,7 @@ beforeEach(()=>{
   localStorage.clear();
   // happy-dom은 WAAPI 완료를 진행하지 않아 브라우저의 재생 시간·취소 경계를 모의한다.
   vi.spyOn(Element.prototype,'animate').mockImplementation((_frames,options)=>{
-    const duration=typeof options==='number'?options:Number(options?.duration ?? 0);
+    const duration=typeof options==='number'?options:(Number(options?.duration ?? 0) + Number(options?.delay ?? 0));
     let reject!: (error: Error)=>void;
     let timer: ReturnType<typeof setTimeout>;
     const finished=new Promise<Animation>((resolve,fail)=>{reject=fail;timer=setTimeout(()=>resolve({} as Animation),duration);});

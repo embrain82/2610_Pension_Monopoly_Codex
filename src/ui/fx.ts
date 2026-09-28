@@ -12,7 +12,7 @@ export type ScenePace = 'normal' | 'fast';
 
 /** 설정 「애니메이션 속도」 → 시간 배수. 2×면 모든 JS 타이머와 CSS `--fx`에 0.5를 곱한다 */
 export function speedScale(speed: AnimationSpeed): number {
-  return speed === 2 ? 0.5 : 1;
+  return 1 / speed;
 }
 
 export function scaleMs(ms: number, speed: AnimationSpeed): number {

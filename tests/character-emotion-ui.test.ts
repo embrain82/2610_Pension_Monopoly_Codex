@@ -17,7 +17,7 @@ const saved = () => parseCheckpoint(localStorage.getItem(CHECKPOINT_KEY))!;
 const fresh = () => createGame('emotion-arrival', 'growth', 500000, { updatedFinance: true, scenario: 'classic', boardVisibility: 'arrival-v1', ghost: false });
 function mount(game: GameState, pending = false, reducedMotion = false) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...defaultSave, disclaimerAccepted: true, quickGuideSeen: true, howtoSeen: true,
-    settings: { ...defaultSave.settings, reducedMotion, characters: true } }));
+    settings: { ...defaultSave.settings, speed:1, speedSelected:true, reducedMotion, characters: true } }));
   const data: PlayCheckpoint = { version: checkpointVersion(game), game, arrivalPending: pending, modal: null, lastSummary: null,
     quizCardId: null, quizPicked: null, finalQuizQueue: [], finalQuizTotal: 0, finishing: false, defaultOptionAsk: false };
   localStorage.setItem(CHECKPOINT_KEY, JSON.stringify(data));
@@ -27,7 +27,7 @@ function mount(game: GameState, pending = false, reducedMotion = false) {
 beforeEach(() => {
   vi.useFakeTimers(); localStorage.clear();
   vi.spyOn(Element.prototype, 'animate').mockImplementation((_frames, options) => {
-    const duration = typeof options === 'number' ? options : Number(options?.duration ?? 0);
+    const duration = typeof options === 'number' ? options : (Number(options?.duration ?? 0) + Number(options?.delay ?? 0));
     let reject!: (e: Error) => void, timer: ReturnType<typeof setTimeout>;
     const finished = new Promise<Animation>((resolve, fail) => { reject = fail; timer = setTimeout(() => resolve({} as Animation), duration); });
     return { finished, cancel: () => { clearTimeout(timer); reject(new Error('cancelled')); } } as Animation;

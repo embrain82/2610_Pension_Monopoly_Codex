@@ -12,7 +12,7 @@ export function emptyCollection(): Collection {
 
 export const defaultSave: SaveData = {
   version: 7,
-  settings: { reducedMotion: false, sound: false, characters: true, ghost: true, speed: 1, autoSettle: false, settleExpanded: false },
+  settings: { reducedMotion: false, sound: false, characters: true, ghost: true, speed: 1.5, autoSettle: false, settleExpanded: false },
   defaultOption: null,
   achievements: [],
   collection: emptyCollection(),
@@ -64,7 +64,7 @@ function migrateSave(value: unknown): SaveData | null {
   if (!value || typeof value !== 'object') return null;
   const data = value as {
     version?: number;
-    settings?: { motionEffects?: unknown; reducedMotion?: unknown; sound?: unknown; characters?: unknown; ghost?: unknown; speed?: unknown; autoSettle?: unknown; settleExpanded?: unknown };
+    settings?: { motionEffects?: unknown; reducedMotion?: unknown; sound?: unknown; characters?: unknown; ghost?: unknown; speed?: unknown; speedSelected?: unknown; autoSettle?: unknown; settleExpanded?: unknown };
     unlockedCards?: unknown;
     bestScore?: unknown;
     lastSeed?: unknown;
@@ -99,8 +99,10 @@ function migrateSave(value: unknown): SaveData | null {
       characters: typeof data.settings.characters === 'boolean' ? data.settings.characters : true,
       // v1~v3 저장에는 없던 값. 고스트("그대로 둔 나")는 기본 켬.
       ghost: typeof data.settings.ghost === 'boolean' ? data.settings.ghost : true,
-      // v1~v5 저장에는 없던 값. 속도 1×, 자동 진행 끔, 정산 「자세히」 접힘.
-      speed: data.settings.speed === 2 ? 2 : (1 as AnimationSpeed),
+      // 이전 기본 1×는 새 기본 1.5×로 올린다. 새 UI에서 직접 고른 속도와 기존 2×는 유지한다.
+      speed: data.settings.speedSelected === true && [1,1.5,2].includes(Number(data.settings.speed))
+        ? data.settings.speed as AnimationSpeed : data.settings.speed === 2 ? 2 : 1.5,
+      ...(data.settings.speedSelected === true ? {speedSelected:true} : {}),
       autoSettle: data.settings.autoSettle === true,
       settleExpanded: data.settings.settleExpanded === true
     },

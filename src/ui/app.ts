@@ -1,3 +1,4 @@
+import { animateDiceThrow } from './dice-throw';
 import { renderFinalPerformance, renderLearningProgress } from './learning-progress';
 import { renderGoalConditions } from './hud';
 import { productRequirement } from './profile-requirement';
@@ -386,10 +387,11 @@ export class PensionRoadApp {
     if (target.id === 'sound' && target instanceof HTMLInputElement) {
       this.setSound(target.checked);
     }
-    if (target.id === 'speed' && target instanceof HTMLInputElement) {
-      this.save.settings.speed = target.checked ? 2 : 1;
+    if (target.id === 'speed' && target instanceof HTMLSelectElement && [1,1.5,2].includes(Number(target.value))) {
+      this.save.settings.speed = Number(target.value) as 1 | 1.5 | 2;
+      this.save.settings.speedSelected = true;
       this.persist();
-      this.announce(target.checked ? '애니메이션 속도 2× · 주사위·말·숫자·속보·정산 연출이 절반 길이입니다.' : '애니메이션 속도 1×.');
+      this.announce(`애니메이션 속도 ${this.save.settings.speed}×.`);
     }
     if (target.id === 'auto-settle' && target instanceof HTMLInputElement) {
       this.save.settings.autoSettle = target.checked;
@@ -1081,7 +1083,10 @@ export class PensionRoadApp {
     this.boardFocusing = false;
     if (!instant) {
       this.diceRolling = true; this.sound.play('dice'); this.render();
-      if (!await this.motion.wait(scaleMs(DICE_ROLL_DURATION_MS, this.save.settings.speed), id)) return;
+      const diceAnimations = animateDiceThrow(this.root, this.diceFaces, this.save.settings.speed);
+      if (diceAnimations.length
+        ? !await this.motion.play(diceAnimations, id)
+        : !await this.motion.wait(scaleMs(DICE_ROLL_DURATION_MS, this.save.settings.speed), id)) return;
       const result = `${this.diceFaces[0]} + ${this.diceFaces[1]} · ${this.diceFaces[0] + this.diceFaces[1]}칸 이동`;
       const overlay = this.root.querySelector('.dice-overlay');
       overlay?.setAttribute('aria-label', `주사위 결과 ${result}`);
@@ -2048,7 +2053,7 @@ export class PensionRoadApp {
       <section class="support-group"><h3>소리와 턴 진행</h3><label class="setting-row" for="sound"><span><strong>효과음</strong><small>주사위·속보·정산·환급·별 소리. 기본 끔이며 게임 화면 오른쪽 위에서도 바꿀 수 있습니다.</small></span><input id="sound" type="checkbox" ${this.save.settings.sound ? 'checked' : ''}></label>
       <button class="secondary" data-action="test-sound">효과음 테스트</button><p id="sound-status" role="status">${this.soundMessage}</p>
       <label class="setting-row" for="ghost"><span><strong>"그대로 둔 나" 비교</strong><small>같은 시드·같은 주사위로 아무 행동도 하지 않은 경로를 정산·결과·목표 게이지에 나란히 보입니다.</small></span><input id="ghost" type="checkbox" ${this.save.settings.ghost ? 'checked' : ''}></label>
-      <label class="setting-row" for="speed"><span><strong>애니메이션 2× 빠르게</strong><small>주사위·말 이동·숫자·속보·정산 연출을 절반 길이로. 7턴부터는 충격·이정표 턴을 빼고 저절로 빨라집니다.</small></span><input id="speed" type="checkbox" ${this.save.settings.speed === 2 ? 'checked' : ''}></label>
+      <label class="setting-row" for="speed"><span><strong>애니메이션 속도</strong><small>기본 1.5배속. 주사위·말 이동·숫자·속보·정산에 함께 적용해요.</small></span><select id="speed">${([1,1.5,2] as const).map(speed => `<option value="${speed}" ${this.save.settings.speed === speed ? 'selected' : ''}>${speed}×${speed === 1.5 ? ' 기본' : ''}</option>`).join('')}</select></label>
       <label class="setting-row" for="auto-settle"><span><strong>정산 자동 진행</strong><small>평범한 턴의 정산 창을 2.5초 뒤 저절로 넘깁니다. 점수를 얻을 수 있는 미응답 퀴즈·만기자금 안내·충격·이정표·생활사건·마지막 턴은 직접 넘기고, 창 안을 누르면 멈춥니다. 기본 끔.</small></span><input id="auto-settle" type="checkbox" ${this.save.settings.autoSettle ? 'checked' : ''}></label>
       </section><section class="support-group"><h3>이번 판의 조건</h3><div class="setting-row default-option-row"><span><strong>디폴트옵션(사전지정운용)</strong><small>${this.defaultOptionSettingNote()}</small></span><button class="secondary compact" data-action="open-default-option">${(this.game ? this.game.defaultOption : this.save.defaultOption) ? '바꾸기' : '지정'}</button></div>
       <div class="button-stack compact">
