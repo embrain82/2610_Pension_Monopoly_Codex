@@ -1,6 +1,9 @@
 import type { GameState } from '../types';
 
-export const DICE_ROLL_DURATION_MS = 1120;
+export const DICE_THROW_DURATION_MS = 1700;
+export const DICE_STAGGER_MS = 85;
+// 두 번째 주사위의 착지까지 기다린 뒤 결과를 읽을 시간을 별도로 둔다.
+export const DICE_ROLL_DURATION_MS = DICE_THROW_DURATION_MS + DICE_STAGGER_MS;
 export const DICE_LAND_HOLD_MS = 280;
 
 const FACE_TRANSFORMS: Record<number, string> = {
@@ -20,8 +23,10 @@ export function diceLandTransform(face: number, variant = 0): string {
   return `${spin} ${pose}`;
 }
 
-export function shouldSkipDiceAnimation(reducedMotion: boolean, prefersReducedMotion = false): boolean {
-  return reducedMotion || prefersReducedMotion;
+export function shouldSkipDiceAnimation(reducedMotion: boolean, prefersReducedMotion = false, effects?: 'system' | 'on' | 'off'): boolean {
+  if (effects === 'on') return false;
+  if (effects === 'off') return true;
+  return effects === 'system' ? prefersReducedMotion : reducedMotion || prefersReducedMotion;
 }
 
 export function canRevealNextTurn(state: GameState): boolean {
@@ -68,13 +73,17 @@ function facePips(face: number): string {
 function cubeMarkup(face: number, variant: 0 | 1, rolling: boolean, durationMs: number): string {
   const faces = [1, 2, 3, 4, 5, 6].map((value) => `<div class="dice-face n${value}">${facePips(value)}</div>`).join('');
   const alt = variant === 1 ? ' alt' : '';
-  return `<div class="dice-slot${alt}"><div class="dice ${rolling ? `rolling${alt}` : 'landed'}" style="--land:${diceLandTransform(face, variant)};--dice-ms:${durationMs}ms">${faces}</div></div>`;
+  const land = diceLandTransform(face, variant);
+  const cube = `<div class="dice ${rolling ? `rolling${alt}` : 'landed'}" style="--land:${land};--launch:rotateX(720deg) rotateY(${variant === 0 ? -360 : 360}deg) ${land};--dice-ms:${durationMs}ms">${faces}</div>`;
+  if (!rolling) return `<div class="dice-slot${alt}">${cube}</div>`;
+  const ratio = durationMs / DICE_ROLL_DURATION_MS;
+  return `<div class="dice-slot throwing${alt}" style="--throw-ms:${DICE_THROW_DURATION_MS * ratio}ms;--throw-delay:${variant * DICE_STAGGER_MS * ratio}ms;--launch-x:${variant === 0 ? -30 : 30}px;--apex-x:${variant === 0 ? -12 : 12}px"><div class="dice-shadow" aria-hidden="true"></div><div class="dice-flight">${cube}</div></div>`;
 }
 
 /** 주사위 오버레이. `durationMs`는 설정 속도(2×면 절반)를 반영한 굴림 길이로, CSS `--dice-ms`가 그대로 쓴다 */
 export function renderDiceMarkup(faces: [number, number], rolling: boolean, durationMs = DICE_ROLL_DURATION_MS): string {
   const label = dicePairLabel(faces[0], faces[1]);
-  return `<div class="dice-overlay" role="status" aria-live="assertive" aria-label="${rolling ? '주사위 두 개를 굴리는 중입니다' : `주사위 결과 ${label}`}">
+  return `<div class="dice-overlay" data-dice-motion="short-throw" role="status" aria-live="assertive" aria-label="${rolling ? '주사위 두 개를 굴리는 중입니다' : `주사위 결과 ${label}`}">
     <div class="dice-scene" style="--dice-ms:${durationMs}ms">
       ${cubeMarkup(faces[0], 0, rolling, durationMs)}
       ${cubeMarkup(faces[1], 1, rolling, durationMs)}

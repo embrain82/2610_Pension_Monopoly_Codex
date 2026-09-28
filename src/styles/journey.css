@@ -30,7 +30,7 @@
 .preparation-conditions{margin-bottom:16px}
 .recap-action{background:#eff5ed}
 @media(max-width:700px){.decision-highlights>div{grid-template-columns:1fr}.order-balances{font-size:.85rem}.amount-presets button small{font-size:.78rem}.ongoing-panel,.journey-panel{padding:12px}}
-@media(prefers-reduced-motion:reduce){.journey-panel *{animation:none!important;transition:none!important}}
+html[data-reduce-motion="true"] .journey-panel *{animation:none!important;transition:none!important}
 .road-game .dashboard{max-height:none;overflow:visible;padding:0;scrollbar-gutter:auto}
 .road-game .dashboard>.journey-panel,.road-game .dashboard>.ongoing-panel,.road-game .dashboard>.dashboard-details{grid-column:1/-1}
 .modal-sheet.road-order{width:min(100%,780px)}

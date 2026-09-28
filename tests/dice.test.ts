@@ -26,9 +26,9 @@ describe('주사위 연출', () => {
     expect(shouldSkipDiceAnimation(true)).toBe(true);
     expect(shouldSkipDiceAnimation(false)).toBe(false);
     expect(shouldSkipDiceAnimation(false, true)).toBe(true);
-    expect(DICE_ROLL_DURATION_MS).toBe(1120);
+    expect(DICE_ROLL_DURATION_MS).toBe(1785);
     expect(DICE_LAND_HOLD_MS).toBe(280);
-    expect(DICE_ROLL_DURATION_MS + DICE_LAND_HOLD_MS).toBe(1400);
+    expect(DICE_ROLL_DURATION_MS + DICE_LAND_HOLD_MS).toBe(2065);
   });
 
   it('새 판과 행동 직후에는 다음 상황을 바로 열지 않고 주사위를 기다린다', () => {
@@ -95,3 +95,11 @@ describe('주사위 연출', () => {
     expect(isUpcomingSpoiler(2, 1)).toBe(true);
   });
 });
+
+ it('B안의 두 번째 착지와 빠른 재생 시간을 함께 축소한다', () => {
+   const normal=renderDiceMarkup([3,5],true),fast=renderDiceMarkup([3,5],true,DICE_ROLL_DURATION_MS/2);
+   expect(normal).toContain('data-dice-motion="short-throw"');
+   expect(normal).toContain('--throw-ms:1700ms;--throw-delay:85ms');
+   expect(fast).toContain('--throw-ms:850ms;--throw-delay:42.5ms');
+   expect(renderDiceMarkup([3,5],false)).not.toContain('dice-flight');
+ });

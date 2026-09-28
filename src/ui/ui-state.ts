@@ -64,7 +64,7 @@ function migrateSave(value: unknown): SaveData | null {
   if (!value || typeof value !== 'object') return null;
   const data = value as {
     version?: number;
-    settings?: { reducedMotion?: unknown; sound?: unknown; characters?: unknown; ghost?: unknown; speed?: unknown; autoSettle?: unknown; settleExpanded?: unknown };
+    settings?: { motionEffects?: unknown; reducedMotion?: unknown; sound?: unknown; characters?: unknown; ghost?: unknown; speed?: unknown; autoSettle?: unknown; settleExpanded?: unknown };
     unlockedCards?: unknown;
     bestScore?: unknown;
     lastSeed?: unknown;
@@ -92,6 +92,8 @@ function migrateSave(value: unknown): SaveData | null {
     version: 7,
     settings: {
       reducedMotion: data.settings.reducedMotion,
+      ...(data.settings.motionEffects === 'on' || data.settings.motionEffects === 'off' || data.settings.motionEffects === 'system'
+        ? { motionEffects: data.settings.motionEffects } : {}),
       sound: data.settings.sound,
       // v1·v2 저장에는 없던 값. 캐릭터는 기본 켬.
       characters: typeof data.settings.characters === 'boolean' ? data.settings.characters : true,
