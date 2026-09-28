@@ -99,12 +99,7 @@
 }
 [data-reduce-motion="true"] .arrival-ring { animation:none; opacity:1; }
 [data-reduce-motion="true"] .region-notice { animation:none; }
-@media (prefers-reduced-motion:reduce) {
- .arrival-ring { animation:none; opacity:1; }
- .region-notice { animation:none; }
-}
+
 /* Financial evidence stays visible immediately; reduced motion also removes legacy delays. */
 .settle-bars .settle-delta { animation:none; }
-@media (prefers-reduced-motion:reduce) {
- *,*::before,*::after { animation-delay:0ms !important; }
-}
+html[data-reduce-motion="true"] *,html[data-reduce-motion="true"] *::before,html[data-reduce-motion="true"] *::after { animation-delay:0ms !important; }

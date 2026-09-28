@@ -23,6 +23,4 @@
   .character-options { grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
   .character-choice { border-radius:14px; }
 }
-@media(prefers-reduced-motion:reduce) {
-  .character-choice { transition:none; }
-}
+html[data-reduce-motion="true"] .character-choice { transition:none; }

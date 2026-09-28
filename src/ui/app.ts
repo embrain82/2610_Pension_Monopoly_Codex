@@ -244,7 +244,10 @@ export class PensionRoadApp {
       } else { this.syncTokenEmotion(); this.syncArrivalScene(); }
     });
     window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', () => {
-      if (this.root.isConnected) { this.syncTokenEmotion(); this.syncArrivalScene(); }
+      if (this.root.isConnected) {
+        document.documentElement.dataset.reduceMotion = String(shouldSkipDiceAnimation(this.save.settings.reducedMotion, window.matchMedia('(prefers-reduced-motion: reduce)').matches, this.save.settings.motionEffects));
+        this.syncTokenEmotion(); this.syncArrivalScene();
+      }
     });
     this.render();
   }
@@ -293,7 +296,7 @@ export class PensionRoadApp {
 
   /** 새 업적 소리는 별 소리가 끝난 뒤 한 번 */
   private scheduleAchievementSound(stars: number): void {
-    const instant = shouldSkipDiceAnimation(this.save.settings.reducedMotion, window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const instant = shouldSkipDiceAnimation(this.save.settings.reducedMotion, window.matchMedia('(prefers-reduced-motion: reduce)').matches, this.save.settings.motionEffects);
     const delay = instant ? 0 : scaleMs(400 * (stars + 1) + 200, this.save.settings.speed);
     this.starTimers.push(window.setTimeout(() => this.sound.play('milestone'), delay));
   }
@@ -366,9 +369,9 @@ export class PensionRoadApp {
     if (target.id === 'sell-product') this.selectedSell = target.value as ProductId;
     if (target.id === 'switch-from') this.switchFrom = target.value as ProductId;
     if (target.id === 'switch-to') this.switchTo = target.value as ProductId;
-    if (target.id === 'reduced-motion' && target instanceof HTMLInputElement) {
-      this.save.settings.reducedMotion = target.checked;
-      document.documentElement.dataset.reduceMotion = String(target.checked);
+    if (target.id === 'motion-effects' && ['system', 'on', 'off'].includes(target.value)) {
+      this.save.settings.motionEffects = target.value as 'system' | 'on' | 'off';
+      this.save.settings.reducedMotion = target.value === 'off';
       this.persist();
     }
     if (target.id === 'characters' && target instanceof HTMLInputElement) {
@@ -1021,7 +1024,7 @@ export class PensionRoadApp {
   private scheduleStarSounds(stars: number): void {
     this.starTimers.forEach((timer) => window.clearTimeout(timer));
     this.starTimers = [];
-    const instant = shouldSkipDiceAnimation(this.save.settings.reducedMotion, window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const instant = shouldSkipDiceAnimation(this.save.settings.reducedMotion, window.matchMedia('(prefers-reduced-motion: reduce)').matches, this.save.settings.motionEffects);
     for (let index = 0; index < stars; index += 1) {
       this.starTimers.push(window.setTimeout(() => this.sound.play('star'), instant ? 0 : scaleMs(400 * (index + 1), this.save.settings.speed)));
     }
@@ -1039,7 +1042,7 @@ export class PensionRoadApp {
     if (!this.arrivalPending || !this.root.isConnected || this.screen !== 'game' || document.hidden || this.modal || this.pendingPrompt) {
       this.clearArrivalTimer(); return;
     }
-    const instant = !this.save.settings.characters || shouldSkipDiceAnimation(this.save.settings.reducedMotion, window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const instant = !this.save.settings.characters || shouldSkipDiceAnimation(this.save.settings.reducedMotion, window.matchMedia('(prefers-reduced-motion: reduce)').matches, this.save.settings.motionEffects);
     if (instant) this.clearArrivalTimer();
     if (this.arrivalTimer !== null) return;
     this.arrivalTimer = setTimeout(() => {
@@ -1066,7 +1069,7 @@ export class PensionRoadApp {
     this.diceFaces = dicePairForTurn(this.game.seed, this.game.turn);
     this.modal = null; this.checkpoint();
     const id = this.motion.begin();
-    const instant = shouldSkipDiceAnimation(this.save.settings.reducedMotion, window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const instant = shouldSkipDiceAnimation(this.save.settings.reducedMotion, window.matchMedia('(prefers-reduced-motion: reduce)').matches, this.save.settings.motionEffects);
     this.boardFocusing = true; this.focusBoardAfterDice = true; this.render();
     const reveal = revealBoard(this.root.querySelector<HTMLElement>('.board-stage'), this.root.querySelector<HTMLElement>('.game-actions'), this.motion, id, instant);
     if (reveal) {
@@ -1078,7 +1081,13 @@ export class PensionRoadApp {
     this.boardFocusing = false;
     if (!instant) {
       this.diceRolling = true; this.sound.play('dice'); this.render();
-      if (!await this.motion.wait(scaleMs(DICE_ROLL_DURATION_MS + DICE_LAND_HOLD_MS, this.save.settings.speed), id)) return;
+      if (!await this.motion.wait(scaleMs(DICE_ROLL_DURATION_MS, this.save.settings.speed), id)) return;
+      const result = `${this.diceFaces[0]} + ${this.diceFaces[1]} · ${this.diceFaces[0] + this.diceFaces[1]}칸 이동`;
+      const overlay = this.root.querySelector('.dice-overlay');
+      overlay?.setAttribute('aria-label', `주사위 결과 ${result}`);
+      const caption = overlay?.querySelector('p');
+      if (caption) caption.textContent = result;
+      if (!await this.motion.wait(scaleMs(DICE_LAND_HOLD_MS, this.save.settings.speed), id)) return;
     }
     this.diceRolling = false;
     await this.moveRolledDice();
@@ -1088,7 +1097,7 @@ export class PensionRoadApp {
     if (!this.game) return;
     const steps = this.diceFaces[0] + this.diceFaces[1];
     const id = this.motion.begin();
-    const instant = shouldSkipDiceAnimation(this.save.settings.reducedMotion, window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const instant = shouldSkipDiceAnimation(this.save.settings.reducedMotion, window.matchMedia('(prefers-reduced-motion: reduce)').matches, this.save.settings.motionEffects);
     this.regionNotice = ""; this.tokenTrail = [];
     this.modal = null; this.tokenHopping = true; this.tokenFocus = this.game.position;
     // 주사위 오버레이를 걷은 뒤 한 번만 포커스한다. 이동 프레임에는 스크롤하지 않는다.
@@ -1323,7 +1332,7 @@ export class PensionRoadApp {
       if (location) updateView(location, this.renderBoardLocation(this.game));
       showAvatarFallbacks(stage, this.failedCharacterArt); return;
     }
-    document.documentElement.dataset.reduceMotion = String(this.save.settings.reducedMotion);
+    document.documentElement.dataset.reduceMotion = String(shouldSkipDiceAnimation(this.save.settings.reducedMotion, window.matchMedia('(prefers-reduced-motion: reduce)').matches, this.save.settings.motionEffects));
     document.documentElement.dataset.speed = String(this.save.settings.speed);
     const existingOverlay = this.diceRolling ? this.root.querySelector('.dice-overlay') : null;
     const screenHtml = this.screen === 'prepare' && this.preparation ? renderStartPreparation(this.preparation)
@@ -1407,7 +1416,7 @@ export class PensionRoadApp {
     this.renderedModal = this.modal;
     if (this.game && this.root.querySelector(this.modal ? '.modal-sheet [data-default-notice]' : '[data-default-notice]')) this.game = presentMaturityNotices(this.game);
     this.checkpoint();
-    const instant = shouldSkipDiceAnimation(this.save.settings.reducedMotion, window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const instant = shouldSkipDiceAnimation(this.save.settings.reducedMotion, window.matchMedia('(prefers-reduced-motion: reduce)').matches, this.save.settings.motionEffects);
     runNumberAnimations(this.root, instant, scaleMs(NUMBER_TWEEN_MS, this.save.settings.speed));
     if (!this.tokenHopping) this.tokenShown = this.game?.position ?? null;
     this.syncTokenEmotion();
@@ -1437,7 +1446,7 @@ export class PensionRoadApp {
       footer: this.root.querySelector<HTMLElement>('.game-actions'),
       imageSrc: art?.getAttribute('href') ?? '',
       blocked: Boolean(this.modal || this.pendingPrompt || this.boardFocusing || this.diceRolling || this.tokenHopping || this.boardRevealing),
-      disabled: !this.save.settings.characters || this.failedCharacterArt.has(character) || shouldSkipDiceAnimation(this.save.settings.reducedMotion, window.matchMedia('(prefers-reduced-motion: reduce)').matches),
+      disabled: !this.save.settings.characters || this.failedCharacterArt.has(character) || shouldSkipDiceAnimation(this.save.settings.reducedMotion, window.matchMedia('(prefers-reduced-motion: reduce)').matches, this.save.settings.motionEffects),
       speed: speedScale(this.save.settings.speed)
     });
   }
@@ -1702,7 +1711,7 @@ export class PensionRoadApp {
     const close = !this.modalIsSticky() ? '<button class="modal-close" data-action="close-modal" aria-label="닫기">×</button>' : '';
     let content = '';
     const characters = this.save.settings.characters;
-    const reducedMotion = shouldSkipDiceAnimation(this.save.settings.reducedMotion, window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const reducedMotion = shouldSkipDiceAnimation(this.save.settings.reducedMotion, window.matchMedia('(prefers-reduced-motion: reduce)').matches, this.save.settings.motionEffects);
     if (this.modal === 'risk-notice' && this.game) content = renderRiskNotice(this.game);
     if (this.modal === 'quiz-confirm' && this.game && this.pendingPrompt) content = renderQuizNotice(this.progressQuizOpportunity(this.pendingPrompt.intent), this.game.status === 'finished');
     if (this.modal === 'life') content = this.renderLifeModal();
@@ -2033,7 +2042,7 @@ export class PensionRoadApp {
       : this.save.profileAssessment ? `이전에 확인한 성향은 <strong>${nextProfile?.name}</strong>이며 ${nextProfile?.minRiskGrade}~6등급 매수할 수 있습니다.` : '아직 확인한 투자자성향이 없습니다. 새 판의 시작 준비에서 먼저 5문항으로 알아보세요.';
     return `<p class="eyebrow">교육용 게임 안내</p><h2>플레이 설정</h2>
       <p class="profile-note">${profileNote}</p>
-      <section class="support-group"><h3>화면과 캐릭터</h3><label class="setting-row" for="reduced-motion"><span><strong>동작 줄이기</strong><small>전환·주사위 애니메이션을 즉시 표시합니다.</small></span><input id="reduced-motion" type="checkbox" ${this.save.settings.reducedMotion ? 'checked' : ''}></label>
+      <section class="support-group"><h3>화면과 캐릭터</h3><label class="setting-row" for="motion-effects"><span><strong>게임 효과</strong><small>켜기를 선택하면 Windows·Mac 설정과 별도로 주사위와 말 이동 효과를 표시해요. 끄면 결과를 바로 보여줘요.</small></span><select id="motion-effects">${([ ['system', '기기 설정 따르기'], ['on', '게임 효과 켜기'], ['off', '게임 효과 끄기'] ]).map(([value, label]) => `<option value="${value}" ${(this.save.settings.motionEffects ?? (this.save.settings.reducedMotion ? 'off' : 'system')) === value ? 'selected' : ''}>${label}</option>`).join('')}</select></label>
       <label class="setting-row" for="characters"><span><strong>캐릭터 표시</strong><small>직접 고른 올원프렌즈 말, 앵커·코치 말풍선을 보입니다. 끄면 문구만 남습니다.</small></span><input id="characters" type="checkbox" ${this.save.settings.characters ? 'checked' : ''}></label>
       ${this.renderAvatarPicker('settings')}</section>
       <section class="support-group"><h3>소리와 턴 진행</h3><label class="setting-row" for="sound"><span><strong>효과음</strong><small>주사위·속보·정산·환급·별 소리. 기본 끔이며 게임 화면 오른쪽 위에서도 바꿀 수 있습니다.</small></span><input id="sound" type="checkbox" ${this.save.settings.sound ? 'checked' : ''}></label>

@@ -302,13 +302,13 @@ button.primary.jumbo:disabled { opacity: .45; cursor: not-allowed; }
 
 .dice-overlay { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; align-content: center; gap: 18px; background: rgba(16, 40, 37, .62); backdrop-filter: blur(10px); color: #fff; }
 .dice-overlay p { margin: 0; font-weight: 800; letter-spacing: .04em; }
-.dice-scene { position: relative; width: min(100% - 24px, 280px); height: 150px; perspective: 560px; display: flex; align-items: center; justify-content: center; gap: 28px; transform-style: preserve-3d; }
-.dice-slot { display: grid; place-items: center; width: 88px; height: 88px; }
-.dice-slot:has(.rolling) { animation: dice-hop var(--dice-ms, 1.12s) ease-out both; }
-.dice-slot.alt:has(.rolling) { animation-name: dice-hop-alt; }
-.dice { --dice-size: 76px; --half: 38px; position: relative; width: var(--dice-size); height: var(--dice-size); transform-style: preserve-3d; }
-.dice.rolling { animation: dice-tumble var(--dice-ms, 1.12s) cubic-bezier(.12, .72, .28, 1) both; will-change: transform; }
-.dice.rolling.alt { animation-name: dice-tumble-alt; }
+.dice-scene { position: relative; width: min(100% - 24px, 280px); height: 230px; perspective: 750px; display: flex; align-items: center; justify-content: center; gap: 28px; transform-style: preserve-3d; }
+.dice-slot { position:relative; display:grid; place-items:center; width:88px; height:88px; }
+.dice { --dice-size:76px; --half:38px; position:relative; width:var(--dice-size); height:var(--dice-size); transform-style:preserve-3d; }
+.dice-flight { width:76px; height:76px; transform-style:preserve-3d; }
+.throwing .dice-flight { animation:dice-short-throw var(--throw-ms) cubic-bezier(.22,.6,.35,1) var(--throw-delay) both; }
+.throwing .dice.rolling { animation:dice-throw-spin calc(var(--throw-ms) * .94) cubic-bezier(.15,.55,.24,1) var(--throw-delay) both; will-change:transform; }
+.dice-shadow { position:absolute; left:3px; bottom:-5px; width:82px; height:20px; border-radius:50%; background:rgb(8 28 18 / 35%); filter:blur(5px); animation:dice-throw-shadow var(--throw-ms) ease-out var(--throw-delay) both; }
 .dice.landed { transform: var(--land); }
 .dice-face { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); padding: 10px; background: linear-gradient(145deg, #fffef8, #eef3ea); border: 1px solid #c5d4cb; border-radius: 12px; box-shadow: inset 0 0 0 2px rgba(255,255,255,.55), 0 8px 18px rgba(16,40,37,.18); backface-visibility: hidden; }
 .dice-face.n1 { transform: rotateY(0deg) translateZ(var(--half)); }
@@ -418,23 +418,24 @@ td small { display: block; margin: 3px 0 0 20px; color: var(--muted); font-size:
 
 @keyframes modal-in { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: none; } }
 @keyframes dice-cta-pulse { 50% { filter: brightness(1.08); box-shadow: 0 10px 22px rgba(30, 91, 84, .32); } }
-@keyframes dice-tumble {
-  0% { transform: rotateX(0deg) rotateY(0deg) rotateX(0deg) rotateY(0deg); }
-  100% { transform: var(--land); }
+/* B안: 짧은 포물선 → 첫 착지 → 작은 두 번의 반동. 화면 자체는 흔들지 않는다. */
+@keyframes dice-short-throw {
+  0% { transform:translate(var(--launch-x),-25px) scale(.86); }
+  24% { transform:translate(var(--apex-x),-78px) scale(1.05); }
+  61% { transform:translate(0,0) scale(1.08,.91); }
+  74% { transform:translate(0,-24px) scale(1); }
+  87% { transform:translate(0,0) scale(1.025,.97); }
+  93% { transform:translate(0,-4px); }
+  100% { transform:translate(0,0); }
 }
-@keyframes dice-tumble-alt {
-  0% { transform: rotateX(0deg) rotateY(0deg) rotateX(0deg) rotateY(0deg); }
-  100% { transform: var(--land); }
+@keyframes dice-throw-spin {
+  from { transform:var(--launch); }
+  to { transform:var(--land); }
 }
-@keyframes dice-hop {
-  0% { transform: translateY(8px) rotate(-8deg); }
-  45% { transform: translateY(-26px) rotate(6deg); }
-  100% { transform: translateY(0) rotate(0deg); }
-}
-@keyframes dice-hop-alt {
-  0% { transform: translateY(10px) rotate(10deg); }
-  40% { transform: translateY(-32px) rotate(-8deg); }
-  100% { transform: translateY(0) rotate(0deg); }
+@keyframes dice-throw-shadow {
+  0% { opacity:.25; transform:scale(.65); }
+  65% { opacity:.65; transform:scale(1.12); }
+  100% { opacity:1; transform:scale(1); }
 }
 
 @media (max-width: 800px) {
@@ -765,9 +766,7 @@ td small { display: block; margin: 3px 0 0 20px; color: var(--muted); font-size:
   .payout-grid, .default-option-grid { grid-template-columns: 1fr; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
-}
+html[data-reduce-motion="true"] *, html[data-reduce-motion="true"] *::before, html[data-reduce-motion="true"] *::after { scroll-behavior:auto !important; animation-duration:.01ms !important; transition-duration:.01ms !important; }
 /* 묶음 C — 턴 리듬: 턴 트랙 남은 사건, 정산 접기·자동 진행, 사건→운용 머리글, 그대로 직결 */
 .turn-track-wrap { display: grid; gap: 4px; margin-bottom: 10px; }
 .turn-track-wrap .turn-track { margin-bottom: 0; }

@@ -223,7 +223,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
   .preparation-facts>div { flex-wrap:wrap; gap:6px; }
   .preparation-facts dd { text-align:left; }
 }
-@media(prefers-reduced-motion:reduce) { .road-art,.road-header { animation:none; transition:none; } }
+html[data-reduce-motion="true"] .road-art,html[data-reduce-motion="true"] .road-header { animation:none; transition:none; }
 
 /* FB-012/013: an unassessed profile is not a result; touch hover is not a selection. */
 .preparation-unassessed { width:min(100%,620px); margin:24px auto; }

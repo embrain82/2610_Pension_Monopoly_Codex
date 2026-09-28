@@ -692,6 +692,8 @@ export interface SaveData {
   avatarId: AvatarId;
   settings: {
     reducedMotion: boolean;
+    /** 없으면 이전 reducedMotion 설정을 유지. on은 기기 설정보다 우선한다. */
+    motionEffects?: 'system' | 'on' | 'off';
     sound: boolean;
     characters: boolean;
     ghost: boolean;
