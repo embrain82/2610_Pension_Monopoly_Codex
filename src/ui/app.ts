@@ -75,7 +75,7 @@ import { runNumberAnimations } from './fx-dom';
 import { renderBoardHud, ghostMonthlyNow, renderGoalMeter, renderRiskMeter } from './hud';
 import { renderGhostVerdict } from './ghost';
 import { percent, renderMarketCard, renderMarketTimeline, renderSettingsEntry, renderTurnTrack, signedPercent } from './market-view';
-import { loadSave, saveData } from './ui-state';
+import { defaultSave, loadSave, saveData } from './ui-state';
 import { resetProgress } from './reset-progress';
 import { AUTO_SETTLE_MS, SETTLE_CTA_NEXT, canAutoSettle, renderSettlementModal } from './settlement';
 import { avatarEmotion, avatarMood, MOOD_LABELS, renderAvatar, showAvatarFallbacks, AVATAR_NAMES } from './avatars';
@@ -205,7 +205,15 @@ export class PensionRoadApp {
   private readonly failedBrandArt = new Set<string>();
   private readonly failedCharacterArt = new Set<string>();
 
-  constructor(private readonly root: HTMLElement) {
+  constructor(private readonly root: HTMLElement, private readonly review?: { resultState: GameState }) {
+    if (review) {
+      this.save = structuredClone(defaultSave);
+      this.save.unlockedCards = [...review.resultState.unlockedCards];
+      this.save.settings.sound = false;
+      this.game = structuredClone(review.resultState);
+      this.screen = 'result';
+      this.resumeData = null;
+    }
     this.root.addEventListener('error', event => {
       const image = event.target;
       if (image instanceof Element && image.hasAttribute('data-character-image')) {
@@ -261,6 +269,7 @@ export class PensionRoadApp {
   }
 
   private persist(progress = false): void {
+    if (this.review) return;
     if (this.game && progress) {
       this.save.unlockedCards = [...new Set([...this.save.unlockedCards, ...this.game.unlockedCards])];
       this.save.lastSeed = this.game.seed;
@@ -273,6 +282,7 @@ export class PensionRoadApp {
    * 업적은 두 경우 모두 다시 평가해 새로 연 것만 더한다(연금으로 바꾸면 「연금 수령 체험」이 열릴 수 있다).
    */
   private recordResult(countPlay: boolean): void {
+    if (this.review) return;
     if(this.game?.campaign?.practice) return;
     if (!this.game || this.game.status !== 'finished') return;
     const score = calculateScore(this.game);
@@ -407,6 +417,10 @@ export class PensionRoadApp {
     if (!button || button.matches(':disabled')) return;
     const action = button.dataset.action;
     if (!action) return;
+    if (this.review && !['open-payout','choose-payout','confirm-payout','close-modal','open-cards','cards-tab','open-portfolio','open-market'].includes(action)) {
+      this.announce('결과 검토 모드입니다. 다른 결과는 위 케이스 링크에서 선택하세요.');
+      this.render(); return;
+    }
     if (this.pendingPrompt && !['notice-continue', 'notice-quiz', 'close-modal'].includes(action)) return;
     void this.sound.unlock();
     if (action === 'test-sound') { this.setSound(true); this.render(); return; }
@@ -1174,6 +1188,7 @@ export class PensionRoadApp {
   }
 
   private checkpoint(): void {
+    if (this.review) return;
     if (!this.game || this.screen !== 'game' || this.boardFocusing || this.diceRolling || this.tokenHopping) return;
     const data: PlayCheckpoint = { version: checkpointVersion(this.game), ...(this.arrivalPending ? { arrivalPending: true } : {}), uiProgress: normalizeUiProgress(this.uiProgress, this.game), practice: normalizePractice(this.practice, this.game), ...(this.game.defaultTrading?{actionContext:{view:this.actionView==='default'?'default' as const:'menu' as const,draft:this.defaultTradeDraft,portfolioReturn:this.portfolioReturn}}:{}), game: this.game, modal: this.pendingPrompt ? this.pendingPrompt.returnModal : this.modal, lastSummary: this.lastSummary,
       quizCardId: this.quizCardId, quizPicked: this.quizPicked, finalQuizQueue: this.finalQuizQueue,

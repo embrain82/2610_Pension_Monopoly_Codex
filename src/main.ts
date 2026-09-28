@@ -18,4 +18,9 @@ import { PensionRoadApp } from './ui/app';
 validateContent();
 const root = document.querySelector<HTMLElement>('#app');
 if (!root) throw new Error('앱 루트 요소를 찾을 수 없습니다.');
-new PensionRoadApp(root);
+const reviewCase = new URLSearchParams(location.search).get('resultReview');
+if (reviewCase !== null) {
+  void import('./ui/result-review').then(({ mountResultReview }) => mountResultReview(root, reviewCase));
+} else {
+  new PensionRoadApp(root);
+}

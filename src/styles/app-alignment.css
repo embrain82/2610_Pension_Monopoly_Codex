@@ -72,3 +72,12 @@ button:disabled{color:#777;background:#f1f2f3;border-color:#e5e7eb}
 .game-actions svg{display:block;width:24px;height:24px;flex:none}
 .modal-close-bar{background:#fff}
 .modal-close{background:transparent;color:var(--ink)}
+
+.result-review-nav,.result-review-index{max-width:1120px;margin:16px auto;padding:20px;color:#191919;background:#f6f7f8;border-radius:16px}
+.result-review-nav p,.result-review-index p{font-size:14px;line-height:1.6}
+.result-review-nav nav{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.result-review-nav nav a{padding:9px 12px;background:#fff;border:1px solid #e5e7eb;border-radius:8px;text-decoration:none;font-size:13px}
+.result-review-nav nav a[aria-current]{background:#159447;color:white}
+.result-review-index article{background:#fff;border-radius:12px;padding:16px;margin:12px 0}
+.result-review-index h2{font-size:18px}
+@media(max-width:600px){.result-review-nav,.result-review-index{margin:12px;padding:14px}}
