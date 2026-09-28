@@ -29,6 +29,8 @@ describe('속도 스케일과 후반 가속', () => {
   it('speedScale은 1×=1, 2×=0.5이고 scaleMs는 정수 ms를 돌려준다', () => {
     expect(speedScale(1)).toBe(1);
     expect(speedScale(2)).toBe(0.5);
+    expect(speedScale(1.5)).toBeCloseTo(2/3);
+    expect(scaleMs(1785, 1.5)).toBe(1190);
     expect(scaleMs(1120, 1)).toBe(1120);
     expect(scaleMs(1120, 2)).toBe(560);
     expect(scaleMs(261, 2)).toBe(131);
@@ -156,9 +158,9 @@ describe('정산 창 접기와 자동 진행', () => {
 });
 
 describe('저장 v6', () => {
-  it('기본 저장은 v6이고 속도 1×·자동 진행 끔·정산 접힘·업적 없음·컬렉션 0', () => {
+  it('기본 저장은 v6이고 속도 1.5×·자동 진행 끔·정산 접힘·업적 없음·컬렉션 0', () => {
     expect(defaultSave.version).toBe(7);
-    expect(defaultSave.settings.speed).toBe(1);
+    expect(defaultSave.settings.speed).toBe(1.5);
     expect(defaultSave.settings.autoSettle).toBe(false);
     expect(defaultSave.settings.settleExpanded).toBe(false);
     expect(defaultSave.achievements).toEqual([]);
@@ -171,7 +173,7 @@ describe('저장 v6', () => {
     const loaded = loadSave(v5);
     expect(loaded.version).toBe(7);
     expect(loaded.settings.ghost).toBe(false);
-    expect(loaded.settings.speed).toBe(1);
+    expect(loaded.settings.speed).toBe(1.5);
     expect(loaded.settings.autoSettle).toBe(false);
     expect(loaded.defaultOption).toBe('lowRisk');
     expect(loaded.achievements).toEqual([]);
@@ -197,6 +199,6 @@ describe('저장 v6', () => {
     expect(loaded.collection.stable).toEqual({ plays: 0, bestStars: 0 });
     expect(loaded.collection.growth).toEqual({ plays: 0, bestStars: 0 });
     const badSpeed = { getItem: () => JSON.stringify({ version: 6, settings: { reducedMotion: false, sound: false, characters: true, ghost: true, speed: 3 }, unlockedCards: [], bestScore: 1, lastSeed: 'x' }) };
-    expect(loadSave(badSpeed).settings.speed).toBe(1);
+    expect(loadSave(badSpeed).settings.speed).toBe(1.5);
   });
 });

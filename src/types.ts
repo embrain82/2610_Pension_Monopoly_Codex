@@ -683,7 +683,7 @@ export interface AchievementDef {
 /** 선택한 캐릭터별 완주 기록. 도감 「캐릭터 컬렉션」의 재료 */
 export type Collection = Record<ProfileId, { plays: number; bestStars: 0 | 1 | 2 | 3 }>;
 
-export type AnimationSpeed = 1 | 2;
+export type AnimationSpeed = 1 | 1.5 | 2;
 
 export interface SaveData {
   /** 없는 새 설정은 미진단. 이전 저장은 진단 여부를 추정하지 않는다. */
@@ -699,6 +699,8 @@ export interface SaveData {
     ghost: boolean;
     /** 애니메이션 속도. 2면 주사위·말·숫자·속보·정산 연출이 절반 길이 */
     speed: AnimationSpeed;
+    /** 새 속도 선택 UI에서 사용자가 직접 고른 값인지 */
+    speedSelected?: boolean;
     /** 정산 창 자동 진행(2.5초). 마지막·충격·이정표·사건 턴은 제외 */
     autoSettle: boolean;
     /** 정산 창 「자세히」 펼침 기억 */
