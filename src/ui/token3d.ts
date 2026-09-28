@@ -111,7 +111,7 @@ export function renderTokenLayer(state: GameState, view: TokenView): string {
     : '<b>나</b>';
   return `<div class="token-layer" aria-hidden="true">
       <div class="token-pos" data-index="${index}" data-character-name="${view.characters ? AVATAR_NAMES[state.avatarId] : ''}" style="transform:${tokenTranslate(index)}">
-        <div class="${tokenClasses(view)}"><i class="token-shadow"></i><i class="token-rim"></i><div class="token-face">${face}</div></div>
+        <div class="${tokenClasses(view)}"><i class="token-shadow"></i><i class="token-rim"></i><div class="token-face">${face}${view.characters ? '<canvas class="board-walk-canvas" width="256" height="256" aria-hidden="true"></canvas>' : ''}</div></div>
       </div>
     </div>`;
 }

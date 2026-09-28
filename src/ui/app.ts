@@ -78,6 +78,8 @@ import { resetProgress } from './reset-progress';
 import { AUTO_SETTLE_MS, SETTLE_CTA_NEXT, canAutoSettle, renderSettlementModal } from './settlement';
 import { avatarEmotion, avatarMood, MOOD_LABELS, renderAvatar, showAvatarFallbacks, AVATAR_NAMES } from './avatars';
 import { renderCharacterPicker } from './character-picker';
+import { BoardCharacterMotion } from './board-character-motion';
+import { syncCharacterSelectionMotion } from './character-selection-motion';
 import { renderSpeech } from './speech';
 import { settlementSound } from './sound';
 import { SoundPlayer } from './sound-dom';
@@ -163,6 +165,7 @@ export class PensionRoadApp {
   private diceFaces: [number, number] = [1, 1];
   private readonly motion = new AnimationController();
   private readonly tokenEmotion = new TokenEmotionPlayer();
+  private readonly boardWalk = new BoardCharacterMotion();
   private arrivalPending = false;
   private arrivalTimer: ReturnType<typeof setTimeout> | null = null;
   private exploreIndex = 0;
@@ -239,9 +242,11 @@ export class PensionRoadApp {
       const label = details.querySelector('[data-market-toggle-label]');
       if (label) label.textContent = details.open ? '접기' : '상세 보기';
     }, true);
+    this.root.addEventListener('toggle', () => syncCharacterSelectionMotion(this.root), true);
     document.addEventListener('keydown', (event) => this.onKeydown(event));
     document.addEventListener('visibilitychange', () => {
       if (!this.root.isConnected) return;
+      syncCharacterSelectionMotion(this.root);
       if (document.hidden) {
         this.sound.stop();
         this.tokenEmotion.suspend();
@@ -250,12 +255,12 @@ export class PensionRoadApp {
           this.clearDiceTimer(); this.diceRolling = false; this.tokenHopping = false; this.landed = false; this.tokenTrail = [];
           this.modal = null; this.render();
         }
-      } else { this.syncTokenEmotion(); this.syncArrivalScene(); }
+      } else { this.syncTokenEmotion(); this.syncBoardWalk(); this.syncArrivalScene(); }
     });
     window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', () => {
       if (this.root.isConnected) {
         document.documentElement.dataset.reduceMotion = String(shouldSkipDiceAnimation(this.save.settings.reducedMotion, window.matchMedia('(prefers-reduced-motion: reduce)').matches, this.save.settings.motionEffects));
-        this.syncTokenEmotion(); this.syncArrivalScene();
+        this.syncTokenEmotion(); this.syncBoardWalk(); this.syncArrivalScene();
       }
     });
     this.render();
@@ -1065,7 +1070,7 @@ export class PensionRoadApp {
     }
   }
 
-  private clearDiceTimer(): void { this.motion.cancel(); this.tokenEmotion.reset(); this.clearArrivalTimer(); this.arrivalPending = false; this.boardFocusing = false; this.focusBoardAfterDice = false; this.boardRevealing = false; this.revealIndex = undefined; }
+  private clearDiceTimer(): void { this.boardWalk.stop(); this.motion.cancel(); this.tokenEmotion.reset(); this.clearArrivalTimer(); this.arrivalPending = false; this.boardFocusing = false; this.focusBoardAfterDice = false; this.boardRevealing = false; this.revealIndex = undefined; }
 
   private clearArrivalTimer(): void {
     if (this.arrivalTimer !== null) clearTimeout(this.arrivalTimer);
@@ -1157,7 +1162,8 @@ export class PensionRoadApp {
       } else this.tokenShown = position;
     }
     if (!this.motion.valid(id)) return;
-    // 마지막 점프의 착지까지 끝난 뒤에만 공개한다. 금융·방문 상태는 아래에서 한 번 확정한다.
+    this.boardWalk.stop();
+    // 마지막 이동이 끝난 뒤에만 공개한다. 금융·방문 상태는 아래에서 한 번 확정한다.
     if (!isTileRevealed(this.game, this.tokenFocus)) {
       this.boardRevealing = true; this.revealIndex = this.tokenFocus; this.landed = false;
       this.render();
@@ -1377,7 +1383,7 @@ export class PensionRoadApp {
       updateView(stage, markup.content.firstElementChild!.innerHTML);
       const location = this.root.querySelector('.board-location');
       if (location) updateView(location, this.renderBoardLocation(this.game));
-      showAvatarFallbacks(stage, this.failedCharacterArt); return;
+      showAvatarFallbacks(stage, this.failedCharacterArt); this.syncBoardWalk(); return;
     }
     document.documentElement.dataset.reduceMotion = String(shouldSkipDiceAnimation(this.save.settings.reducedMotion, window.matchMedia('(prefers-reduced-motion: reduce)').matches, this.save.settings.motionEffects));
     document.documentElement.dataset.speed = String(this.save.settings.speed);
@@ -1391,7 +1397,9 @@ export class PensionRoadApp {
     const previousModal = this.renderedModal;
     const active = document.activeElement as HTMLElement | null;
     if (!previousModal && this.modal && active?.dataset.action) this.returnFocus = { action: active.dataset.action, view: active.dataset.view, tile: active.dataset.tile };
+    const previousCharacterVideos = [...this.root.querySelectorAll<HTMLVideoElement>('.character-selection-video')];
     updateView(this.root, `<main id="main" class="app-shell" data-scene="${playScene(this.game, this.screen, this.modal, this.diceRolling, this.tokenHopping)}">${screenHtml}</main>${this.renderModal()}`);
+    for (const video of previousCharacterVideos) if (!video.isConnected) video.pause();
     showAvatarFallbacks(this.root, this.failedCharacterArt);
     if (this.diceRolling) {
       if (existingOverlay) this.root.appendChild(existingOverlay);
@@ -1421,6 +1429,7 @@ export class PensionRoadApp {
       const target = [...this.root.querySelectorAll<HTMLElement>('[data-action]')].find(el => el.dataset.action === this.returnFocus?.action && el.dataset.view === this.returnFocus?.view && el.dataset.tile === this.returnFocus?.tile);
       (target ?? this.root.querySelector<HTMLElement>('[data-action="open-action"]'))?.focus({ preventScroll: this.boardFocusing || this.tokenHopping || this.diceRolling });
     }
+    syncCharacterSelectionMotion(this.root);
     if (previousModal === 'portfolio' && this.modal === 'action' && dialog) {
       const returnButton = dialog.querySelector<HTMLButtonElement>('[data-action="action-portfolio"]');
       returnButton?.focus({ preventScroll: this.actionScrollTop !== null });
@@ -1466,6 +1475,7 @@ export class PensionRoadApp {
     runNumberAnimations(this.root, instant, scaleMs(NUMBER_TWEEN_MS, this.save.settings.speed));
     if (!this.tokenHopping) this.tokenShown = this.game?.position ?? null;
     this.syncTokenEmotion();
+    this.syncBoardWalk();
     this.syncArrivalScene();
     // <details>의 toggle은 버블링하지 않아 여기서 붙인다. 펼침 상태를 기억하고, 펼치면 자동 진행을 멈춘다.
     const settleDetails = this.root.querySelector<HTMLDetailsElement>('details.settle-more');
@@ -1477,6 +1487,12 @@ export class PensionRoadApp {
       }
       if (open) this.clearAutoSettle();
     };
+  }
+
+  private syncBoardWalk(): void {
+    const enabled = this.screen === 'game' && this.save.settings.characters && !this.modal && !this.pendingPrompt
+      && !shouldSkipDiceAnimation(this.save.settings.reducedMotion, window.matchMedia('(prefers-reduced-motion: reduce)').matches, this.save.settings.motionEffects);
+    this.boardWalk.sync(this.root, this.game?.avatarId, this.tokenHopping && !this.boardRevealing, enabled);
   }
 
   private syncTokenEmotion(): void {
@@ -1576,6 +1592,10 @@ export class PensionRoadApp {
     if (from === null || from === index || instant || !this.tokenHopping) return [];
     if (typeof pos.animate !== 'function') return [];
     const plan = hopPlan(this.landed, speedScale(this.save.settings.speed));
+    if (this.boardWalk.ready) {
+      const frames = slideKeyframes(from, index, 1).slice(0, 2).map(frame => ({ transform: frame.transform }));
+      return [pos.animate(frames, { duration: plan.duration, easing: 'linear' })];
+    }
     const animations = [pos.animate(slideKeyframes(from, index, plan.land), { duration: plan.duration })];
     const shadow = pos.querySelector<HTMLElement>('.token-shadow')?.animate(plan.shadow, { duration: plan.duration });
     if (shadow) animations.push(shadow);
