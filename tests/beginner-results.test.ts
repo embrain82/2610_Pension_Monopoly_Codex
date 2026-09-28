@@ -58,7 +58,7 @@ it('퀴즈의 최종 기여는 종합점수 차이와 같고 상한·벌점·기
  const copy=structuredClone(s),k=learningProgressData(s),score=calculateScore(s),none=calculateScore({...s,quizLog:[]});
  expect(k.contribution).toBe(score.totalScore-none.totalScore);expect(k.total).toBeLessThanOrEqual(20);
  expect(score.stars).toBe(none.stars);expect(score.irpValue).toBe(none.irpValue);
- const d=dom(renderFinalPerformance(s));expect(d.querySelector('.final-total')?.textContent).toContain(`${score.totalScore}/100`);expect(d.textContent).toContain(`+${k.contribution}점`);expect(s).toEqual(copy);
+ const d=dom(renderFinalPerformance(s,'learning'));expect(d.querySelector('.final-total')?.textContent).toContain(`${score.totalScore}/100`);expect(d.textContent).toContain(`+${k.contribution}점`);expect(s).toEqual(copy);
  }
 });
 it('퀴즈 안내는 풀이 전 개념과 기여를 설명하고 선택 학습·오답 무벌점을 유지한다',()=>{

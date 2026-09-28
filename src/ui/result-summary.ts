@@ -14,7 +14,7 @@ export function renderResultHero(state: GameState, characters: boolean, showArt 
     <p class="result-complete">한 칸씩 걸어온, 12턴의 여정</p><div class="result-headline">${characters?renderAvatar(state.avatarId,'happy',56):''}<h1>${mission.name} ${mission.passed?'달성':'미달'}</h1></div>
     <div class="stars" role="img" aria-label="3개 중 ${score.stars}개 별">${[1,2,3].map(n=>`<span aria-hidden="true" class="${n<=score.stars?'earned':''}" style="--i:${n}">★</span>`).join('')}</div>
     <div class="result-hero"><small>${mission.metric}</small><strong>${mission.valueText}</strong><span>목표 ${mission.targetText} · 진행률 ${Math.floor(mission.ratio*1000)/10}%</span></div>
-    <p class="result-net"><strong>${state.payoutChoice==='lumpSum'?'세후 일시 수령액':'세후 평균 월 수령액'} ${formatWon(state.payoutChoice==='lumpSum'?score.payout.net:score.payout.monthlyNet)}</strong><br><small>위 목표 판정과 구분하는 교육용 수령 비교액입니다.</small></p><p class="result-cause">${cause}</p><small class="hint">${mission.basis}</small></div>${characters ? renderBrandArt('journey',showArt) : ''}</header>`;
+    <p class="result-net"><strong>${state.payoutChoice==='lumpSum'?'세후 일시 수령액':'세후 평균 월 수령액'} ${formatWon(state.payoutChoice==='lumpSum'?score.payout.net:score.payout.monthlyNet)}</strong><br><small>위 목표 판정과 구분하는 교육용 수령 비교액입니다.</small></p><p class="result-cause">${cause}</p><small class="hint">${mission.basis}</small></div>${characters ? renderBrandArt('journey',showArt).replace('journey.jpg','journey-transparent.png') : ''}</header>`;
 }
 export function renderResultOverview(state: GameState):string {
  const score=calculateScore(state);

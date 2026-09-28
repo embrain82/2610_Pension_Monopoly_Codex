@@ -78,3 +78,8 @@ export function renderPayoutLine(plan: PayoutPlan): string {
     ? `일시금 수령 · 평균 세금 ${pct(plan.taxRate)} ${formatWon(plan.tax)} 차감 → 세후 ${formatWon(plan.net)} · 목표용 월 환산액(일시금 조정) ${formatWon(plan.monthlyBasis)}`
     : `연금(20년) 수령 · 평균 세금 ${pct(plan.taxRate)} → 세후 평균 월 ${formatWon(plan.monthlyNet)}`;
 }
+
+export function renderPayoutSummary(plan: PayoutPlan): string {
+ const lump = plan.choice === 'lumpSum';
+ return `<section class="result-payout payout-summary" aria-label="선택한 수령 방식"><header><strong>선택한 수령 방식</strong><span>${lump?'일시금':'연금 · 20년'}</span></header><div class="payout-summary-value"><span>${lump?'세후 일시금 수령액':'세후 평균 월 수령액'}</span><strong>${formatWon(lump?plan.net:plan.monthlyNet)}</strong></div><p>평균 적용 세율 ${pct(plan.taxRate)} · 총 세금 ${formatWon(plan.tax)}</p><button class="secondary" data-action="open-payout">수령 방식 다시 비교</button><small>실제 지급액이 아닌 재원별 게임 가정의 비교입니다.</small></section>`;
+}

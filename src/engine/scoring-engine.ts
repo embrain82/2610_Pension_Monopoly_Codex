@@ -193,6 +193,17 @@ export function shortfallPlan(state: GameState, score: ScoreResult): ShortfallPl
   return { gapMonthly, neededIrp, contributionRoom, withinLimit, refundEstimate, line };
 }
 
+export function stabilityBreakdown(state: GameState) {
+  const limits = profileLimits(state), cash = Math.max(0, state.cash - state.livingDebt);
+  const count = diversificationCount(state);
+  return [
+    {label:'생활자금 확보', value:cash, target:limits.safeCash, unit:'won', max:9, points:cash >= limits.safeCash ? 9 : Math.max(0,9*cash/limits.safeCash)},
+    {label:'최대 낙폭 관리', value:state.maxDrawdown, target:limits.maxDrawdown, unit:'percent', max:9, points:state.maxDrawdown <= limits.maxDrawdown ? 9 : Math.max(0,9*(1-state.maxDrawdown))},
+    {label:'자산 분산', value:count, target:3, unit:'count', max:7, points:Math.min(7,count*2.4)},
+    {label:'자금 부족 횟수', value:state.cashShortages, target:0, unit:'times', max:5, points:Math.max(0,5-state.cashShortages*2)}
+  ];
+}
+
 export function calculateScore(state: GameState): ScoreResult {
   const irpValue = portfolioValue(state);
   const choice: PayoutChoice = state.payoutChoice ?? 'annuity20';
@@ -220,18 +231,13 @@ export function calculateScore(state: GameState): ScoreResult {
     stars=mission.passed ? (safeCash && state.livingDebt===0 ? (drawdownOk ? 3 : 2) : 1) : 0;
   }
   const incomeScore = Math.min(50, Math.max(0, goalRate * 50));
-  const stabilityScore = Math.min(30, Math.max(0,
-    (safeCash ? 9 : Math.max(0, 9 * Math.max(0, state.cash - state.livingDebt) / profileLimits(state).safeCash)) +
-    (drawdownOk ? 9 : Math.max(0, 9 * (1 - state.maxDrawdown))) +
-    Math.min(7, diversification * 2.4) +
-    Math.max(0, 5 - state.cashShortages * 2)
-  ));
+  const stabilityScore = Math.min(30, Math.max(0, stabilityBreakdown(state).reduce((sum, row) => sum + row.points, 0)));
   const knowledgeScore = knowledgeScoreOf(state);
   const totalScore = Math.round(Math.min(100, Math.max(0, incomeScore + stabilityScore + knowledgeScore)));
   const returnRate = balanceConfig.startingIrp <= 0 ? 0 : (irpValue - balanceConfig.startingIrp) / balanceConfig.startingIrp;
   const investmentReturnRate = state.campaign ? state.campaign.index - 1 : balanceConfig.startingIrp <= 0 ? 0 : (irpValue - balanceConfig.startingIrp - state.cashFlows.reduce((sum, flow) => sum + flow.amount, 0)) / balanceConfig.startingIrp;
 
-  const bestDecision = state.campaign ? (state.campaign.reviews.length ? `가장 큰 시장 변화는 ${[...state.campaign.reviews].sort((a,b)=>Math.abs(b.market)-Math.abs(a.market))[0].turn}턴에 발생했습니다. 아래 복기에서 당시 보유와 다음 선택을 비교하세요.` : "아직 완료한 턴이 없습니다.") : state.rebalanceCount > 0
+  const bestDecision = state.campaign ? (state.campaign.reviews.length ? `가장 큰 시장 변화는 ${[...state.campaign.reviews].sort((a,b)=>Math.abs(b.market)-Math.abs(a.market))[0].turn}턴에 발생했습니다. 최종 포트폴리오와 자산 흐름에서 운용 결과를 확인하세요.` : "아직 완료한 턴이 없습니다.") : state.rebalanceCount > 0
     ? '시장 변화 뒤 목표비중을 다시 맞춰 위험을 관리한 결정'
     : state.contributionTotal > 0
       ? '생활자금과 IRP를 나누면서 추가납입한 결정'
