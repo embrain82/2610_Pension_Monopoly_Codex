@@ -5,7 +5,7 @@ import { renderGoalConditions } from './hud';
 import { productRequirement } from './profile-requirement';
 import { presentMaturityNotices } from '../engine/default-lifecycle';
 import { beginPractice, normalizePractice, practiceAvailable, practiceChoice, practiceIsActive, renderPractice, type PracticeProgress } from './guided-practice';
-import { renderJourney, renderJourneyAlbum, exploreJourney, answerJourney } from './journey-view';
+import { renderJourney } from './journey-view';
 import { renderOngoing } from './ongoing-view';
 import { renderDecisionHighlights } from './decision-highlights';
 import { renderMaturitySummary } from './maturity-view';
@@ -452,12 +452,6 @@ export class PensionRoadApp {
       this.preparation.stage = 'profile'; this.screen = 'prepare';
     } else if (action === 'prepare-no-option' && this.preparation) {
       this.preparation.option = null; this.preparation.optionSource='chosen';
-    } else if (action === 'journey-topic' && this.game) {
-      this.uiProgress.journey=exploreJourney(this.game,this.uiProgress.journey,Number(button.dataset.chapter),Number(button.dataset.topic));
-      this.persist();
-    } else if (action === 'journey-answer' && this.game) {
-      this.uiProgress.journey=answerJourney(this.game,this.uiProgress.journey,Number(button.dataset.chapter),Number(button.dataset.answer));
-      this.persist();
     } else if (action === 'export-run'  && this.game) {
       const blob=new Blob([JSON.stringify({version:'1.12.0',boardVisibility:boardVisibilityOf(this.game),financeRules:this.game.financeRules??null,route:this.game.route,ruleset:this.game.rulesetVersion,contributionPacing:this.game.contributionPacing??null,defaultTrading:this.game.defaultTrading,seed:this.game.seed,profile:this.game.profileId,goal:this.game.goalMonthly,campaign:this.game.campaign,quiz:this.game.quizLog},null,2)],{type:'application/json'});
       const url=URL.createObjectURL(blob),link=document.createElement('a'); link.href=url; link.download='pension-road-replay.json'; link.click(); window.setTimeout(()=>URL.revokeObjectURL(url),1000);
@@ -1646,11 +1640,12 @@ export class PensionRoadApp {
           ${state.turn > 0 && !this.boardFocusing && !this.diceRolling && !this.tokenHopping ? renderDiceOutcome(dicePairForTurn(state.seed,state.turn-1)) : ''}
           <div class="board-location">${this.renderBoardLocation(state)}</div>${renderDiscoveryProgress(state)}
           ${showEmotion ? `<p class="board-emotion mood-${emotion.mood}" data-emotion="${emotion.mood}"><strong>${MOOD_LABELS[emotion.mood]}</strong><span>${emotion.reason}</span></p>` : ''}
-          ${state.turn===0?'<p class="first-turn-guide">① 주사위 → ② 시장·사건 확인 → ③ 한 번 선택 → ④ 결과 확인. 주문은 미리보기 뒤 직접 확정해요.</p>':''}<p class="board-step">${this.boardFocusing?'게임판을 보여드릴게요':this.diceRolling||this.tokenHopping?'주사위와 이동을 확인하세요':state.currentEventId?'지금은 생활사건 해결 단계':state.awaitingAction?`시장 반영 완료 · 운용 행동 ${state.actionsLeft}회 남음`:state.status==='finished'?'12턴 완료 · 최종 정산과 수령 방식 확인':'다음 순서 · 주사위 굴리기'}</p>
+          <div class="board-next"><p class="board-step">${this.boardFocusing?'게임판을 보여드릴게요':this.diceRolling||this.tokenHopping?'주사위와 이동을 확인하세요':state.currentEventId?'지금은 생활사건 해결 단계':state.awaitingAction?`시장 반영 완료 · 운용 행동 ${state.actionsLeft}회 남음`:state.status==='finished'?'12턴 완료 · 최종 정산과 수령 방식 확인':'다음 순서 · 주사위 굴리기'}</p><small>${state.turn===0?'시작 전 · 12턴 여정':`현재 ${state.turn}/12턴`}</small></div>
           ${renderBoardHud(state)}${renderTurnTrack(state, waitingForDice)}
+          ${state.turn===0?'<details class="first-turn-guide" data-preserve-open><summary>처음이라면 · 진행 방법</summary><p>① 주사위 → ② 시장·사건 확인 → ③ 운용 선택 → ④ 결과 확인</p><p>주문은 미리보기 뒤 직접 확정해요.</p></details>':''}
         </div>
         <aside class="dashboard" tabindex="0" aria-label="시장과 자산 상세">
-          ${renderJourney(state,this.uiProgress.journey)}${renderOngoing(state)}<details class="dashboard-details" data-preserve-open><summary>시장·자산·지역 기록 자세히</summary>${renderCampaignStatus(state)}${renderRegionProgress(state)}
+          ${renderJourney(state)}${renderOngoing(state)}<details class="dashboard-details" data-preserve-open><summary>시장·자산·지역 기록 자세히</summary>${renderCampaignStatus(state)}${renderRegionProgress(state)}
           ${this.checkpointFailed ? '<p role="status">이 브라우저에서 진행 저장이 차단되었습니다.</p>' : ''}
           ${learningTip}
           ${!waitingForDice && state.lastMarket.shock ? '<p class="shock-banner">충격 턴 · 신호를 보고 비중을 조정하세요</p>' : ''}
@@ -1705,7 +1700,7 @@ export class PensionRoadApp {
       : '';
     return `<section class="result-screen road-result">
       ${renderResultHero(this.game,characters,!this.failedBrandArt.has('journey'))}
-      ${renderResultOverview(this.game)}${renderDecisionHighlights(this.game)}${renderJourneyAlbum(this.uiProgress.journey)}
+      ${renderResultOverview(this.game)}${renderDecisionHighlights(this.game)}
       ${renderFinalPerformance(this.game)}
       ${renderMaturitySummary(this.game)}
       <section class="result-payout" aria-label="선택한 수령 방식"><p class="payout-line ${payout}"><span>${renderPayoutLine(plan)}</span><button class="secondary" data-action="open-payout">수령 방식 다시 비교</button></p><small>실제 지급액이 아닌 재원별 게임 가정의 비교입니다.</small></section>

@@ -1,9 +1,10 @@
+import {normalizeUiProgress} from '../src/ui/turn-notices';
 // @vitest-environment happy-dom
 import {beforeEach,expect,it} from 'vitest';
 import {createGame,startTurn,performAction,autoplay} from '../src/engine/game-engine';
 import {buyProduct} from '../src/engine/portfolio-engine';
 import {calculateScore} from '../src/engine/scoring-engine';
-import {answerJourney,exploreJourney,journeyChapter,normalizeJourney,renderJourney,renderJourneyAlbum} from '../src/ui/journey-view';
+import {journeyChapter,renderJourney} from '../src/ui/journey-view';
 import {renderOngoing} from '../src/ui/ongoing-view';
 import {renderTradePreview} from '../src/ui/trade-preview';
 import {renderResultHero} from '../src/ui/result-summary';
@@ -17,29 +18,24 @@ import type {GameState} from '../src/types';
 const game=()=>createGame('simpler-road','balanced',500000,{scenario:'classic',defaultTrading:true,defaultLifecycle:true,updatedFinance:true,settlementLearning:true,ghost:false});
 let root:HTMLElement;
 const click=(selector:string)=>{const button=root.querySelector<HTMLButtonElement>(selector);expect(button,selector).not.toBeNull();button!.click();};
-const saved=()=>parseCheckpoint(localStorage.getItem(CHECKPOINT_KEY))!;
 beforeEach(()=>{localStorage.clear();document.body.innerHTML='<div id="app"></div>';root=document.querySelector('#app')!;localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,disclaimerAccepted:true,settings:{...defaultSave.settings,motionEffects:'off',reducedMotion:true}}));});
 function mount(g:GameState){localStorage.setItem(CHECKPOINT_KEY,JSON.stringify({version:checkpointVersion(g),game:g,modal:null,lastSummary:null,quizCardId:null,quizPicked:null,finalQuizQueue:[],finalQuizTotal:0,finishing:false,defaultOptionAsk:false}));new PensionRoadApp(root);click('[data-action="resume-game"]');}
-it('탐험 오답과 정답, 새로고침은 금융·주사위·학습 점수와 칸 발견을 바꾸지 않는다',()=>{
- const g=game();mount(g);const before=structuredClone(saved().game);
- click('[data-action="journey-topic"][data-topic="1"]');click('[data-action="journey-answer"][data-answer="0"]');
- expect(root.textContent).toContain('벌점 없이');expect(saved().uiProgress!.journey!.chapters[1].solved).toBe(false);
- click('[data-action="journey-answer"][data-answer="1"]');expect(saved().uiProgress!.journey!.chapters[1].solved).toBe(true);
- expect(saved().game).toEqual(before);expect(calculateScore(saved().game)).toEqual(calculateScore(before));
- document.body.innerHTML='<div id="app2"></div>';root=document.querySelector('#app2')!;new PensionRoadApp(root);click('[data-action="resume-game"]');
- expect(root.textContent).toContain('내 탐험 앨범 1/4');expect(saved().game).toEqual(before);
+it.each([0,1,4])('과거 기념카드 %i장 저장판은 금융 상태를 보존하고 탐험 기록만 무시한다',count=>{
+ const g=autoplay('retired-journey','passive','balanced',{scenario:'classic',defaultTrading:true,defaultLifecycle:true,updatedFinance:true,settlementLearning:true,ghost:false});
+ const journey={chapters:Object.fromEntries(Array.from({length:count},(_,i)=>[i+1,{topic:0,solved:true}]))};
+ const raw={...saveCheckpoint(g),uiProgress:{journey,riskNoticeAckTurn:12}};
+ const restored=parseCheckpoint(JSON.stringify(raw))!;
+ expect(restored.game).toEqual(g);expect(calculateScore(restored.game)).toEqual(calculateScore(g));
+ expect(restored.uiProgress).toEqual({riskNoticeAckTurn:12});
 });
-it('네 장의 탐험은 현재 장만 열고 이미 획득한 카드를 중복 보상하지 않는다',()=>{
- const g=game();const before=JSON.stringify(g);let p=exploreJourney(g,undefined,1,0);p=answerJourney(g,p,1,0);
- expect(exploreJourney(g,p,2,0)).toBe(p);expect(exploreJourney(g,p,1,1)).toBe(p);
- for(let n=2;n<=4;n++){const next={...g,turn:(n-1)*3,awaitingAction:false};expect(journeyChapter(next)).toBe(n);p=exploreJourney(next,p,n,0);p=answerJourney(next,p,n,n===4?1:1);}
- expect(renderJourneyAlbum(p)).toContain('4/4');expect(JSON.stringify(g)).toBe(before);
- expect(exploreJourney({...g,status:'finished'},p,4,0)).toBe(p);
-});
-it('훼손된 UI 저장만 버리고 과거 저장과 정상 금융 상태는 보존한다',()=>{
- const g=game();expect(normalizeJourney(undefined,g)).toBeUndefined();
- expect(normalizeJourney({chapters:{1:{topic:1,solved:true},2:{topic:0,solved:true},bad:{topic:0,solved:true},0:{topic:0,solved:true}}},g)).toEqual({chapters:{1:{topic:1,solved:true,tried:false}}});
- expect(normalizeJourney({chapters:{1:{topic:99,solved:true}}},g)).toEqual({chapters:{}});
+function saveCheckpoint(g:GameState){return {version:checkpointVersion(g),game:g,modal:null,lastSummary:null,quizCardId:null,quizPicked:null,finalQuizQueue:[],finalQuizTotal:0,finishing:false,defaultOptionAsk:false};}
+it('작은 탐험과 앨범을 제거하고 A안 순서 및 장별 목표는 유지한다',()=>{
+ mount(game());expect(root.querySelector('[data-action="journey-topic"]')).toBeNull();expect(root.textContent).not.toContain('내 탐험 앨범');expect(root.textContent).not.toContain('기념카드');
+ expect(root.textContent).toContain('기초 다지기');
+ const html=root.innerHTML;expect(html.indexOf('board-next')).toBeLessThan(html.indexOf('board-funds'));expect(html.indexOf('board-funds')).toBeLessThan(html.indexOf('board-goal'));
+ const guide=root.querySelector('details.first-turn-guide')!;expect(guide).not.toBeNull();expect(guide.hasAttribute('open')).toBe(false);
+ for(let n=1;n<=4;n++)expect(journeyChapter({...game(),turn:(n-1)*3,awaitingAction:false,currentEventId:null})).toBe(n);
+ expect(normalizeUiProgress({journey:{chapters:{1:{topic:999}}}},game())).toEqual({});
 });
 it('목표를 달성한 뒤 다시 내려오면 회복 도전으로 설명한다',()=>{
  const g={...game(),milestonesHit:['goal-100' as const]};expect(renderJourney(g)).toContain('한 번 닿았던 목표를 회복');

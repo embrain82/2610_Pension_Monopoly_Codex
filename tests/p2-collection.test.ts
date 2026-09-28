@@ -1,3 +1,4 @@
+import {renderResultCollection} from '../src/ui/result-summary';
 import {describe,it,expect} from 'vitest';
 import {createGame,autoplay} from '../src/engine/game-engine';
 import {eligibleRegions,stampVisit,reflectRegion,validRoute} from '../src/engine/route-engine';
@@ -44,4 +45,12 @@ describe('F09 새 판 자동 도장',()=>{
    expect(calculateScore(g)).toEqual(calculateScore(old));expect([...g.route.badges].sort()).toEqual(eligibleRegions(g.route.visits));expect(validRoute(g.route)).toBe(true);
   }
  });
+});
+
+it('결과에서는 지역 이유 남기기를 제거하고 도장과 기존 복기 기록은 보존한다',()=>{
+ let g=stampVisit({...base(),position:0});g=stampVisit({...g,position:1});g={...g,status:'finished'};
+ const recorded=reflectRegion(g,0,1).state;
+ const before=structuredClone(recorded),html=renderResultCollection(recorded,[],false);
+ expect(html).not.toContain('지역을 돌아보며');expect(html).not.toContain('reflect-region');expect(html).not.toContain('남긴 이유');
+ expect(html).toContain('1/4 도장');expect(html).toContain('업적 · 컬렉션');expect(recorded).toEqual(before);
 });
