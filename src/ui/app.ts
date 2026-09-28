@@ -12,7 +12,7 @@ import { renderMaturitySummary } from './maturity-view';
 import { activeCycle } from '../engine/maturity-cash';
 import { GENERAL_KNOWLEDGE_VERSION } from '../data/learning-rules';
 import { boardVisibilityOf, isTileRevealed, visibleTileLabel, renderDiscoveryProgress, TILE_REVEAL_MS } from './board-discovery';
-import { brandWordmark, operationIcon, renderBrandArt } from './design-system';
+import { brandIcon, brandWordmark, operationIcon, renderBrandArt } from './design-system';
 import { renderMarketStory } from './market-story';
 import { renderResultHero, renderResultOverview, renderResultCollection } from './result-summary';
 import { renderRetrySuggestion } from './retry-view';
@@ -1578,7 +1578,7 @@ export class PensionRoadApp {
     if (this.boardRevealing) return '<button class="dice-button" disabled><span>✦</span>도착한 칸 공개 중</button>';
     if (this.boardFocusing) return '<button class="dice-button" disabled><span>↗</span>게임판으로 이동 중</button>';
     if (this.diceRolling) {
-      return `<button class="dice-button" disabled><span>⚄</span>주사위 굴리는 중</button>`;
+      return `<button class="dice-button" disabled>${brandIcon()}주사위 굴리는 중</button>`;
     }
     if (this.tokenHopping) {
       return `<button class="dice-button" disabled><span>↗</span>이동 중</button>`;
@@ -1592,7 +1592,7 @@ export class PensionRoadApp {
       return `<button class="dice-button ready" data-action="resume-finish"><span>★</span>마무리 · 수령 방식 정하기</button>`;
     }
     if (canRevealNextTurn(state)) {
-      return `<button class="dice-button ready" data-action="roll-dice"><span>⚄</span>주사위 굴리기</button>`;
+      return `<button class="dice-button ready" data-action="roll-dice">${brandIcon()}주사위 굴리기</button>`;
     }
     if (state.currentEventId) {
       return `<button class="dice-button" data-action="open-life"><span>♥</span>생활사건 선택하기</button>`;
@@ -1642,7 +1642,7 @@ export class PensionRoadApp {
           ${showEmotion ? `<p class="board-emotion mood-${emotion.mood}" data-emotion="${emotion.mood}"><strong>${MOOD_LABELS[emotion.mood]}</strong><span>${emotion.reason}</span></p>` : ''}
           <div class="board-next"><p class="board-step">${this.boardFocusing?'게임판을 보여드릴게요':this.diceRolling||this.tokenHopping?'주사위와 이동을 확인하세요':state.currentEventId?'지금은 생활사건 해결 단계':state.awaitingAction?`시장 반영 완료 · 운용 행동 ${state.actionsLeft}회 남음`:state.status==='finished'?'12턴 완료 · 최종 정산과 수령 방식 확인':'다음 순서 · 주사위 굴리기'}</p><small>${state.turn===0?'시작 전 · 12턴 여정':`현재 ${state.turn}/12턴`}</small></div>
           ${renderBoardHud(state)}${renderTurnTrack(state, waitingForDice)}
-          ${state.turn===0?'<details class="first-turn-guide" data-preserve-open><summary>처음이라면 · 진행 방법</summary><p>① 주사위 → ② 시장·사건 확인 → ③ 운용 선택 → ④ 결과 확인</p><p>주문은 미리보기 뒤 직접 확정해요.</p></details>':''}
+          ${state.turn===0?'<details class="first-turn-guide" data-preserve-open><summary>처음이라면 · 진행 방법</summary><p>① 주사위 → ② 시장·사건 확인 → ③ 운용 선택 → ④ 결과 확인</p><p>운용지시 내용을 확인하고, 원하는 선택이면 확정해주세요.</p></details>':''}
         </div>
         <aside class="dashboard" tabindex="0" aria-label="시장과 자산 상세">
           ${renderJourney(state)}${renderOngoing(state)}<details class="dashboard-details" data-preserve-open><summary>시장·자산·지역 기록 자세히</summary>${renderCampaignStatus(state)}${renderRegionProgress(state)}
@@ -1666,9 +1666,9 @@ export class PensionRoadApp {
         </aside>
       </div>
       <nav class="game-actions" aria-label="게임 행동">
-        <button data-action="open-portfolio"><span>◫</span>포트폴리오</button>
+        <button data-action="open-portfolio">${operationIcon('portfolio')}포트폴리오</button>
         ${this.renderGameCta(state)}
-        <button data-action="open-market"><span>☰</span>타임라인</button>
+        <button data-action="open-market">${operationIcon('timeline')}타임라인</button>
       </nav>
     </section>`;
   }

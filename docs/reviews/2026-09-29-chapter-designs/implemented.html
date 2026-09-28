@@ -1,0 +1,19 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>B안 구현 확인</title><style>body{padding:20px}main{max-width:680px;margin:auto}</style><main><h1>B안 구현 확인</h1><p>실제 게임의 카드와 스타일로 표시한 1~4장입니다.</p><div id="cards"></div></main><script type="module">
+import '/src/styles/main.css';
+import '/src/styles/p1.css';
+import '/src/styles/p2.css';
+import '/src/styles/playtest.css';
+import '/src/styles/design-a1.css';
+import '/src/styles/design-d2a.css';
+import '/src/styles/design-d2b.css';
+import '/src/styles/design-d3.css';
+import '/src/styles/design-d4.css';
+import '/src/styles/characters.css';
+import '/src/styles/board-discovery.css';
+import '/src/styles/beginner.css';
+import '/src/styles/journey.css';
+import {createGame} from '/src/engine/game-engine.ts';
+import {renderJourney} from '/src/ui/journey-view.ts';
+const g=createGame('chapter-review','balanced',500000,{scenario:'classic'});
+document.querySelector('#cards').innerHTML=[1,4,7,10].map(turn=>renderJourney({...g,turn,awaitingAction:true})).join('');
+</script></html>

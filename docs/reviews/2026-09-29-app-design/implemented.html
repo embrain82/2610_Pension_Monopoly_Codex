@@ -1,0 +1,25 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>연결 앱 디자인 적용 확인</title><style>body{padding:20px}main{max-width:900px;margin:auto}.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.review-grid>div{min-width:0}@media(max-width:700px){.review-grid{grid-template-columns:1fr}}</style><main><h1>연결 앱 디자인 적용 확인</h1><p>실제 게임의 화면 함수와 스타일을 사용한 검증용 예시입니다. 저장 데이터와 연결되지 않습니다.</p><div class="review-grid"><div id="journey"></div><div id="ongoing"></div></div><section class="road-portfolio" id="portfolio"></section></main><script type="module">import '/src/styles/main.css';
+import '/src/styles/p1.css';
+import '/src/styles/p2.css';
+import '/src/styles/playtest.css';
+import '/src/styles/design-a1.css';
+import '/src/styles/design-d2a.css';
+import '/src/styles/design-d2b.css';
+import '/src/styles/design-d3.css';
+import '/src/styles/design-d4.css';
+import '/src/styles/characters.css';
+import '/src/styles/board-discovery.css';
+import '/src/styles/beginner.css';
+import '/src/styles/journey.css';
+import '/src/styles/app-alignment.css';
+import {createGame,startTurn} from '/src/engine/game-engine.ts';
+import {buyProduct} from '/src/engine/portfolio-engine.ts';
+import {renderJourney} from '/src/ui/journey-view.ts';
+import {renderOngoing} from '/src/ui/ongoing-view.ts';
+import {renderPortfolio} from '/src/ui/portfolio-view.ts';
+const g={...startTurn(createGame('design-check','balanced',500000,{scenario:'classic',defaultTrading:true,updatedFinance:true,settlementLearning:true}),1).state,irpCash:3000000,currentEventId:null};
+const ordered=buyProduct(g,'shortBond',1000000).state;
+document.querySelector('#journey').innerHTML=renderJourney(ordered);
+document.querySelector('#ongoing').innerHTML=renderOngoing(ordered);
+document.querySelector('#portfolio').innerHTML=renderPortfolio(ordered);
+</script></html>

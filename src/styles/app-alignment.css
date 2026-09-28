@@ -1,0 +1,74 @@
+/* Reviewed app alignment: information surfaces only; game artwork and semantic
+   market/region colours retain their existing rules. Typography sizes inherit. */
+:root{--ink:#191919;--muted:#666;--green:#159447;--green-2:#17783d;--line:#e5e7eb;--paper:#fff}
+body{color:var(--ink)}
+.primary{background:var(--green);color:#fff;border-radius:12px;box-shadow:none}
+.primary:hover{background:#117b3b}
+.secondary{background:#f6f7f8;border-color:var(--line);color:#333}
+button:disabled{color:#777;background:#f1f2f3;border-color:#e5e7eb}
+.road-panel,.ongoing-panel,.dashboard-details,.decision-highlights{background:#fff;border-color:var(--line);color:var(--ink)}
+.road-panel>p,.trade-quick small{color:var(--muted)}
+.life-preparation,.recap-action,.decision-highlights article,.road-support .profile-note{background:#f6f7f8}
+.modal-sheet.road-order .order-confirm{background:#fff;border-color:var(--line)}
+/* B chapter card; A HUD layout remains intact. */
+.journey-panel{background:#f6f7f8;border-color:var(--line);color:var(--ink)}
+.journey-chapters li{color:#777;border-color:var(--line)}
+.journey-chapters li[aria-current="step"]{color:var(--green);border-color:var(--green)}
+.journey-panel .eyebrow{color:var(--muted)}
+.journey-foot{color:var(--muted);background:#fff}
+.journey-foot strong{color:var(--ink)}
+.road-game .board-hud{background:transparent}
+.board-next{background:#edf7f0}
+.board-funds{background:#f6f7f8;padding:10px;border-radius:14px}
+.board-funds>div{border-color:transparent;background:#fff}
+.board-goal{background:#f6f7f8}
+/* Operation menus and life choices. */
+.road-action-menu .purpose-choice{background:#f6f7f8;border-color:transparent}
+.road-action-menu .purpose-choice:hover{background:#edf7f0;border-color:#c7e6d1}
+.purpose-arrow,.life-choice-arrow{color:var(--muted)}
+.road-action-menu .beginner-action-hint{background:#f6f7f8;border-color:var(--line);border-left-color:var(--green)}
+.road-action-menu .action-list .action-menu-card{background:#f6f7f8;border-color:transparent}
+.road-action-menu .action-list .action-menu-card.featured{background:#f6f7f8;border-color:transparent}
+.road-action-menu .action-menu-choice .operation-icon{background:#edf7f0}
+.action-money{background:#f6f7f8;border-color:transparent}
+.life-scene .eyebrow{color:var(--muted)}
+.life-scene .life-choice-wrap{background:#fff;border-color:var(--line)}
+.life-scene .life-choice-body small.now{color:var(--ink)}
+.life-scene .life-choice-body small.later{color:var(--muted)}
+.life-scene .life-choice:not(:disabled):hover{background:#f6f7f8}
+.life-scene .life-choice-wrap.unavailable{background:#f6f7f8}
+.life-account-note{background:#f6f7f8;color:var(--muted)}
+/* Composition uses its own container width, including small desktop modals. */
+.portfolio-overview{container-type:inline-size}
+.road-portfolio .portfolio-composition{background:#f6f7f8;padding:18px;border-radius:16px;grid-template-columns:1fr}
+@container(min-width:460px){.road-portfolio .portfolio-composition{grid-template-columns:152px minmax(0,1fr);align-items:center}}
+.road-portfolio .portfolio-donut b{color:var(--ink)}
+.holding-category{border-color:var(--line)}
+.road-portfolio .portfolio-mobile .holding-card{background:#fff;border-color:var(--line)}
+.road-portfolio .holding-card dl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:12px}
+.road-portfolio .holding-card dd{margin:0;text-align:right;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.road-portfolio .holding-card dt{color:var(--muted)}
+.road-portfolio .holding-card dd.holding-value{font-size:23px;line-height:1.3}
+.ongoing-heading{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.ongoing-heading .eyebrow{margin:0;color:var(--muted)}
+.ongoing-orders li{border-color:var(--line)}
+.ongoing-status{color:var(--muted)}
+.ongoing-schedule{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:12px;background:#f6f7f8;border-radius:12px;margin:12px 0;font-size:.8125rem;text-align:center}
+.ongoing-schedule b{display:block;font-variant-numeric:tabular-nums}
+/* One disclosure affordance. Compact terminology buttons keep their label. */
+:is(.portfolio-holdings-disclosure,.empty-holdings,.dashboard-details,.hud-more,.trade-full,.life-blocked,.first-turn-guide,.account-sources,.term-help:not(.action-heading-help))>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;list-style:none;color:var(--ink)}
+:is(.portfolio-holdings-disclosure,.empty-holdings,.dashboard-details,.hud-more,.trade-full,.life-blocked,.first-turn-guide,.account-sources,.term-help:not(.action-heading-help))>summary::-webkit-details-marker{display:none}
+:is(.portfolio-holdings-disclosure,.empty-holdings,.dashboard-details,.hud-more,.trade-full,.life-blocked,.first-turn-guide,.account-sources,.term-help:not(.action-heading-help))>summary::after,.all-actions-toggle::after{content:'';width:8px;height:8px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg);flex:none;margin:0 4px 4px;color:var(--muted)}
+:is(.portfolio-holdings-disclosure,.empty-holdings,.dashboard-details,.hud-more,.trade-full,.life-blocked,.first-turn-guide,.account-sources,.term-help:not(.action-heading-help))[open]>summary::after,.all-actions-toggle[aria-expanded="true"]::after{transform:rotate(225deg);margin:4px 4px 0}
+.term-help:not(.action-heading-help)>summary>span[aria-hidden],.all-actions-toggle>span[aria-hidden]{display:none}
+.term-help{background:#fff;border-color:var(--line)}
+.road-action-menu .action-heading-help>summary{background:#f6f7f8;border-color:transparent;border-radius:10px;color:var(--ink)}
+.road-action-menu .action-heading-help>summary>span{color:inherit}
+/* Financial data inherit the existing sizes; no change to gain/loss colours. */
+:is(.road-portfolio,.road-order,.ongoing-panel,.journey-panel,.board-hud){font-family:inherit}
+:is(.holding-category strong,.action-money strong,.ongoing-amount,.portfolio-desktop td){font-variant-numeric:tabular-nums}
+.road-game .game-actions{background:#fff;border-color:var(--line);box-shadow:0 -4px 18px #00000008}
+.road-game .game-actions>button:not(.dice-button){color:#333;font-weight:650}
+.game-actions svg{display:block;width:24px;height:24px;flex:none}
+.modal-close-bar{background:#fff}
+.modal-close{background:transparent;color:var(--ink)}

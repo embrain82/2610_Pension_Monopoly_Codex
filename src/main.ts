@@ -11,6 +11,7 @@ import './styles/characters.css';
 import './styles/board-discovery.css';
 import './styles/beginner.css';
 import './styles/journey.css';
+import './styles/app-alignment.css';
 import { validateContent } from './data/content';
 import { PensionRoadApp } from './ui/app';
 
