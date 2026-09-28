@@ -1,4 +1,3 @@
-import { normalizeJourney, type JourneyProgress } from './journey-view';
 import { learningCards, policyRules } from '../data/content';
 import { riskAssetRatio } from '../engine/policy-engine';
 import { optionalQuizCards } from '../engine/quiz-engine';
@@ -7,7 +6,6 @@ import type { GameState } from '../types';
 
 /** 금융 상태와 분리한, 현재 판·턴의 안내 확인 내역. */
 export interface UiProgress {
-  journey?: JourneyProgress;
   riskNoticeAckTurn?: number;
   quizSkipAck?: { turn: number; cardIds: string[] };
 }
@@ -55,8 +53,7 @@ export function normalizeUiProgress(input: unknown, state: GameState): UiProgres
   if (ack && ack.turn === state.turn && Array.isArray(ack.cardIds) && ack.cardIds.length <= learningCards.length &&
     ack.cardIds.every(id => typeof id === 'string' && state.unlockedCards.includes(id) && learningCards.some(card => card.id === id)) &&
     new Set(ack.cardIds).size === ack.cardIds.length) result.quizSkipAck = { turn: state.turn, cardIds: [...ack.cardIds] };
-  const journey = normalizeJourney(raw.journey, state);
-  if (journey) result.journey = journey;
+  // Retired journey records are ignored; financial state and other UI acknowledgements survive.
   return result;
 }
 

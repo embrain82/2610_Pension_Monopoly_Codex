@@ -23,11 +23,7 @@ export function renderExplore(state: GameState, index: number): string {
   const eligible = count >= 2 && !state.route.badges.includes(region);
   const automatic = state.route.version === 'auto-v1';
   return `<p class="eyebrow">${REGIONS[region]} 지역 · ${state.route.visits.includes(index) ? '방문 도장 있음' : '아직 미방문'}</p><h2>${index+1}. ${visibleTileLabel(state,index)}</h2><p>${visible ? tileHint(index) : '주사위로 이 칸에 최종 도착하면 이름과 내용을 알 수 있어요. 지나가는 칸은 열리지 않아요.'}</p><label for="map-tile">다른 칸 살펴보기</label><select id="map-tile">${boardTiles.map(t=>`<option value="${t.index}" ${t.index === index ? 'selected' : ''}>${t.index+1}. ${visibleTileLabel(state,t.index)}</option>`).join('')}</select>
-    ${renderDiscoveryProgress(state)}<h3>지역 미션 · 서로 다른 두 곳 방문</h3><p>${automatic ? '서로 다른 두 칸에 도착하면 지역 도장을 자동으로 받습니다. 이유 남기기는 완주 후 선택 복기입니다.' : '이전 판 규칙: 서로 다른 두 칸에 도착한 뒤 이유를 골라 도장을 완성하세요.'} 매수할 필요는 없으며 점수·금액 보상이 없는 수집 장식입니다.</p>
+    ${renderDiscoveryProgress(state)}<h3>지역 미션 · 서로 다른 두 곳 방문</h3><p>${automatic ? '서로 다른 두 칸에 도착하면 지역 도장을 자동으로 받습니다.' : '이전 판 규칙: 서로 다른 두 칸에 도착한 뒤 이유를 골라 도장을 완성하세요.'} 매수할 필요는 없으며 점수·금액 보상이 없는 수집 장식입니다.</p>
     <p>도장 조건 ${Math.min(2,count)}/2 · 지역 방문 ${count}/6</p>
     ${automatic ? `<p>${state.route.badges.includes(region) ? '★ 이 지역 도장 획득' : '서로 다른 두 칸에 먼저 도착하세요.'}</p>` : eligible ? renderRegionReflection(state,region) : `<p>${state.route.badges.includes(region) ? '★ 이 지역 미션 완료' : '서로 다른 두 칸에 먼저 도착하세요.'}</p>`}${renderRegionProgress(state)}`;
-}
-export function renderRouteReflections(state: GameState): string {
-  if (!state.route.version || !state.route.badges.length) return '';
-  return `<details data-preserve-open class="route-reflections"><summary>지역을 돌아보며 · 이유 남기기 (선택)</summary><p>정답·성향 평가가 아닙니다. 도장과 점수는 바뀌지 않습니다.</p>${state.route.badges.map(i=>`<section><h3>${REGIONS[i]} 지역</h3>${renderRegionReflection(state,i)}</section>`).join('')}</details>`;
 }

@@ -6,7 +6,6 @@ import { formatShortWon, formatWon, signedPercent } from './format';
 import { renderBrandArt } from './design-system';
 import { REGIONS } from '../engine/route-engine';
 import { renderNewAchievements } from './achievements-view';
-import { renderRouteReflections } from './route-view';
 export function renderResultHero(state: GameState, characters: boolean, showArt = true): string {
   const score = calculateScore(state), mission = missionDisplay(state,score);
   const first = starChecklist(state,score).find(c=>!c.passed);
@@ -25,5 +24,5 @@ export function renderResultCollection(state: GameState, ids: AchievementId[], c
  return `<section class="result-collection"><h2>이번 여행의 수집</h2><p class="hint">금융 성과와 별개인 방문 기록입니다. ${state.campaign?.practice?'연습에서는 누적 기록을 추가하지 않습니다.':'지역 도장은 이 판의 기록입니다.'}</p><div class="stamp-shelf">${REGIONS.map((r,i)=>`<span class="${state.route.badges.includes(i)?'earned':'empty'}"><b aria-hidden="true">${state.route.badges.includes(i)?'★':'○'}</b>${r}<small>${state.route.badges.includes(i)?'획득':'미획득'}</small></span>`).join('')}</div>
  <p class="collection-character">${characters?renderAvatar(state.avatarId,'happy',40):''}${AVATAR_NAMES[state.avatarId]}와 12턴 완주 · ${state.route.badges.length}/4 도장</p>
  ${ids.length?`<details data-preserve-open class="new-collection"><summary>새 업적 ${ids.length}개 확인</summary>${renderNewAchievements(ids)}</details>`:'<p class="hint">이번 판에 새로 추가된 업적은 없습니다.</p>'}
- ${renderRouteReflections(state)}<button class="text-button" data-action="open-cards" data-tab="achievements">업적 · 컬렉션</button></section>`;
+ <button class="text-button" data-action="open-cards" data-tab="achievements">업적 · 컬렉션</button></section>`;
 }
