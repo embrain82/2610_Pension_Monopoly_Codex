@@ -61,7 +61,7 @@ it('그 턴 추가납입은 다음 턴부터 이자를 얻고 정산 총액에 �
  expect(summary.irpAfter-summary.irpOpen).toBeCloseTo(summary.marketDelta+summary.capitalFlow!+summary.tradingDelta!,5);
  expect(summary.marketDelta).toBeCloseTo(summary.marketEffects!.reduce((s,e)=>s+e.delta,0)+summary.cashInterest!.amount,5);
  expect(renderSettlementModal(summary,{characters:false})).toContain('대기자금 이자');
- expect(renderPortfolio(next)).toContain('턴당 0.1%');
+ expect(renderPortfolio(next)).not.toContain('class="cash-rule"');
  const without=portfolioValue(next)-next.ledger.cashInterest!.amount;
  expect(sourceBalances(portfolioValue(next),basis).earnings-sourceBalances(without,basis).earnings).toBeCloseTo(next.ledger.cashInterest!.amount,5);
 });

@@ -57,8 +57,8 @@ export function renderNewsFlash(step: MarketStep, prev: MarketStep, tile: BoardT
   return `<div class="${classes}">
     <div class="news-tape"><span class="news-badge">${step.shock ? '속보 · 충격' : '속보'}</span><span>TURN ${String(step.turn).padStart(2, '0')}</span><span class="news-phase">${step.phase}</span>${live}</div>
     <h2 class="news-headline">${step.headline}</h2>
-    ${renderMarketStory(step,options.ledger,options.characters)}
-    <details class="news-more" data-preserve-open><summary>금리·상품 영향 자세히</summary>
+    ${renderMarketStory(step,options.ledger)}
+    <details class="news-more" data-preserve-open><summary>금리·상품 영향 자세히</summary>${renderSpeech('anchor',`<p class="news-reason">${step.reason}</p>`,{characters:options.characters})}
       <div class="news-dial" style="--from:${from}deg;--to:${to}deg" role="img" aria-label="교육용 가상 금리 ${step.ratePct.toFixed(2)}%, 변화 ${formatRateDelta(step.rateDeltaPct)}%p">
         <svg viewBox="0 0 200 120" aria-hidden="true"><path class="dial-track" d="M20 110 A80 80 0 0 1 180 110"></path><g class="dial-needle"><line x1="100" y1="110" x2="100" y2="38"></line><circle cx="100" cy="110" r="6"></circle></g></svg>
         <p><small>교육용 가상 금리</small><b>${step.ratePct.toFixed(2)}%</b><em>${formatRateDelta(step.rateDeltaPct)}%p</em></p>

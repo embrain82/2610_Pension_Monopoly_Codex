@@ -151,14 +151,14 @@ export function renderBoardMarkup(
       <path d="M260 368H440"></path>
       <text x="350" y="410" text-anchor="middle">주사위를 굴려</text>
       <text x="350" y="438" text-anchor="middle">시장을 확인하세요</text>`
-      : `<text x="350" y="280" text-anchor="middle">현재 시장 국면</text>
-      <text class="phase" x="350" y="324" text-anchor="middle">${state.phase}</text>
-      <path d="M260 356H440"></path>
-      <text class="rate" x="350" y="392" text-anchor="middle">금리 ${state.lastMarket.ratePct.toFixed(2)}%</text>
-      <text x="350" y="420" text-anchor="middle">${state.lastMarket.signal}</text>
-      <text class="seed" x="350" y="452" text-anchor="middle">TURN ${String(state.turn).padStart(2, '0')} / 12 · ${label}</text>`;
+      : `<text x="350" y="266" text-anchor="middle">현재 시장 국면</text>
+      <text class="phase" x="350" y="304" text-anchor="middle">${state.phase}</text>
+      <path d="M260 330H440"></path>
+      <text class="rate" x="350" y="362" text-anchor="middle">금리 ${state.lastMarket.ratePct.toFixed(2)}%</text>
+      <text x="350" y="391" text-anchor="middle">${state.lastMarket.signal.split(' · ').map((part,index)=>`<tspan x="350" dy="${index ? 23 : 0}">${part}</tspan>`).join('')}</text>
+      <text class="seed" x="350" y="449" text-anchor="middle">TURN ${String(state.turn).padStart(2, '0')} / 12 · ${label}</text>`;
   return `<svg class="board" viewBox="0 0 700 700" role="group" aria-label="24칸 순환 보드. 현재 말은 ${token + 1}번 칸 ${label}에 있습니다.">
       ${boardSymbols()}<rect class="board-bg" x="0" y="0" width="700" height="700" rx="28"></rect>${regionLandmarks()}${tiles}
-      <g class="board-center">${view.characters ? '<g class="board-guide" aria-hidden="true"><image href="./assets/design-a1/mascot.jpg" x="274" y="209" width="152" height="88" preserveAspectRatio="xMidYMid meet"/></g>' : ''}<g transform="translate(0 ${view.characters ? 45 : 0})">${center}</g></g>
+      <g class="board-center">${view.characters ? '<g class="board-guide" aria-hidden="true"><image href="./assets/design-a1/mascot.jpg" x="274" y="184" width="152" height="72" preserveAspectRatio="xMidYMid meet"/></g>' : ''}<g transform="translate(0 ${view.characters ? 20 : 0})">${center}</g></g>
     </svg>`;
 }

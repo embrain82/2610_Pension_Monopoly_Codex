@@ -14,7 +14,7 @@ export function signedPercent(value: number): string {
   return `${value > 0 ? '+' : ''}${(value * 100).toFixed(1)}%`;
 }
 
-export function renderProductReturns(state: GameState): string {
+export function renderProductReturns(state: Pick<GameState, 'lastMarket'>): string {
   const rows = products.map((product) => {
     const ret = state.lastMarket.returns[product.id] ?? 0;
     return `<li class="${ret < 0 ? 'down' : ret > 0 ? 'up' : ''}"><span>${product.shortName}</span><b>${signedPercent(ret)}</b><small>시장 예시</small></li>`;

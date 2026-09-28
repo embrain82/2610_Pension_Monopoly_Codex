@@ -56,7 +56,7 @@ export function actionGuidance(state: GameState): ActionGuidance {
     '처리 중인 돈은 지금 다시 쓸 수 없어요. 남은 대기자금이 있으면 다른 상품을 살펴볼 수 있어요.', orders, buy ?? contribute);
   if (buy) return result('cash', 'IRP 안에 운용할 대기자금이 있어요',
     state.turn === 12 ? '마지막 턴이에요. 새 주문은 최종 정산되며 이번 판의 추가 시장 수익은 없어요.' : '성향에 맞는 상품의 특징과 손실 가능성을 비교해보세요. 시장 방향과 수익은 확정되지 않았어요.', buy, contribute ?? overview);
-  return result('holdings', '현재 구성을 보고 선택해요', '대기자금이 적어 새 매수는 어려워요. 여유 생활자금과 이미 보유한 상품을 확인해보세요.',
+  return result('holdings', '현재 포트폴리오 확인하고 선택해요', '대기자금이 적어 새 매수는 어려워요. 여유 생활자금과 이미 보유한 상품을 확인해보세요.',
     contribute ?? overview,
     op('sell', '보유상품 매도 살펴보기', '매도 미리보기 · 대금은 IRP 안에 남아요.') ?? op('default', '디폴트옵션 운용분 살펴보기', '가능한 직접 매수·환매 지시를 확인해요.'));
 }

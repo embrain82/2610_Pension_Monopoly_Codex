@@ -70,8 +70,7 @@ const checkAmounts = (state: GameState) => {
   const host = document.createElement('div'); host.innerHTML = renderMoneyFlow(state);
   for (const key of ['life', 'cash', 'held', 'pending'] as const) {
     const node = host.querySelector<HTMLElement>(`[data-money-bucket="${key}"]`);
-    if (key === 'pending' && data[key] === 0) expect(node).toBeNull();
-    else expect(Number(node?.dataset.amount)).toBeCloseTo(data[key], 5);
+    expect(Number(node?.dataset.amount)).toBeCloseTo(data[key], 5);
   }
 };
 

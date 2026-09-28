@@ -59,6 +59,10 @@ it('운용 펼침과 용어 도움말은 같은 창의 선택·스크롤·행동
   expect(root.querySelectorAll('#all-actions-panel .action-menu-card')).toHaveLength(6);
   expect(root.querySelectorAll('[data-action="do-hold"]')).toHaveLength(1);
   const help=root.querySelector<HTMLDetailsElement>('.action-menu-heading .term-help')!;
+  expect(help.querySelector('summary')?.textContent).toBe('용어');
+  expect(button.compareDocumentPosition(root.querySelector('.purpose-choice')!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  expect(root.textContent).not.toContain('조회와 X 취소는 행동 횟수를 쓰지 않아요.');
+  expect(root.querySelector('.purpose-help')).toBeNull();
   expect(help).not.toBeNull(); expect(root.querySelector('.beginner-action-menu > .term-help')).toBeNull();
   help.open=true; click('show-all-actions');
   expect(root.querySelector<HTMLElement>('#all-actions-panel')!.hidden).toBe(true);
