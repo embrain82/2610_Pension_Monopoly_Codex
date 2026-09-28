@@ -38,8 +38,8 @@ it('작은 탐험과 앨범을 제거하고 A안 순서 및 장별 목표는 유
  expect(normalizeUiProgress({journey:{chapters:{1:{topic:999}}}},game())).toEqual({});
 });
 it('목표를 달성한 뒤 다시 내려오면 회복 도전으로 설명한다',()=>{
- const g={...game(),milestonesHit:['goal-100' as const]};expect(renderJourney(g)).toContain('한 번 닿았던 목표를 회복');
- expect(renderJourney({...g,goalMonthly:100000,campaign:{...g.campaign!,startingGoal:100000}})).toContain('목표권에 들어왔어요');
+ const g={...game(),milestonesHit:['goal-100' as const]};expect(renderJourney(g)).toContain('목표에 도달한 뒤 다시 조금 멀어졌어요');
+ expect(renderJourney({...g,goalMonthly:100000,campaign:{...g.campaign!,startingGoal:100000}})).toContain('현재 목표에 도달했어요');
 });
 it('처리 중 카드와 간결한 미리보기는 엔진의 펀드 결제 일정을 그대로 표시한다',()=>{
  const g={...startTurn(game(),1).state,currentEventId:null,irpCash:3000000,awaitingAction:true,actionsLeft:1};

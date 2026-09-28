@@ -9,6 +9,8 @@ export function brandWordmark(): string {
 /** 06-2 운용 카드와 생활 사건의 장식 아이콘. 의미는 항상 옆 문구로도 표시한다. */
 export function operationIcon(kind: string): string {
   const paths: Record<string,string> = {
+    portfolio:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 3v18"/>',
+    timeline:'<path d="M7 6h13M7 12h13M7 18h13"/><circle cx="3" cy="6" r=".6"/><circle cx="3" cy="12" r=".6"/><circle cx="3" cy="18" r=".6"/>',
     contribute:'<path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/>',
     buy:'<path d="M12 4v16M4 12h16"/>',
     sell:'<path d="M4 12h16"/>',

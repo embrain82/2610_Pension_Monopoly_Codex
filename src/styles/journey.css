@@ -41,3 +41,12 @@ html[data-reduce-motion="true"] .journey-panel *{animation:none!important;transi
 .first-turn-guide{background:transparent;border-top:1px solid var(--line);border-radius:0;padding:0;margin-top:12px}
 .first-turn-guide summary{cursor:pointer;padding:12px 0;font-size:.9rem;font-weight:650}
 .first-turn-guide p{margin:6px 0}
+
+/* 장별 목표 카드 B안: 현재 장 표시와 평가 기준을 분리한다. */
+.journey-panel{background:#f3f8f3}
+.journey-chapters{display:flex;gap:6px;margin:0 0 16px;padding:0;list-style:none}
+.journey-chapters li{flex:1;min-width:0;border-top:4px solid #dce6dc;padding-top:7px;text-align:center;font-size:.75rem;color:#627471}
+.journey-chapters li[aria-current="step"]{border-color:#287747;color:#216340;font-weight:800}
+.journey-panel>p{overflow-wrap:anywhere}
+.journey-foot{margin-top:16px;background:white;border-radius:10px;padding:10px 12px;font-size:.8125rem;color:#627471;line-height:1.6}
+.journey-foot strong{font-size:inherit;color:#355642}
