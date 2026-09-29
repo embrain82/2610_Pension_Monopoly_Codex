@@ -1,0 +1,74 @@
+{
+  "turn-down-left": {
+    "file": "turn-down-left.webp",
+    "count": 20,
+    "columns": 8,
+    "size": 256,
+    "fps": 24,
+    "duration": 0.8333333333333334,
+    "renderScale": 1.15
+  },
+  "turn-left-up": {
+    "file": "turn-left-up.webp",
+    "count": 20,
+    "columns": 8,
+    "size": 256,
+    "fps": 24,
+    "duration": 0.8333333333333334,
+    "renderScale": 1.15
+  },
+  "turn-up-right": {
+    "file": "turn-up-right.webp",
+    "count": 20,
+    "columns": 8,
+    "size": 256,
+    "fps": 24,
+    "duration": 0.8333333333333334,
+    "renderScale": 1.15
+  },
+  "turn-right-down": {
+    "file": "turn-right-down.webp",
+    "count": 20,
+    "columns": 8,
+    "size": 256,
+    "fps": 24,
+    "duration": 0.8333333333333334,
+    "renderScale": 1.15
+  },
+  "walk-right": {
+    "file": "walk-right.webp",
+    "count": 57,
+    "columns": 8,
+    "size": 256,
+    "fps": 24,
+    "duration": 2.375,
+    "renderScale": 1.15
+  },
+  "walk-left": {
+    "file": "walk-left.webp",
+    "count": 55,
+    "columns": 8,
+    "size": 256,
+    "fps": 24,
+    "duration": 2.2916666666666665,
+    "renderScale": 1.15
+  },
+  "walk-up": {
+    "file": "walk-up.webp",
+    "count": 51,
+    "columns": 8,
+    "size": 256,
+    "fps": 24,
+    "duration": 2.125,
+    "renderScale": 1.15
+  },
+  "walk-down": {
+    "file": "walk-down.webp",
+    "count": 30,
+    "columns": 8,
+    "size": 256,
+    "fps": 24,
+    "duration": 1.25,
+    "renderScale": 1.15
+  }
+}
