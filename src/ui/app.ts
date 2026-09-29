@@ -10,7 +10,7 @@ import { renderOngoing } from './ongoing-view';
 import { activeCycle } from '../engine/maturity-cash';
 import { GENERAL_KNOWLEDGE_VERSION } from '../data/learning-rules';
 import { boardVisibilityOf, isTileRevealed, visibleTileLabel, renderDiscoveryProgress, TILE_REVEAL_MS } from './board-discovery';
-import { brandIcon, brandWordmark, operationIcon, renderBrandArt } from './design-system';
+import { brandIcon, brandWordmark, headerBrandLogo, operationIcon, renderBrandArt } from './design-system';
 import { renderMarketStory } from './market-story';
 import { renderResultHero, renderResultOverview, renderResultCollection } from './result-summary';
 import { renderRetrySuggestion } from './retry-view';
@@ -1525,7 +1525,7 @@ export class PensionRoadApp {
   private renderTitle(): string {
     const needsDisclaimer = !this.save.disclaimerAccepted;
     return `<section class="title-screen road-title">
-      <header class="road-header">${brandWordmark()}<nav class="title-utilities" aria-label="시작 화면 메뉴"><button class="text-button" data-action="open-settings">설정</button><button class="text-button reset-button" data-action="open-reset">초기화</button></nav></header>
+      <header class="road-header">${headerBrandLogo()}<nav class="title-utilities" aria-label="시작 화면 메뉴"><button class="text-button" data-action="open-settings">설정</button><button class="text-button reset-button" data-action="open-reset">초기화</button></nav></header>
       <div class="road-hero">
         <div class="road-intro"><p class="eyebrow">12턴의 은퇴설계</p><h1>주사위로 시작하는<br><strong>나의 은퇴설계</strong></h1><p class="lead">시장을 읽고, 나에게 맞는 선택을 해보세요.<br>퇴직연금을 쉽고 재미있게 배우는 연금로드.</p><ul class="road-benefits"><li>12턴 플레이</li><li>주사위 보드게임</li><li>퇴직연금 학습</li></ul></div>
         <div class="road-hero-art">${renderBrandArt('board',this.save.settings.characters && !this.failedBrandArt.has('board'))}<p>한 칸씩 움직이며, 한 걸음씩 알아가요.</p></div>

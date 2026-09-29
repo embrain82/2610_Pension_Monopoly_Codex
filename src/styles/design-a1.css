@@ -13,7 +13,9 @@ button,input,select { touch-action:manipulation; }
 .secondary { border-radius:12px; font-weight:650; }
 button:disabled { opacity:1; color:#6a796e; background:#edf1ee; border-color:#dce3de; }
 button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible { outline:3px solid #16673b; outline-offset:4px; }
-.road-header { display:flex; align-items:center; justify-content:space-between; min-height:76px; width:100%; border-bottom:1px solid var(--line); gap:16px; }
+.road-header { --road-header-height:76px; display:flex; align-items:center; justify-content:space-between; min-height:var(--road-header-height); width:100%; border-bottom:1px solid var(--line); gap:16px; }
+.road-header-brand { display:block; flex:0 1 auto; min-width:0; width:calc(var(--road-header-height) * .6 * 1447 / 482); }
+.road-header-brand > svg { display:block; width:100%; height:auto; overflow:hidden; }
 .road-wordmark { display:inline-flex; align-items:center; gap:9px; font-size:20px; font-weight:800; letter-spacing:-.8px; white-space:nowrap; }
 .road-wordmark svg { color:var(--green); flex-shrink:0; }
 .road-header .text-button { color:var(--muted); font-size:14px; }
@@ -168,7 +170,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 
 @media(max-width:800px) {
   .title-screen.road-title,.setup-screen.road-preparation,.setup-screen.road-diagnosis { width:calc(100% - 40px); }
-  .road-header { min-height:66px; }
+  .road-header { --road-header-height:66px; }
   .road-wordmark { font-size:18px; }
   .road-title .road-hero { grid-template-columns:1fr; padding:32px 0 18px; row-gap:18px; }
   .road-title .road-intro,.road-title .road-hero-art,.road-title .road-launch { grid-column:1; grid-row:auto; }

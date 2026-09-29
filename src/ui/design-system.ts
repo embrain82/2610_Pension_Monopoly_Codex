@@ -6,6 +6,11 @@ export function brandWordmark(): string {
   return `<span class="road-wordmark">${brandIcon()}<span>연금로드</span></span>`;
 }
 
+/** 선택한 10번 로고. 원본 비트맵의 여백만 뷰포트에서 제외한다. */
+export function headerBrandLogo(): string {
+  return '<span class="road-header-brand" role="img" aria-label="굴려라연금"><svg viewBox="45 250 1447 482" width="1447" height="482" aria-hidden="true" focusable="false"><image href="./assets/branding/gullyeora-loop-v1.png" x="0" y="0" width="1536" height="1024"/></svg></span>';
+}
+
 /** 06-2 운용 카드와 생활 사건의 장식 아이콘. 의미는 항상 옆 문구로도 표시한다. */
 export function operationIcon(kind: string): string {
   const paths: Record<string,string> = {
