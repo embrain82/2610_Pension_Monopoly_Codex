@@ -15,7 +15,7 @@ describe('속보 카드', () => {
     expect(dialAngle(-5, 0.5, 6.0)).toBe(-120);
   });
 
-  it('헤드라인·상품 화살표 6개·도착 칸·버튼 두 개를 담는다', () => {
+  it('헤드라인·시장 예시 6개를 한 번만 표시하고 중복 다이얼을 제거한다', () => {
     const game = createGame('news-basic');
     const step = game.marketPath[0];
     const tile = boardTiles[5];
@@ -24,13 +24,13 @@ describe('속보 카드', () => {
     expect(html).toContain('TURN 01');
     expect(html).toContain(step.headline);
     expect(html).toContain(step.reason);
-    expect(html.match(/class="news-arrow /g)?.length).toBe(6);
+    expect(html.match(/시장 예시<\/small>/g)?.length).toBe(6);
+    expect(html).not.toContain('금리·상품 영향 자세히');
+    expect(html).not.toContain('class="news-dial"');
     expect(html).toContain(`${step.ratePct.toFixed(2)}%`);
     expect(html).toContain(tile.label);
     expect(html).toContain('data-action="dismiss-news"');
     expect(html).toContain('data-action="open-tile"');
-    expect(html).toContain(`--from:${dialAngle(market.rateStartPct, market.rateMinPct, market.rateMaxPct)}deg`);
-    expect(html).toContain(`--to:${dialAngle(step.ratePct, market.rateMinPct, market.rateMaxPct)}deg`);
   });
 
   it('충격 턴은 shock 클래스와 국면 이름을, 긍정 충격은 positive를 붙인다', () => {
@@ -54,12 +54,13 @@ describe('속보 카드', () => {
     expect(html).toContain(alerted.alert!.text);
   });
 
-  it('앵커 말풍선에 원인을 담고, 캐릭터 끔이면 아바타 없이 같은 문구를 보인다', () => {
+  it('시장 원인 해설은 캐릭터 설정과 무관하게 상단에 남긴다', () => {
     const game = createGame('news-anchor');
     const step = game.marketPath[0];
     const on = renderNewsFlash(step, emptyMarketStep(), boardTiles[5]);
     const off = renderNewsFlash(step, emptyMarketStep(), boardTiles[5], { characters: false });
-    expect(on).toContain('앵커 부엉이');
+    expect(on).toContain(step.reason);
+    expect(on.indexOf(step.reason)).toBeLessThan(on.indexOf('story-products'));
     expect(off).not.toContain('앵커 부엉이');
     expect(off).toContain(step.reason);
     const marketTile = boardTiles.find((tile) => tile.kind === 'market')!;

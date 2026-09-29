@@ -19,7 +19,7 @@ export function renderOrderLayout(state: GameState, options: {
 }): string {
   return `<button class="text-button" data-action="action-view" data-view="menu">← 운용지시 목록</button>
     <header class="order-heading"><p class="eyebrow">TURN ${state.turn} · 남은 행동 ${state.actionsLeft}회 · 확정 시 1회</p><h2>${options.title}</h2><p>입력과 미리보기는 조회예요. 확정해야 지시가 실행됩니다.</p></header>
-    <details class="order-alternatives"><summary>다른 거래·용어 보기</summary>${renderOrderTabs(state, options.kind)}${renderTermHelp([options.kind, 'pending', 'price', 'risk'])}</details>
+    <details class="order-alternatives"><summary>다른 운용지시 선택</summary><div class="order-alternatives-body">${renderOrderTabs(state, options.kind)}<div class="order-alternatives-help">${renderTermHelp([options.kind, 'pending', 'price', 'risk'])}</div></div></details>
     <div class="order-split"><section class="order-input" aria-labelledby="order-input-title"><h3 id="order-input-title"><span>01</span> ${options.kind === 'rebalance' ? '목표 확인' : '지시 입력'}</h3>
     <div class="order-balances"><div><small>주문 가능 · IRP 대기자금</small><b>${formatWon(state.irpCash)}</b></div><div><small>생활자금 · IRP 밖</small><b>${formatWon(state.cash)}</b></div></div>
     ${options.subtitle ? `<p class="order-subtitle">${options.subtitle}</p>` : ''}${options.inputs}</section>

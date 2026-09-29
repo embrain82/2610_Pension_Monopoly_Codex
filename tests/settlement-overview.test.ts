@@ -35,9 +35,9 @@ it('핵심 요약·필수 안내·학습·다음 진행을 먼저 보이고 보�
  expect(summary.marketDelta+summary.capitalFlow!+summary.tradingDelta!).toBeCloseTo(summary.irpAfter-summary.irpOpen,4);
  expect(root.textContent).toContain('납입은 운용 수익이 아닙니다');
 });
-it('주요 보유분은 절대 손익 상위 두 개이며 손실과 0원·미노출 상태를 유지한다',()=>{
+it('모든 상품 손익을 표시하며 작은 이익과 미노출 상태를 유지한다',()=>{
  const {summary,market}=fixture();const root=document.createElement('div');
  root.innerHTML=renderSettlementModal({...summary,marketEffects:[{productId:'equityEtf',delta:-3e6,returnRate:-.1},{productId:'longBond',delta:2e6,returnRate:.04},{productId:'deposit',delta:100,returnRate:0}] as typeof summary.marketEffects},{characters:false,market});
- expect(root.querySelectorAll('.actual-market-impact li')).toHaveLength(2);expect(root.querySelector('.actual-market-impact')!.textContent).toContain('-3,000,000원');expect(root.querySelector('.actual-market-impact ul')!.textContent).not.toContain('예금');
+ expect(root.querySelectorAll('.actual-market-impact li')).toHaveLength(3);expect(root.querySelector('.actual-market-impact')!.textContent).toContain('-3,000,000원');expect(root.querySelector('.actual-market-impact ul')!.textContent).toContain('예금');
  root.innerHTML=renderSettlementModal({...summary,marketEffects:[]},{characters:false,market});expect(root.textContent).toContain('노출된 보유분·주문 없음');
 });
