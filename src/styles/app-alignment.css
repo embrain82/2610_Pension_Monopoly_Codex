@@ -56,10 +56,10 @@ button:disabled{color:#777;background:#f1f2f3;border-color:#e5e7eb}
 .ongoing-schedule{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:12px;background:#f6f7f8;border-radius:12px;margin:12px 0;font-size:.8125rem;text-align:center}
 .ongoing-schedule b{display:block;font-variant-numeric:tabular-nums}
 /* One disclosure affordance. Compact terminology buttons keep their label. */
-:is(.portfolio-holdings-disclosure,.empty-holdings,.dashboard-details,.hud-more,.trade-full,.life-blocked,.first-turn-guide,.account-sources,.term-help:not(.action-heading-help))>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;list-style:none;color:var(--ink)}
-:is(.portfolio-holdings-disclosure,.empty-holdings,.dashboard-details,.hud-more,.trade-full,.life-blocked,.first-turn-guide,.account-sources,.term-help:not(.action-heading-help))>summary::-webkit-details-marker{display:none}
-:is(.portfolio-holdings-disclosure,.empty-holdings,.dashboard-details,.hud-more,.trade-full,.life-blocked,.first-turn-guide,.account-sources,.term-help:not(.action-heading-help))>summary::after,.all-actions-toggle::after{content:'';width:8px;height:8px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg);flex:none;margin:0 4px 4px;color:var(--muted)}
-:is(.portfolio-holdings-disclosure,.empty-holdings,.dashboard-details,.hud-more,.trade-full,.life-blocked,.first-turn-guide,.account-sources,.term-help:not(.action-heading-help))[open]>summary::after,.all-actions-toggle[aria-expanded="true"]::after{transform:rotate(225deg);margin:4px 4px 0}
+:is(.ongoing-panel,.portfolio-holdings-disclosure,.empty-holdings,.dashboard-details,.hud-more,.trade-full,.life-blocked,.first-turn-guide,.account-sources,.term-help:not(.action-heading-help))>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;list-style:none;color:var(--ink)}
+:is(.ongoing-panel,.portfolio-holdings-disclosure,.empty-holdings,.dashboard-details,.hud-more,.trade-full,.life-blocked,.first-turn-guide,.account-sources,.term-help:not(.action-heading-help))>summary::-webkit-details-marker{display:none}
+:is(.ongoing-panel,.portfolio-holdings-disclosure,.empty-holdings,.dashboard-details,.hud-more,.trade-full,.life-blocked,.first-turn-guide,.account-sources,.term-help:not(.action-heading-help))>summary::after,.all-actions-toggle::after{content:'';width:8px;height:8px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg);flex:none;margin:0 4px 4px;color:var(--muted)}
+:is(.ongoing-panel,.portfolio-holdings-disclosure,.empty-holdings,.dashboard-details,.hud-more,.trade-full,.life-blocked,.first-turn-guide,.account-sources,.term-help:not(.action-heading-help))[open]>summary::after,.all-actions-toggle[aria-expanded="true"]::after{transform:rotate(225deg);margin:4px 4px 0}
 .term-help:not(.action-heading-help)>summary>span[aria-hidden],.all-actions-toggle>span[aria-hidden]{display:none}
 .term-help{background:#fff;border-color:var(--line)}
 .road-action-menu .action-heading-help>summary{background:#f6f7f8;border-color:transparent;border-radius:10px;color:var(--ink)}
@@ -101,3 +101,8 @@ button:disabled{color:#777;background:#f1f2f3;border-color:#e5e7eb}
 .score-detail-panel dd{margin:0;text-align:right;overflow-wrap:anywhere}
 .score-detail-panel dd small{display:block;color:var(--muted)}
 @media(max-width:600px){.final-performance .performance-parts{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.performance-parts .score-part{padding:10px 8px}.score-detail-panel{padding:16px}.score-detail-panel dl>div{flex-wrap:wrap}.score-detail-panel dd{margin-left:auto}}
+
+.ongoing-panel>summary{min-height:44px;cursor:pointer;flex-wrap:nowrap}
+.ongoing-title{font-size:1.15rem;font-weight:700}
+.ongoing-heading .eyebrow{margin-left:auto;white-space:nowrap}
+.ongoing-content{margin-top:10px}
