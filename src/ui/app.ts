@@ -1530,7 +1530,7 @@ export class PensionRoadApp {
         <div class="road-intro"><p class="eyebrow">12턴의 은퇴설계</p><h1>주사위로 시작하는<br><strong>나의 은퇴설계</strong></h1><p class="lead">시장을 읽고, 나에게 맞는 선택을 해보세요.<br>퇴직연금을 쉽고 재미있게 배우는 연금로드.</p><ul class="road-benefits"><li>12턴 플레이</li><li>주사위 보드게임</li><li>퇴직연금 학습</li></ul></div>
         <div class="road-hero-art">${renderBrandArt('board',this.save.settings.characters && !this.failedBrandArt.has('board'))}<p>한 칸씩 움직이며, 한 걸음씩 알아가요.</p></div>
         <div class="road-launch">
-          ${needsDisclaimer ? `<div class="disclaimer-check"><input id="disclaimer" type="checkbox" ${this.disclaimerChecked ? 'checked' : ''}><label for="disclaimer"><strong>교육용 단순화에 동의합니다.</strong><br>실제 투자 권유가 아니며 수익·원금을 보장하지 않습니다.</label></div>` : ''}
+          ${needsDisclaimer ? `<div class="disclaimer-check"><input id="disclaimer" type="checkbox" ${this.disclaimerChecked ? 'checked' : ''}><label for="disclaimer"><strong>퇴직연금 운용을 게임으로 배워볼게요.</strong><br>가상의 자금으로 상품을 고르고, 시장 변화에 따라 결과가 어떻게 달라지는지 살펴봐요. 실제 거래는 이루어지지 않아요.</label></div>` : ''}
           ${this.resumeData ? `<p class="road-resume">진행 중인 판 · ${this.resumeData.game.turn}/12턴</p><button class="primary jumbo" data-action="resume-game">이어서 플레이</button>` : ''}
           <button class="${this.resumeData ? 'secondary' : 'primary'} jumbo" data-action="begin" ${this.canStart() ? '' : 'disabled'}>새 판 시작 준비</button>
           <p class="hint">성향 확인 · 디폴트옵션 선택 후 게임을 시작해요.${this.resumeData ? '<br>새 게임의 최종 시작을 누르면 저장된 판을 대체합니다.' : ''}</p>

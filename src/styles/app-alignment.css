@@ -124,3 +124,9 @@ button:disabled{color:#777;background:#f1f2f3;border-color:#e5e7eb}
 .road-order>.order-alternatives[open]>summary::after{transform:rotate(225deg);margin:4px 4px 0}
 .order-alternatives-body{padding:0 16px 16px}
 .order-alternatives-help{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+
+/* Keep today's processing stage visible in each pending order. */
+.ongoing-schedule .ongoing-step{min-width:0;padding:8px 2px;border:1px solid transparent;border-radius:8px}
+.ongoing-schedule .ongoing-step.current{background:#e8f5eb;border-color:#159447;color:#126d37}
+.ongoing-schedule .ongoing-step small{display:block;margin-top:6px;font-size:.6875rem;line-height:1.4;color:var(--muted)}
+.ongoing-schedule .ongoing-step.current small{color:#126d37;font-weight:700}
