@@ -23,10 +23,10 @@ export function returnExplanation(effect: MarketHoldingEffect, market?: MarketSt
   const carry = effect.opening * market.ratePct * balanceConfig.market.bondCarryPerRatePct;
   const rate = effect.opening * rateShockReturn(effect.productId,market.rateDeltaPct);
   const rows = bond ? [{label:'채권 이자수익 가정',value:carry},{label:'금리 변화의 가격 영향',value:rate},{label:'기타 가격 변동·충격·상하한 조정',value:gross-carry-rate},{label:'상품 보수',value:fee}]
-    : [{label:'편입 자산의 가격 변동 합계',value:gross},{label:'상품 보수',value:fee}];
-  return {line,rows,note:'같은 턴 시작 보유분과 가격 변동 중인 주문 기준이에요. 기타 변동은 이자·금리 효과를 제외한 나머지이며, 각 원인을 따로 추정하지 않아요.'};
+    : [{label:'가격 변동에 따른 손익',value:gross},{label:'상품 보수',value:fee}];
+  return {line,rows,note:'이번 턴 시작 시 보유한 상품과, 주문 처리 중에도 가격 변동이 반영되는 금액을 기준으로 계산했어요. ' + (bond ? '‘기타 가격 변동’은 전체 변동에서 이자수익과 금리 영향을 뺀 금액이에요. 세부 원인별 금액은 구분해 계산하지 않아요.' : '여기서 상품 보수를 빼면 이번 턴 손익이 돼요.')};
 }
 export function renderReturnExplanation(effect:MarketHoldingEffect, market?:MarketStep):string {
   const e=returnExplanation(effect,market);
-  return `<p class="holding-cause">${e.line}</p><details class="holding-cause-detail" data-preserve-open><summary>왜 이 금액인가요?</summary>${e.rows.length?`<dl>${e.rows.map(r=>`<div><dt>${r.label}</dt><dd>${signedWon(Math.abs(r.value)<.5 ? 0 : r.value)}</dd></div>`).join('')}</dl><p>합계 ${signedWon(effect.delta)} · 원 단위 반올림으로 표시 합은 차이 날 수 있어요.</p>`:''}<p>${e.note}</p><small>게임의 턴당 계산이며 실제 연이율이 아니에요. 채권형 상품도 손실이 가능합니다.</small></details>`;
+  return `<details class="holding-cause-detail" data-preserve-open><summary>왜 이 금액인가요?</summary><p class="holding-cause">${e.line}</p>${e.rows.length?`<dl>${e.rows.map(r=>`<div><dt>${r.label}${r.label === '가격 변동에 따른 손익' ? '<small class="return-before-fee">보수 차감 전</small>' : ''}</dt><dd>${signedWon(Math.abs(r.value)<.5 ? 0 : r.value)}</dd></div>`).join('')}</dl><p>합계 ${signedWon(effect.delta)} · 원 단위 반올림으로 표시 합은 차이 날 수 있어요.</p>`:''}<p>${e.note}</p><small>게임의 턴당 계산이며 실제 연이율이 아니에요. 채권형 상품도 손실이 가능합니다.</small></details>`;
 }

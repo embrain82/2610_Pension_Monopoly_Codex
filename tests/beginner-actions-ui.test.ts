@@ -76,7 +76,7 @@ it('생활자금 부족에서는 조회를 우선하고 전체 메뉴의 납입�
   expect(root.querySelector<HTMLButtonElement>('[data-view="contribute"]')!.disabled).toBe(false); expect(saved().game).toEqual(g);
 });
 
-it('만기 통지는 접힘 없이 유지하고 만기 조회로 바로 연결한다', () => {
+it('만기 통지는 기본 펼침으로 유지하고 만기 조회로 바로 연결한다', () => {
   let g = open();
   while (g.turn < 4) {
     if (g.currentEventId) g = resolveLifeEvent(g, 'cash').state;
@@ -85,7 +85,7 @@ it('만기 통지는 접힘 없이 유지하고 만기 조회로 바로 연결�
   }
   mount({ ...g, currentEventId: null, cash: 12000000, actionsLeft: 2 });
   const notice = root.querySelector('[data-default-notice]')!;
-  expect(notice).not.toBeNull(); expect(notice.closest('details')).toBeNull();
+  expect(notice).not.toBeNull(); expect(notice.closest('details')?.hasAttribute('open')).toBe(true);
   expect(saved().game.defaultLifecycle!.cycles[0].presentedTurn).toBe(4);
   expect(root.querySelector('.hold-row')!.textContent).toContain('자동운용 절차는 계속');
   const before = saved().game; click('[data-choice="portfolio-maturity"]');

@@ -1,10 +1,9 @@
 import { explainMarketStep } from '../engine/market-explanation';
 import { renderMarketStory } from './market-story';
 export { renderIrpApplied } from './market-story';
-import { balanceConfig, marketShocks, products } from '../data/content';
-import { formatRateDelta } from '../engine/market-engine';
+import { marketShocks } from '../data/content';
 import type { BoardTile, MarketStep, TileEffect, TurnLedger } from '../types';
-import { renderMarketAlert, signedPercent } from './market-view';
+import { renderMarketAlert } from './market-view';
 import { renderSpeech } from './speech';
 import { renderTileEffects } from './tile-effects-view';
 import type { ScenePace } from './fx';
@@ -18,7 +17,7 @@ export interface NewsFlashOptions {
   nextLabel?: string;
   characters: boolean;
   /** 턴 시작 → 시장 반영 IRP. 있으면 "내 IRP에 반영" 줄을 그린다 */
-  ledger?: Pick<TurnLedger, 'open' | 'afterMarket' | 'marketEffects'>;
+  ledger?: Pick<TurnLedger, 'open' | 'afterMarket' | 'marketEffects' | 'cashInterest'>;
   /** 이번 턴 도착·통과 칸 효과(최대 2개) */
   tileEffects?: TileEffect[];
   /** 1턴에만 나오는 코치 말풍선 */
@@ -33,23 +32,11 @@ export function dialAngle(ratePct: number, minPct: number, maxPct: number): numb
   return Math.round((ratio * 2 - 1) * DIAL_SWEEP_DEG * 100) / 100;
 }
 
-function arrowMagnitude(value: number): number {
-  return Math.min(1, Math.abs(value) / 0.1);
-}
-
-export function renderNewsFlash(step: MarketStep, prev: MarketStep, tile: BoardTile, options: NewsFlashOptions = { characters: true }): string {
+export function renderNewsFlash(step: MarketStep, _prev: MarketStep, tile: BoardTile, options: NewsFlashOptions = { characters: true }): string {
   step = explainMarketStep(step);
-  const market = balanceConfig.market;
   const shock = step.shockId ? marketShocks.find((item) => item.id === step.shockId) : undefined;
   const live = tile.kind === 'market' ? '<span class="news-live">현장 연결</span>' : '';
   const classes = ['news-flash', step.shock ? 'shock' : '', shock?.positive ? 'positive' : '', options.pace === 'fast' ? 'fast' : '', 'road-news'].filter(Boolean).join(' ');
-  const from = dialAngle(prev.turn === step.turn - 1 && prev.turn > 0 ? prev.ratePct : step.ratePct - step.rateDeltaPct, market.rateMinPct, market.rateMaxPct);
-  const to = dialAngle(step.ratePct, market.rateMinPct, market.rateMaxPct);
-  const arrows = products.map((product, index) => {
-    const value = step.returns[product.id];
-    const direction = value > 0.0005 ? 'up' : value < -0.0005 ? 'down' : 'flat';
-    return `<li class="news-arrow ${direction}" style="--i:${index};--mag:${arrowMagnitude(value).toFixed(2)}"><span>${product.id === 'deposit' ? '예금 예시' : product.shortName}</span><i aria-hidden="true"></i><b>${signedPercent(value)}</b></li>`;
-  }).join('');
   const coach = options.coach
     ? renderSpeech('coach', `<p>${COACH_MARKET_FIRST}</p>`, { characters: options.characters, title: '코치 · 첫 턴 한마디' })
     : '';
@@ -58,14 +45,7 @@ export function renderNewsFlash(step: MarketStep, prev: MarketStep, tile: BoardT
     <div class="news-tape"><span class="news-badge">${step.shock ? '속보 · 충격' : '속보'}</span><span>TURN ${String(step.turn).padStart(2, '0')}</span><span class="news-phase">${step.phase}</span>${live}</div>
     <h2 class="news-headline">${step.headline}</h2>
     ${renderMarketStory(step,options.ledger)}
-    <details class="news-more" data-preserve-open><summary>금리·상품 영향 자세히</summary>${renderSpeech('anchor',`<p class="news-reason">${step.reason}</p>`,{characters:options.characters})}
-      <div class="news-dial" style="--from:${from}deg;--to:${to}deg" role="img" aria-label="교육용 가상 금리 ${step.ratePct.toFixed(2)}%, 변화 ${formatRateDelta(step.rateDeltaPct)}%p">
-        <svg viewBox="0 0 200 120" aria-hidden="true"><path class="dial-track" d="M20 110 A80 80 0 0 1 180 110"></path><g class="dial-needle"><line x1="100" y1="110" x2="100" y2="38"></line><circle cx="100" cy="110" r="6"></circle></g></svg>
-        <p><small>교육용 가상 금리</small><b>${step.ratePct.toFixed(2)}%</b><em>${formatRateDelta(step.rateDeltaPct)}%p</em></p>
-      </div>
-      <p class="market-note">상품별 시장 예시 · 보수 전 · 내 보유분 수익과 다름</p><ul class="news-arrows">${arrows}</ul>
-      <p class="hint">예금은 가입 건별 약정·만기를 따릅니다. 펀드·TDF는 원금 손실이 가능합니다. 실제 보유분은 위의 원화 영향으로 확인하세요.</p>${coach}
-    </details>
+    ${coach}
     ${renderMarketAlert(step)}
     <section class="news-arrival-card"><p class="news-arrival">도착 · ${String(tile.index + 1).padStart(2, '0')} ${tile.label}</p>${effects}</section>
     <div class="button-stack compact"><button class="primary jumbo" data-action="dismiss-news">${options.nextLabel ?? '계속'}</button><button class="text-button" data-action="open-tile">칸 설명 보기</button></div>

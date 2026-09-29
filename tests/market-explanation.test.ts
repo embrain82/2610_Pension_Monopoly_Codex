@@ -9,7 +9,7 @@ import { summarizeTurn } from '../src/engine/settlement-engine';
 import { type ScenarioId } from '../src/engine/scenario-engine';
 import { renderMarketCard, renderMarketTimeline } from '../src/ui/market-view';
 import { renderMarketImpacts } from '../src/ui/market-impact-view';
-import { dialAngle, renderNewsFlash } from '../src/ui/news-flash';
+import { renderNewsFlash } from '../src/ui/news-flash';
 import { balanceConfig, boardTiles } from '../src/data/content';
 import type { GameState, MarketStep, PendingOrder } from '../src/types';
 import baseline from './fixtures/market-p0-baseline.json';
@@ -99,10 +99,10 @@ describe('공개된 시장 사실과 실제 보유 영향', () => {
     expect(renderMarketImpacts(undefined, 0)).toBe('');
   });
 
-  it('첫 턴 다이얼은 시나리오의 실제 시작 금리에서 움직인다', () => {
+  it('첫 턴 금리 비교는 시나리오의 실제 시작 금리를 표시한다', () => {
     const game = createGame('inflation-dial', 'balanced', 500_000, { scenario: 'inflation', ghost: false });
     const step = game.marketPath[0], config = balanceConfig.market;
     expect(step.ratePct - step.rateDeltaPct).not.toBe(config.rateStartPct);
-    expect(renderNewsFlash(step, game.lastMarket, boardTiles[0])).toContain(`--from:${dialAngle(step.ratePct - step.rateDeltaPct, config.rateMinPct, config.rateMaxPct)}deg`);
+    expect(renderNewsFlash(step, game.lastMarket, boardTiles[0])).toContain(`<span>${(step.ratePct - step.rateDeltaPct).toFixed(2)}%</span>`);
   });
 });

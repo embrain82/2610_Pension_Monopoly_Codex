@@ -1,4 +1,4 @@
-import { renderCashInterest } from './cash-interest-view';
+import { renderMarketTotals } from './market-totals';
 import { explainMarketStep } from '../engine/market-explanation';
 import { formatRateDelta } from '../engine/market-engine';
 import type { MarketStep, TurnLedger } from '../types';
@@ -24,8 +24,9 @@ export function renderMarketStory(raw: MarketStep, ledger?: MarketStoryLedger): 
   return `<div class="market-story" aria-label="시장 변화의 원인과 내 보유분 영향">
     <section class="market-story-step market-story-rate"><h3><span aria-hidden="true">01</span> 이번 턴 시장 변화</h3>
       <div class="story-market-grid"><div><span class="story-label">가상 시장금리</span><div class="story-rate-values"><span>${(step.ratePct-step.rateDeltaPct).toFixed(2)}%</span><span aria-label="에서">→</span><strong>${step.ratePct.toFixed(2)}%</strong></div><span class="story-rate-delta">${direction} · ${delta}%p</span></div><div class="story-stock"><span class="story-label">이번 턴 주가</span><strong class="${step.stockReturn<0?'neg':'pos'}">${signedPercent(step.stockReturn)}</strong><small>시장 지수 변화</small></div></div>
-      <div class="story-products">${renderProductReturns({lastMarket:raw})}</div>
+      <p class="news-reason">${step.reason}</p>
+      <div class="story-products">${renderProductReturns({lastMarket:raw})}</div><p class="hint">예금은 가입 건별 약정·만기를 따릅니다. 펀드·TDF는 원금 손실이 가능합니다. 실제 보유분은 아래의 원화 손익으로 확인하세요.</p>
     </section>
-    <section class="market-story-step market-story-holdings"><h3><span aria-hidden="true">02</span> 내 보유분에 반영</h3>${ledger ? renderIrpApplied(ledger,step.turn===12) : '<p class="hint">이전 저장에는 이 턴의 시장 손익 합계가 없습니다.</p>'}${renderMarketImpacts(ledger?.marketEffects,step.turn,false,true,step)}${renderCashInterest(ledger?.cashInterest)}<p class="story-basis">시장 구간만 비교합니다. 추가납입·매매 결과는 포함하지 않습니다.</p></section>
+    <section class="market-story-step market-story-holdings"><h3><span aria-hidden="true">02</span> 내 보유분에 반영</h3>${ledger ? renderIrpApplied(ledger,step.turn===12) : '<p class="hint">이전 저장에는 이 턴의 시장 손익 합계가 없습니다.</p>'}${renderMarketImpacts(ledger?.marketEffects,step.turn,false,true,step)}${ledger ? renderMarketTotals(ledger,step.turn) : ''}<p class="story-basis">시장 구간만 비교합니다. 추가납입·매매 결과는 포함하지 않습니다.</p></section>
   </div>`;
 }
