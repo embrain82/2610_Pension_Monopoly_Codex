@@ -1,3 +1,4 @@
+import { syncHomeHeroMotion } from './home-hero-motion';
 import { renderActionAccountSummary } from './action-account-summary';
 import { animateDiceThrow } from './dice-throw';
 import { renderFinalPerformance, renderLearningProgress } from './learning-progress';
@@ -248,6 +249,7 @@ export class PensionRoadApp {
     document.addEventListener('visibilitychange', () => {
       if (!this.root.isConnected) return;
       syncCharacterSelectionMotion(this.root);
+      syncHomeHeroMotion(this.root);
       if (document.hidden) {
         this.sound.stop();
         this.tokenEmotion.suspend();
@@ -262,6 +264,7 @@ export class PensionRoadApp {
       if (this.root.isConnected) {
         document.documentElement.dataset.reduceMotion = String(shouldSkipDiceAnimation(this.save.settings.reducedMotion, window.matchMedia('(prefers-reduced-motion: reduce)').matches, this.save.settings.motionEffects));
         this.syncTokenEmotion(); this.syncBoardWalk(); this.syncArrivalScene();
+        syncHomeHeroMotion(this.root);
       }
     });
     this.render();
@@ -1439,6 +1442,7 @@ export class PensionRoadApp {
       (target ?? this.root.querySelector<HTMLElement>('[data-action="open-action"]'))?.focus({ preventScroll: this.boardFocusing || this.tokenHopping || this.diceRolling });
     }
     syncCharacterSelectionMotion(this.root);
+    syncHomeHeroMotion(this.root);
     if (previousModal === 'portfolio' && this.modal === 'action' && dialog) {
       const returnButton = dialog.querySelector<HTMLButtonElement>('[data-action="action-portfolio"]');
       returnButton?.focus({ preventScroll: this.actionScrollTop !== null });

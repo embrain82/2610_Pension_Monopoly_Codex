@@ -287,3 +287,12 @@ html[data-reduce-motion="true"] .road-art,html[data-reduce-motion="true"] .road-
 .campaign-rate-rules { margin-top:12px; }
 .campaign-rate-rules > summary { padding:8px 0; font-size:13px; color:var(--green-2); }
 .campaign-picker .campaign-rate-rules p { margin:8px 0; font-size:12px; }
+
+/* The hero clip shares the static illustration's exact layout box. */
+.road-art .home-hero-video { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; background:#fff; opacity:0; pointer-events:none; }
+.road-art .home-hero-video[data-ready="true"] { opacity:1; }
+/* Keep accelerated video in the same paint layer as its static fallback. */
+.road-title .road-art-board { isolation:auto; }
+.road-title .road-art-board .road-art-fallback { z-index:0; }
+.road-title .road-art-board img { z-index:1; }
+.road-title .road-art-board .home-hero-video { z-index:2; }
