@@ -79,6 +79,7 @@ import { AUTO_SETTLE_MS, SETTLE_CTA_NEXT, canAutoSettle, renderSettlementModal }
 import { avatarEmotion, avatarMood, MOOD_LABELS, renderAvatar, showAvatarFallbacks, AVATAR_NAMES } from './avatars';
 import { renderCharacterPicker } from './character-picker';
 import { BoardCharacterMotion } from './board-character-motion';
+import { CORNER_TURN_MS, outgoingDirection } from './board-walk-route';
 import { syncCharacterSelectionMotion } from './character-selection-motion';
 import { renderSpeech } from './speech';
 import { settlementSound } from './sound';
@@ -1148,9 +1149,17 @@ export class PensionRoadApp {
     if (this.focusBoardAfterDice) this.root.querySelector<HTMLElement>('.board-stage')?.focus({ preventScroll: true });
     this.focusBoardAfterDice = false;
     const path = movePath(this.game.position, steps);
+    let facing = outgoingDirection(this.game.position);
     for (const [i, position] of path.entries()) {
       if (!this.motion.valid(id)) return;
       if (instant && i < path.length - 1) continue;
+      const direction = outgoingDirection(i === 0 ? this.game.position : path[i - 1]);
+      if (!instant && this.boardWalk.ready && direction !== facing) {
+        this.boardWalk.turn(facing, direction);
+        if (!await this.motion.wait(CORNER_TURN_MS, id)) return;
+      }
+      facing = direction;
+      this.boardWalk.walk(direction);
       this.tokenTrail = instant ? [] : path.slice(Math.max(0, i - 3), i);
       this.tokenFocus = position; this.landed = i === path.length - 1;
       this.render();
@@ -1594,7 +1603,7 @@ export class PensionRoadApp {
     const plan = hopPlan(this.landed, speedScale(this.save.settings.speed));
     if (this.boardWalk.ready) {
       const frames = slideKeyframes(from, index, 1).slice(0, 2).map(frame => ({ transform: frame.transform }));
-      return [pos.animate(frames, { duration: plan.duration, easing: 'linear' })];
+      return [pos.animate(frames, { duration: scaleMs(TOKEN_STEP_MS, this.save.settings.speed), easing: 'linear' })];
     }
     const animations = [pos.animate(slideKeyframes(from, index, plan.land), { duration: plan.duration })];
     const shadow = pos.querySelector<HTMLElement>('.token-shadow')?.animate(plan.shadow, { duration: plan.duration });

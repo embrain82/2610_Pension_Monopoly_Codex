@@ -1,103 +1,91 @@
 import type { AvatarId } from '../types';
 import { CHARACTERS } from './avatars';
+import { CORNER_TURN_MS, turnKey, type WalkDirection } from './board-walk-route';
 
-/** Only near-white regions connected to an outer edge are removed. */
-export function removeWalkBackground(data: Uint8ClampedArray, width: number, height: number, seen = new Uint8Array(width * height), queue = new Int32Array(width * height)): void {
-  const count = width * height;
-  seen.fill(0); let head = 0; let tail = 0;
-  const add = (pixel: number) => {
-    if (seen[pixel]) return;
-    seen[pixel] = 1;
-    const i = pixel * 4;
-    const min = Math.min(data[i], data[i + 1], data[i + 2]);
-    const max = Math.max(data[i], data[i + 1], data[i + 2]);
-    if (min > 222 && max - min < 18) queue[tail++] = pixel;
-  };
-  for (let x = 0; x < width; x++) { add(x); add(count - width + x); }
-  for (let y = 0; y < height; y++) { add(y * width); add(y * width + width - 1); }
-  while (head < tail) {
-    const pixel = queue[head++]; data[pixel * 4 + 3] = 0;
-    const x = pixel % width;
-    if (x > 0) add(pixel - 1);
-    if (x < width - 1) add(pixel + 1);
-    if (pixel >= width) add(pixel - width);
-    if (pixel < count - width) add(pixel + width);
-  }
-}
+type Clip = { file: string; count: number; columns: number; size: number; fps: number; renderScale?: number };
+type LoadedClip = Clip & { image: HTMLImageElement };
+const KEYS = ['walk-right', 'walk-down', 'walk-left', 'walk-up', 'turn-right-down', 'turn-down-left', 'turn-left-up', 'turn-up-right'];
 
-/** One off-DOM decoder per app, never one decoder per board tile. */
+/** Decode only the selected character. Transparent atlases need no per-frame pixel processing. */
 export class BoardCharacterMotion {
-  private video: HTMLVideoElement | null = null;
   private asset = '';
+  private clips: Record<string, LoadedClip> = {};
   private target: HTMLCanvasElement | null = null;
   private moving = false;
-  private failed = false;
-  private starting = false;
-  private epoch = 0;
+  private generation = 0;
   private raf = 0;
-  private lastTime = -1;
-  private readonly seen = new Uint8Array(256 * 256);
-  private readonly queue = new Int32Array(256 * 256);
+  private key = 'walk-down';
+  private started = 0;
 
-  get ready(): boolean { return Boolean(this.moving && !this.failed && this.video && this.video.readyState >= 2 && !this.video.paused); }
+  get ready(): boolean { return this.moving && Boolean(this.clips[this.key]); }
 
   sync(root: HTMLElement, avatar: AvatarId | undefined, moving: boolean, enabled: boolean): void {
     const target = root.querySelector<HTMLCanvasElement>('.board-walk-canvas');
     if (!enabled || !avatar || !target || document.hidden) { this.stop(); return; }
     if (this.target !== target) { this.target?.removeAttribute('data-playing'); this.target = target; }
     const asset = CHARACTERS[avatar].asset;
-    if (this.asset !== asset) {
-      this.stop(); this.asset = asset; this.target = target; this.failed = false;
-      if (!this.video) {
-        this.video = document.createElement('video');
-        this.video.muted = true; this.video.playsInline = true; this.video.loop = true; this.video.preload = 'auto';
-        this.video.onloadeddata = () => { if (this.moving) this.start(); };
-        this.video.onerror = () => { this.failed = true; this.stop(); };
-      }
-      this.video.src = `/assets/characters/walk/${asset}-walk-aligned.mp4`;
-      this.video.load();
+    if (asset !== this.asset) {
+      this.stop(); this.asset = asset; this.clips = {};
+      void this.load(asset, ++this.generation);
     }
     if (!moving) { this.stop(); return; }
+    if (!this.moving) this.started = performance.now();
     this.moving = true;
-    if (this.video && this.video.readyState >= 2) this.start();
+    if (!this.raf && this.ready) this.paint();
   }
+
+  walk(direction: WalkDirection): void { this.select(`walk-${direction}`); }
+  turn(from: WalkDirection, to: WalkDirection): void { this.select(turnKey(from, to)); }
 
   stop(): void {
-    this.epoch++; this.moving = false; this.starting = false;
+    this.moving = false;
     cancelAnimationFrame(this.raf); this.raf = 0;
-    this.video?.pause(); this.target?.removeAttribute('data-playing'); this.lastTime = -1;
+    this.target?.removeAttribute('data-playing');
+    this.target?.removeAttribute('data-clip');
+    this.key = 'walk-down';
   }
 
-  private start(): void {
-    const video = this.video;
-    if (!video || this.failed || !this.moving || this.starting) return;
-    if (!video.paused) { this.target?.setAttribute('data-playing', 'true'); return; }
-    this.starting = true;
-    const epoch = this.epoch;
-    video.currentTime = 0; video.defaultPlaybackRate = video.playbackRate = 1.5;
-    void video.play().then(() => {
-      if (epoch !== this.epoch || !this.moving) return;
-      this.starting = false; this.paint();
-    }).catch(() => {
-      if (epoch !== this.epoch) return;
-      this.failed = true; this.stop();
-    });
+  private select(key: string): void {
+    if (this.key !== key) { this.key = key; this.started = performance.now(); }
+    if (this.ready) { cancelAnimationFrame(this.raf); this.raf = 0; this.paint(); }
+  }
+
+  private async load(asset: string, generation: number): Promise<void> {
+    try {
+      const base = `/assets/characters/directional-walk/${asset}/`;
+      const response = await fetch(`${base}manifest.json`);
+      if (!response.ok) throw new Error('Motion unavailable');
+      const manifest = await response.json() as Record<string, Clip>;
+      const entries = await Promise.all(KEYS.map(async key => {
+        const clip = manifest[key];
+        if (!clip || clip.count < 2 || clip.columns < 1 || clip.size !== 256) throw new Error('Invalid motion');
+        const image = new Image(); image.src = base + clip.file; await image.decode();
+        return [key, { ...clip, image }] as const;
+      }));
+      if (generation !== this.generation) return;
+      this.clips = Object.fromEntries(entries);
+      if (this.moving && !this.raf) this.paint();
+    } catch {
+      // The static front-facing character and original hop remain available on load failure.
+      if (generation === this.generation) { this.clips = {}; this.stop(); }
+    }
   }
 
   private paint = (): void => {
-    const video = this.video, target = this.target;
-    if (!this.moving || !video || !target?.isConnected || document.hidden) { this.stop(); return; }
-    try {
-      if (video.readyState >= 2 && video.currentTime !== this.lastTime) {
-        const ctx = target.getContext('2d', { willReadFrequently: true });
-        if (!ctx) { this.failed = true; this.stop(); return; }
-        ctx.drawImage(video, 0, 0, 256, 256);
-        const frame = ctx.getImageData(0, 0, 256, 256);
-        removeWalkBackground(frame.data, 256, 256, this.seen, this.queue);
-        ctx.putImageData(frame, 0, 0);
-        target.dataset.playing = 'true'; this.lastTime = video.currentTime;
-      }
-      this.raf = requestAnimationFrame(this.paint);
-    } catch { this.failed = true; this.stop(); }
+    this.raf = 0;
+    const target = this.target, clip = this.clips[this.key];
+    if (!this.moving || !target?.isConnected || document.hidden || !clip) { this.stop(); return; }
+    const ctx = target.getContext('2d');
+    if (!ctx) { this.stop(); return; }
+    const elapsed = performance.now() - this.started;
+    const frame = this.key.startsWith('turn-')
+      ? Math.floor(Math.min(1, elapsed / CORNER_TURN_MS) * (clip.count - 1))
+      : 1 + Math.floor(elapsed / 1000 * clip.fps * 1.5) % (clip.count - 1);
+    ctx.clearRect(0, 0, 256, 256);
+    ctx.drawImage(clip.image, (frame % clip.columns) * clip.size, Math.floor(frame / clip.columns) * clip.size, clip.size, clip.size, 0, 0, 256, 256);
+    target.style.transform = `scale(${clip.renderScale ?? 1})`;
+    target.style.transformOrigin = '50% 92%';
+    target.dataset.playing = 'true'; target.dataset.clip = this.key; target.dataset.frame = String(frame);
+    this.raf = requestAnimationFrame(this.paint);
   };
 }
