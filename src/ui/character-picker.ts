@@ -7,7 +7,7 @@ export function renderCharacterPicker(selected: AvatarId, characters: boolean, p
     <div class="character-options">${CHARACTER_IDS.map(id => {
       const character = CHARACTERS[id], picked = selected === id;
       return `<button type="button" class="character-choice" data-action="pick-avatar" data-avatar="${id}" data-key="${place}-avatar-${id}" aria-pressed="${picked}" aria-label="${character.name} 캐릭터 선택">
-        ${characters ? `<span class="character-portrait" aria-hidden="true">${renderAvatar(id, 'calm', 88)}${picked ? `<video class="character-selection-video" src="/assets/characters/motion/${character.asset}.mp4" muted playsinline loop preload="none" tabindex="-1" aria-hidden="true"></video>` : ''}</span>` : ''}
+        ${characters ? `<span class="character-portrait" aria-hidden="true">${renderAvatar(id, 'calm', 88)}<video class="character-selection-video" src="/assets/characters/motion/${character.asset}.mp4" muted playsinline loop preload="none" tabindex="-1" aria-hidden="true"></video></span>` : ''}
         <strong>${character.name}</strong><span class="character-status" aria-hidden="true">${picked ? '✓ 선택됨' : '선택'}</span>
       </button>`;
     }).join('')}</div>
