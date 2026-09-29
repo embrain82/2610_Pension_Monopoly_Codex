@@ -2,8 +2,7 @@
 .road-support { background:#fff; color:var(--ink); font-size:15px; line-height:1.7; }
 .road-support h2,.road-goal h1 { font-family:inherit; font-weight:800; font-size:clamp(23px,3vw,32px); letter-spacing:-.035em; line-height:1.4; }
 .road-support h3 { font-family:inherit; font-size:18px; margin:22px 0 12px; }
-.support-brand { margin:0 0 24px; padding:4px 0 18px; border-bottom:1px solid var(--line); }
-.support-brand .road-wordmark { font-size:20px; }
+.support-brand { --road-header-height:66px; display:flex; align-items:center; min-height:var(--road-header-height); margin:0 0 24px; padding:0; border-bottom:1px solid var(--line); }
 .road-support .eyebrow { color:var(--green); margin-top:0; }
 .road-support .hint { text-align:left; font-size:13px; margin:14px 0; line-height:1.7; }
 .road-support .setting-row { border-top:0; min-height:76px; gap:24px; padding:18px 4px; }

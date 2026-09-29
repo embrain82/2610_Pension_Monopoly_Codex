@@ -3,7 +3,7 @@ export function brandIcon(): string {
   return '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><g fill="currentColor" stroke="none"><circle cx="8" cy="8" r="1.3"/><circle cx="16" cy="8" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="8" cy="16" r="1.3"/><circle cx="16" cy="16" r="1.3"/></g></svg>';
 }
 export function brandWordmark(): string {
-  return `<span class="road-wordmark">${brandIcon()}<span>연금로드</span></span>`;
+  return headerBrandLogo();
 }
 
 /** 선택한 10번 로고. 원본 비트맵의 여백만 뷰포트에서 제외한다. */
