@@ -21,7 +21,7 @@ it('시장과 미션을 바꾸면 선택을 유지한 채 해당 설명과 실�
     expect(root.querySelector<HTMLDetailsElement>('.campaign-picker')!.open).toBe(true);
   };
   expect(root.querySelector('#campaign-mission-description')!.textContent).toContain('650,000원');
-  for (const [scenario, expected] of [['inflation','지출액'], ['recession','회복 강도'], ['recovery','되돌림'], ['classic','예금·채권·주식']]) {
+  for (const [scenario, expected] of [['inflation','지출액'], ['recession','반등 보정'], ['recovery','되돌림'], ['classic','예금·채권·주식']]) {
     choose('#scenario-pick', scenario);
     expect(root.querySelector('#campaign-market-description')!.textContent).toContain(expected);
   }
@@ -36,4 +36,20 @@ it('시장과 미션을 바꾸면 선택을 유지한 채 해당 설명과 실�
   choose('#mission-pick', 'pension');
   expect(root.querySelector('#campaign-mission-description')!.textContent).toContain('650,000원');
   expect(root.querySelector('#campaign-mission-description')!.textContent).not.toContain('1,800만원');
+});
+
+it('시나리오 선택에 따라 시작 금리·물가와 금리 전환 설명이 함께 바뀐다', () => {
+  const root=document.querySelector<HTMLElement>('#app')!;
+  new PensionRoadApp(root);
+  for (const [id,rate,inflation] of [['classic','2.5%','2.0%'],['inflation','3.5%','4.5%'],['recession','1.5%','1.0%'],['recovery','2.5%','2.0%']]) {
+    const select=root.querySelector<HTMLSelectElement>('#scenario-pick')!;
+    select.value=id; select.dispatchEvent(new Event('change',{bubbles:true}));
+    const values=[...root.querySelectorAll('.campaign-rates dd')].map(el=>el.textContent);
+    expect(values).toEqual([rate,inflation]);
+    const text=root.querySelector('.campaign-rates')!.textContent!;
+    expect(text).toContain('0.25~0.50%p');
+    expect(text).toContain('0.5~6.0%');
+    if(id==='inflation') { expect(text).toContain('30%에서 60%'); expect(text).toContain('매 턴 금리가 오른다는 뜻은 아니에요'); }
+    if(id==='recovery') expect(text).toContain('규칙은 기본 시장과 같아요');
+  }
 });

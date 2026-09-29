@@ -278,3 +278,12 @@ html[data-reduce-motion="true"] .road-art,html[data-reduce-motion="true"] .road-
   .campaign-body { padding:16px; }
   .campaign-fields { grid-template-columns:1fr; gap:16px; }
 }
+.campaign-rates { margin-top:16px; padding-top:16px; border-top:1px solid var(--line); }
+.campaign-rates dl { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin:0 0 12px; }
+.campaign-rates dl > div { padding:12px; border-radius:10px; background:#f5f8f6; }
+.campaign-rates dt { color:var(--muted); font-size:12px; line-height:1.5; }
+.campaign-rates dd { margin:4px 0 0; color:var(--green-2); font-size:24px; font-weight:750; font-variant-numeric:tabular-nums; }
+.campaign-rates dd span { margin-left:2px; font-size:15px; }
+.campaign-rate-rules { margin-top:12px; }
+.campaign-rate-rules > summary { padding:8px 0; font-size:13px; color:var(--green-2); }
+.campaign-picker .campaign-rate-rules p { margin:8px 0; font-size:12px; }
