@@ -1963,9 +1963,9 @@ export class PensionRoadApp {
         </div>` : ''}</section>`;
       return `<div class="beginner-action-menu">${heading}${renderPractice(game,this.practice,true)}${practiceIsActive(game,this.practice)?'':renderActionHint(guide)}
         ${renderActionAccountSummary(game)}
-        ${allActions}${renderPurposeChoices(guide)}${hold}
+        ${this.renderActionMarketContext(true)}${allActions}${renderPurposeChoices(guide)}${hold}
         ${game.turn===12?'<p class="info-note">마지막 운용 · 남은 주문은 종료 가격으로 최종 정산합니다. 추가 시장·급여는 없습니다.</p>':''}
-        ${resolved}${soFar}${renderOngoing(game)}${spotlightNote}${this.renderActionMarketContext(true)}</div>`;
+        ${resolved}${soFar}${renderOngoing(game)}${spotlightNote}</div>`;
     }
     if (this.actionView === 'contribute') {
       this.amountPreset = normalizeContributionPreset(game, this.amountPreset);

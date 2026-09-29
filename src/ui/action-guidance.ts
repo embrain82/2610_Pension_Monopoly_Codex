@@ -62,7 +62,7 @@ export function actionGuidance(state: GameState): ActionGuidance {
 }
 
 export function renderActionHint(guide: ActionGuidance): string {
-  return `<aside class="beginner-action-hint" data-guidance="${guide.kind}" aria-label="지금 확인할 한 가지"><p class="eyebrow">지금 확인할 한 가지</p><h3>${guide.title}</h3><p>${guide.body}</p></aside>`;
+  return `<details class="beginner-action-hint" data-guidance="${guide.kind}" aria-label="지금 확인할 한 가지"><summary>지금 확인할 한 가지<span class="action-hint-chevron" aria-hidden="true">⌄</span></summary><div class="action-hint-content"><h3>${guide.title}</h3><p>${guide.body}</p></div></details>`;
 }
 export function renderPurposeChoices(guide: ActionGuidance): string {
   return `<div class="purpose-choices" aria-label="지금 살펴볼 수 있는 선택">${guide.choices.map(c => `<button class="purpose-choice" data-action="guidance-choice" data-choice="${c.id}">${operationIcon('operation' in c ? c.operation : 'default')}<span><strong>${c.title}</strong><small>${c.description}</small></span><span class="purpose-arrow" aria-hidden="true">›</span></button>`).join('')}</div>`;

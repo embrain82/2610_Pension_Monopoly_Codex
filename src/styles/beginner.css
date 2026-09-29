@@ -222,3 +222,10 @@ html[data-reduce-motion="true"] #all-actions-panel { animation:none; }
 .money-flow .money-flow-invest { grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:16px; }
 .market-turn-feedback { color:var(--green); margin:0 0 12px; }
 @media(max-width:380px){.money-flow .money-flow-invest { grid-template-columns:1fr; }}
+
+.road-action-menu .beginner-action-hint > summary { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:44px; cursor:pointer; list-style:none; font-weight:700; }
+.road-action-menu .beginner-action-hint > summary::-webkit-details-marker { display:none; }
+.road-action-menu .beginner-action-hint > summary:focus-visible { outline:3px solid var(--green); outline-offset:3px; border-radius:4px; }
+.road-action-menu .action-hint-content { padding-top:10px; }
+.road-action-menu .action-hint-chevron { transition:transform .15s; }
+.road-action-menu .beginner-action-hint[open] .action-hint-chevron { transform:rotate(180deg); }

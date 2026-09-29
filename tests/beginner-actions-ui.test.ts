@@ -101,3 +101,18 @@ it('구 저장에서 그대로 마감이 자동매수하면 버튼과 설명에 
   expect(root.querySelector('.hold-row')!.textContent).toContain('매수 실행');
   click('[data-action="do-hold"]'); expect(saved().game).toEqual(performAction(g, { kind: 'hold' }).state);
 });
+
+it('힌트는 기본 접힘이며 시장 상세를 전체 운용 보기 전에 한 번 표시한다', () => {
+  const g = open(); mount(g);
+  const hint = root.querySelector<HTMLDetailsElement>('details.beginner-action-hint')!;
+  expect(hint).not.toBeNull(); expect(hint.open).toBe(false);
+  hint.open = true;
+  hint.dispatchEvent(new Event('toggle'));
+  expect(saved().game).toEqual(g);
+  const market = root.querySelector('.market-impact-details')!;
+  expect(root.querySelectorAll('.market-impact-details')).toHaveLength(1);
+  expect(market.compareDocumentPosition(root.querySelector('.all-actions-toggle')!) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  click('[data-action="show-all-actions"]');
+  expect(root.querySelector<HTMLDetailsElement>('details.beginner-action-hint')!.open).toBe(false);
+  expect(saved().game).toEqual(g);
+});
