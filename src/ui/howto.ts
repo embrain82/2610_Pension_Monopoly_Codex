@@ -14,10 +14,10 @@ export function buyNeedsContribution(irpCash: number): boolean {
   return irpCash < 100000;
 }
 
-export function renderHowToModal(automatic = false): string {
-  return `<p class="eyebrow">30초 그림 안내 · 언제든 다시 보기</p>
+export function renderHowToModal(automatic = false, starting = false): string {
+  return `<p class="eyebrow">30초 그림 안내${starting ? '' : ' · 언제든 다시 보기'}</p>
     <h2>한 판은 이렇게 진행돼요</h2>${renderQuickGuide()}
-    <button class="primary jumbo" data-action="dismiss-howto">알겠어요 · 돌아가기</button>
+    <button class="primary jumbo" data-action="dismiss-howto">${starting ? '알겠어요 · 게임 시작' : '알겠어요 · 돌아가기'}</button>
     <details class="quick-guide-more" data-preserve-open><summary>자금·상품·만기 규칙 더 알아보기</summary>
     <ol class="howto-steps">
       <li><b>1</b><div><strong>주사위 굴리기</strong><p>두 주사위의 합만큼 자동으로 이동합니다. 도착한 칸의 효과를 확인하세요.</p></div></li>

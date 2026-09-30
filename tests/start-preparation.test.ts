@@ -11,11 +11,13 @@ const checkpoint=()=>parseCheckpoint(localStorage.getItem(CHECKPOINT_KEY))!;
 beforeEach(()=>{localStorage.clear();document.body.innerHTML='<div id="app"></div>';root=document.querySelector('#app')!;});
 it('처음에는 기본값을 결과로 부르지 않고 진단과 확인 뒤에만 새 판을 생성한다',()=>{
  new PensionRoadApp(root); const agree=root.querySelector<HTMLInputElement>('#disclaimer')!; agree.checked=true; agree.dispatchEvent(new Event('change',{bubbles:true}));click('begin');root.querySelector<HTMLButtonElement>('[data-action="character-continue"]')?.click();
- expect(root.textContent).toContain('아직 진단하지 않았습니다');expect(root.querySelector('[data-action="prepare-continue"]')).toBeNull();expect(root.textContent).not.toContain('위험중립형');
+ expect(root.querySelector('[data-action="open-howto"]')).toBeNull();expect(root.textContent).toContain('아직 진단하지 않았습니다');expect(root.querySelector('[data-action="prepare-continue"]')).toBeNull();expect(root.textContent).not.toContain('위험중립형');
  click('prepare-diagnosis');for(let i=0;i<5;i++) click('answer');
  expect(root.textContent).toContain('교육용 진단 결과');expect(root.textContent).toContain('안정형');expect(localStorage.getItem(CHECKPOINT_KEY)).toBeNull();
  expect(root.textContent).toContain('확인한 성향 · 안정형');expect(localStorage.getItem(CHECKPOINT_KEY)).toBeNull();
- click('confirm-default-option');expect(checkpoint().game.profileId).toBe('stable');expect(checkpoint().game.turn).toBe(0);expect(checkpoint().modal).toBeNull();
+ click('confirm-default-option');expect(checkpoint().game.profileId).toBe('stable');expect(checkpoint().game.turn).toBe(0);expect(checkpoint().modal).toBe('howto');
+ expect(root.textContent).toContain('알겠어요 · 게임 시작');
+ click('dismiss-howto');expect(checkpoint().game.turn).toBe(0);expect(checkpoint().modal).toBeNull();
  expect(JSON.parse(localStorage.getItem(STORAGE_KEY)!).profileAssessment).toEqual({profileId:'stable',origin:'diagnosed'});
 });
 it('준비 중 재진단·옵션 변경·취소·재접속은 기존 판과 개인 설정을 덮어쓰지 않는다',()=>{
@@ -71,4 +73,18 @@ it('진단·명시 확인 이력은 유지하되 질문을 바꾸면 답안 DOM�
  expect(second).not.toBe(first);expect(second.dataset.question).toBe('1');expect(root.querySelector('h1')).toBe(document.activeElement);
  // A stale event from the preceding question must not score the next question.
  root.append(first);first.click();first.remove();expect(root.querySelector('[data-action="answer"]')!.getAttribute('data-question')).toBe('1');
+});
+
+it('안내를 본 이력이 있어도 새 판 시작에서는 안내가 열리고 이어하기에는 설정의 다시 보기만 제공한다',()=>{
+ localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaultSave,disclaimerAccepted:true,profileId:'balanced',quickGuideSeen:true,howtoSeen:true,profileAssessment:{profileId:'balanced',origin:'confirmed'}}));
+ new PensionRoadApp(root);click('begin');
+ expect(root.querySelector('[data-action="open-howto"]')).toBeNull();
+ click('confirm-default-option');expect(checkpoint().modal).toBe('howto');
+ expect(root.textContent).toContain('알겠어요 · 게임 시작');
+ expect(root.textContent).not.toContain('언제든 다시 보기');
+ click('dismiss-howto');
+ root.remove();document.body.innerHTML='<div id="app"></div>';root=document.querySelector('#app')!;new PensionRoadApp(root);
+ click('resume-game');expect(checkpoint().modal).toBeNull();
+ click('open-settings');expect(root.querySelector('[data-action="open-howto"]')).not.toBeNull();
+ click('open-howto');expect(root.textContent).toContain('언제든 다시 보기');
 });

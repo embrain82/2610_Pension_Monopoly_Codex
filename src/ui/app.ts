@@ -206,6 +206,8 @@ export class PensionRoadApp {
   /** 클립보드 복사가 막혔을 때 직접 복사할 수 있게 보이는 결과 텍스트 */
   private shareFallback = '';
 
+  private startingHowTo = false;
+
   private readonly failedBrandArt = new Set<string>();
   private readonly failedCharacterArt = new Set<string>();
 
@@ -688,6 +690,7 @@ export class PensionRoadApp {
     } else if (action === 'open-settings') {
       this.modal = 'settings';
     } else if (action === 'open-howto') {
+      this.startingHowTo = false;
       this.modal = 'howto';
     } else if (action === 'dismiss-howto') {
       this.afterHowTo();
@@ -843,6 +846,7 @@ export class PensionRoadApp {
   /** 게임 방법 창 뒤: 판 시작이면 디폴트옵션을 묻고, 설정에서 열었으면 그냥 닫는다 */
   private afterHowTo(): void {
     this.markHowToSeen();
+    this.startingHowTo = false;
     this.modal = null;
     if (this.defaultOptionAsk && this.game) this.openDefaultOptionAtStart();
   }
@@ -1278,6 +1282,7 @@ export class PensionRoadApp {
     this.save.disclaimerAccepted = true; this.disclaimerChecked = true;
     if (d.guideSeen) { this.save.quickGuideSeen = true; this.save.howtoSeen = true; }
     this.preparation = null; this.startGame(d.seed);
+    this.startingHowTo = true; this.modal = 'howto'; this.persist(true);
   }
 
   private startGame(seed: string): void {
@@ -1803,7 +1808,7 @@ export class PensionRoadApp {
     if (this.modal === 'market') content = this.renderMarketModal();
     if (this.modal === 'cards') content = this.renderCardsModal();
     if (this.modal === 'settings') content = this.renderSettingsModal();
-    if (this.modal === 'howto') content = renderHowToModal(!this.game || !!this.game.defaultLifecycle);
+    if (this.modal === 'howto') content = renderHowToModal(!this.game || !!this.game.defaultLifecycle, this.startingHowTo);
     if (this.modal === 'settle' && this.lastSummary) {
       const summary = this.lastSummary;
       content = renderSettlementModal(summary, {
@@ -2134,7 +2139,7 @@ export class PensionRoadApp {
       <label class="setting-row" for="auto-settle"><span><strong>정산 자동 진행</strong><small>평범한 턴의 정산 창을 2.5초 뒤 저절로 넘깁니다. 점수를 얻을 수 있는 미응답 퀴즈·만기자금 안내·충격·이정표·생활사건·마지막 턴은 직접 넘기고, 창 안을 누르면 멈춥니다. 기본 끔.</small></span><input id="auto-settle" type="checkbox" ${this.save.settings.autoSettle ? 'checked' : ''}></label>
       </section><section class="support-group"><h3>이번 판의 조건</h3><div class="setting-row default-option-row"><span><strong>디폴트옵션(사전지정운용)</strong><small>${this.defaultOptionSettingNote()}</small></span><button class="secondary compact" data-action="open-default-option">${(this.game ? this.game.defaultOption : this.save.defaultOption) ? '바꾸기' : '지정'}</button></div>
       <div class="button-stack compact">
-        ${renderSettingsHowToButton()}
+        ${!this.preparation && (this.game || this.resumeData) ? renderSettingsHowToButton() : ''}
         <button class="secondary" data-action="open-diagnosis" ${this.game?.campaign ? 'disabled aria-describedby="locked-start-conditions"' : ""}>성향 다시 진단</button>${this.game?.campaign ? '<p class="hint" id="locked-start-conditions">게임 시작 후 성향·목표 고정 · 다음 새 판의 시작 준비에서 변경할 수 있습니다.</p>' : ""}
         <button class="secondary" data-action="open-goal" ${this.game?.campaign ? 'disabled aria-describedby="locked-start-conditions"' : ""}>월 연금 목표 바꾸기</button>
         <p class="manual-links"><a href="./user-manual.html" target="_blank" rel="noreferrer">사용자 매뉴얼</a> · <a href="./operator-manual.html" target="_blank" rel="noreferrer">운영자 매뉴얼</a></p>
